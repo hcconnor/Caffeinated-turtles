@@ -9,6 +9,9 @@ canvas.addEventListener("mouseup", deselectElement);
 var unlocked = {};
 var playElements = {};
 
+
+// Drag and Drop ----------------------------------------------------------------------//
+
 function Element(name, url, combo, width, height) {
 	this.name = name;
 	this.picture = new Image();
@@ -71,4 +74,53 @@ function deselectElement(e) {
 	whatDragged = null;
 }
 
+// Sprite sheet code (don't use frame 0) ----------------------------------------------------------------------------------//
 
+function SpriteSheet (url, frameWidth, frameHeight, frameSpeed)
+{
+	var image = new Image();
+  var numFrames;
+  
+  var currentFrame = 0;
+  var counter = 0;
+  this.startFrame = 0;
+  this.endFrame = 0;
+  var animationL = this.endFrame - this.startFrame;
+  image.src = url;
+  
+  image.onload = function(){
+  	numFrames = Math.floor(image.width / frameWidth);
+  };
+  
+  this.setFrameRange = function(start, finish)
+  {
+  	this.startFrame = start;
+    this.endFrame = finish;
+    currentFrame = this.startFrame;
+    animationL = this.endFrame - this.startFrame;
+  };
+  
+  this.update = function(){
+  	if(counter == (frameSpeed - 1))
+    {
+      if(currentFrame == this.endFrame - 1)
+    	{
+    		currentFrame -= animationL;
+    	}
+      else
+      {
+    		currentFrame = (currentFrame + 1) % this.endFrame;
+      }
+    }
+
+      counter = (counter + 1) % frameSpeed;
+  };
+  
+	this.draw = function(x, y)
+  {
+  	var row = Math.floor(currentFrame / numFrames);
+    var col = Math.floor(currentFrame % numFrames);
+		context.drawImage(image, col*frameWidth, row*frameHeight, frameWidth, frameHeight, x, y, frameWidth, frameHeight);
+  };
+  
+}
