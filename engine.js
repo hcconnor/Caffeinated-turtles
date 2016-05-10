@@ -137,3 +137,13 @@ function SpriteSheet (url, frameWidth, frameHeight, frameSpeed)
   };
   
 }
+
+
+
+
+
+
+
+
+
+
