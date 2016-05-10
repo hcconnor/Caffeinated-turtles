@@ -3,15 +3,15 @@
 function LifeTime(ship){
 	var i;
 	var essential = [false, false, false, false];
-	for(i = 0; i <= ship.thruster.length; i++){
+	$.each(ship.thruster, function(){
 		if(ship.thruster[i].type != "thruster"){
 			return 0;
 		} else if(ship.thruster[i].type == "thruster"){
 			essential[0] = true;
 			spd += ship.thruster[i].value;
 		}
-	}
-	for(i = 0; i <= ship.misc.length; i++){
+	});
+	$.each(ship.misc, function(){
 		if(ship.misc[i].type == "thruster"){
 			return 0;
 		} else if(ship.misc[i].type == "fuel"){
@@ -24,9 +24,9 @@ function LifeTime(ship){
 		} else if(ship.misc[i].type =- "oxygen"){
 			essential[3] = true;
 		}
-	}
-	for(i = 0; i <= essential; i++){
+	});
+	$.each(essential, function(){
 		if(essential[i] == false) return 0;
-	}
+	});
 	return 1;
 }
