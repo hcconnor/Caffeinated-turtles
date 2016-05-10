@@ -1,17 +1,67 @@
 //Pass in a ship object ship
 //returns 1 value representing that you're still alive
+function ship(spritesheet, x, y){
+	this.spritesheet = spritesheet;
+	this.height = this.sprite.height;
+	this.width = this.sprite.width;
+	this.X = x - this.width/2;
+	this.Y = y - this.height/2;
+	this.thrusters = {};
+	this.slots = {};
+	this.health = 30000;
+	
+	this.init = function(){
+		this.spritesheet.setFrameRange(1,1);
+	};
+	
+	this.addThrusters = function(thuster){
+		this.thrusters.push(thruster);	
+	};
+	
+	this.addPart = function(part){
+		this.slots.push(part);
+	};
+	
+	this.update = function(){
+		this.health--;
+		if(health >= 20000){ //Ship is deteriorating 
+			this.spritesheet.setFrameRange(1,1); //change this
+		}else if(health >= 10000){
+			this.spritesheet.setFrameRange(1,1); //change this
+		}else if(health >= 5000){
+			this.spritesheet.setFrameRange(1,1); //change this
+		}
+		$.each(this.slots, function(object){
+			object.durability--;	
+		});
+		$.each(this.thrusters, function(thruster){
+			thruster.durability--;	
+		});
+	};
+	
+	this.draw = function(){
+		//draw current sprite from spritesheet
+		$.each(this.slots, function(img){
+			contex.drawImage(img.sprite, img.X, img.Y);	
+		});
+		$.each(this.thrusters, function(img){
+			contex.drawImage(img.sprite, img.X, img.Y);	
+		});
+	};
+}
+
 function LifeTime(ship){
 	var i;
 	var essential = [false, false, false, false];
-	for(i = 0; i <= ship.thruster.length; i++){
+	$.each(ship.thruster, function(){
 		if(ship.thruster[i].type != "thruster"){
 			return 0;
 		} else if(ship.thruster[i].type == "thruster"){
 			essential[0] = true;
 			spd += ship.thruster[i].value;
 		}
-	}
-	for(i = 0; i <= ship.misc.length; i++){
+	});
+	$.each(ship.misc, function(){
 		if(ship.misc[i].type == "thruster"){
 			return 0;
 		} else if(ship.misc[i].type == "fuel"){
@@ -24,9 +74,9 @@ function LifeTime(ship){
 		} else if(ship.misc[i].type =- "oxygen"){
 			essential[3] = true;
 		}
-	}
-	for(i = 0; i <= essential; i++){
+	});
+	$.each(essential, function(){
 		if(essential[i] == false) return 0;
-	}
+	});
 	return 1;
 }

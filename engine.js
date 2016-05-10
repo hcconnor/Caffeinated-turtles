@@ -10,6 +10,26 @@ var unlocked = new Set();
 var playElements = {};
 
 
+//Clock ------------------------------------------------------------------------------------//
+
+var time = new Date();
+var SECOND = 1000;
+var secs;
+
+function clock(){
+	var elaspsed = time - new Date();
+	secs =  Math.floor(elapsed / SECOND);
+}
+
+//Player ---------------------------------------------------------------------------------//
+
+function player(name, pod){
+	this.score = 0;
+	this.name = name;
+	this.escPod = pod;
+}
+
+
 // Drag and Drop ----------------------------------------------------------------------//
 
 function Element(name, url, combo, width, height) {
@@ -68,7 +88,7 @@ function deselectElement(e) {
 		oW = playElements[i].picture.width;
 		oH = playElements[i].picture.height;
 		if (sX < oX + oW && sX + sW > oX && sY < oY + oH && sH + sY > oY) {
-			//Successful select
+			// wait for ship object for successful select
 		}
 	});
 	whatDragged = null;
@@ -137,3 +157,13 @@ function SpriteSheet (url, frameWidth, frameHeight, frameSpeed)
   };
   
 }
+
+
+
+
+
+
+
+
+
+
