@@ -6,7 +6,7 @@ canvas.addEventListener("mousemove", moveElement);
 canvas.addEventListener("mousedown", selectElement);
 canvas.addEventListener("mouseup", deselectElement);
 
-var unlocked = {};
+var unlocked = new Set();
 var playElements = {};
 
 
@@ -72,6 +72,19 @@ function deselectElement(e) {
 		}
 	});
 	whatDragged = null;
+}
+
+function checkBounds(image, mouseX, mouseY)
+{
+	if((mouseX < (image.X + image.width)) && (mouseY < (image.Y + image.height)) && (mouseX > (image.X)) && (mouseY > (image.Y))) 
+  {
+  return true;
+  }
+  
+  else
+  {
+  return false;
+  }
 }
 
 // Sprite sheet code (don't use frame 0) ----------------------------------------------------------------------------------//
