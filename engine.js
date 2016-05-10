@@ -68,7 +68,7 @@ function deselectElement(e) {
 		oW = playElements[i].picture.width;
 		oH = playElements[i].picture.height;
 		if (sX < oX + oW && sX + sW > oX && sY < oY + oH && sH + sY > oY) {
-			//Successful select
+			// wait for ship object for successful select
 		}
 	});
 	whatDragged = null;
@@ -137,3 +137,13 @@ function SpriteSheet (url, frameWidth, frameHeight, frameSpeed)
   };
   
 }
+
+
+
+
+
+
+
+
+
+
