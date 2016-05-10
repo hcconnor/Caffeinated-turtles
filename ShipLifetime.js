@@ -49,13 +49,13 @@ function ship(spritesheet, x, y){
 		});
 	};
 }
-
+//requires global variables Happy and Fuel. Subject to change though based on ship object.
 function LifeTime(ship){
 	var i;
 	var essential = [false, false, false, false];
 	$.each(ship.thruster, function(){
 		if(ship.thruster[i].type != "thruster"){
-			return 0;
+			lose = true;
 		} else if(ship.thruster[i].type == "thruster"){
 			essential[0] = true;
 			spd += ship.thruster[i].value;
@@ -63,7 +63,7 @@ function LifeTime(ship){
 	});
 	$.each(ship.misc, function(){
 		if(ship.misc[i].type == "thruster"){
-			return 0;
+			lose = true;
 		} else if(ship.misc[i].type == "fuel"){
 			essential[1] = true;
 			Fuel += ship.misc[i].value;
@@ -76,7 +76,6 @@ function LifeTime(ship){
 		}
 	});
 	$.each(essential, function(){
-		if(essential[i] == false) return 0;
+		if(essential[i] == false) lose = true;
 	});
-	return 1;
 }
