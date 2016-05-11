@@ -48,13 +48,13 @@ function Element(name, url, width, height, x, y) {
     };
 }
 
-function unlockElement(element) {
-	if (!unlocked.has(element)) {
-		element.picture.X = 820;
-		element.picture.Y = unlocked.size * 50 + 10;
-		unlocked.add(element);
-	}
-}
+// function unlockElement(element) {
+// 	if (!unlocked.has(element)) {
+// 		element.picture.X = 820;
+// 		element.picture.Y = unlocked.size * 50 + 10;
+// 		unlocked.add(element);
+// 	}
+// }
 
 function selectElement(e) {
 	$.each(playElements, function() {
