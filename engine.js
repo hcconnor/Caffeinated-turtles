@@ -7,7 +7,7 @@ canvas.addEventListener("mousedown", selectElement);
 canvas.addEventListener("mouseup", deselectElement);
 
 var unlocked = new Set();
-var playElements = {};
+//var playElements = {};
 
 
 //Clock ------------------------------------------------------------------------------------//
@@ -57,45 +57,49 @@ function Element(name, url, width, height, x, y) {
 // }
 
 function selectElement(e) {
-	$.each(playElements, function() {
-		if (checkBounds(ef.picture, e.clientX, e.clientY)) {
-			whatDragged = new Element(ef.name, ef.picture.src, ef.picture.X, ef.picture.Y);
-			playElements.push(whatDragged);
+	// for(let ef of unlocked){
+	// 	if (checkBounds(ef.picture, e.clientX, e.clientY)) {
+	// 		whatDragged = new Element(ef.name, ef.picture.src, ef.picture.X, ef.picture.Y);
+	// 		items.push(whatDragged);
+	// 	}
+	// });
+
+	//select element from array of elements on screen
+	for(var i = 0; i < items.length; i++){
+		if (checkBounds(items[i].picture, e.clientX, e.clientY)) {
+			whatDragged = items[i];
 		}
-	});
-	$.each(playElements, function() {
-		if (checkBounds(playElements[i].picture, e.clientX, e.clientY)) {
-			whatDragged = playElements[i];
-		}
-	});
+	}
 }
 
 function moveElement(e) {
 	if (whatDragged) {
-		nameText = whatDragged.name;
+		//nameText = whatDragged.name;
 		whatDragged.picture.X = e.clientX - whatDragged.picture.height / 2;
 		whatDragged.picture.Y = e.clientY - whatDragged.picture.width / 2;
 	}
 }
 
 function deselectElement(e) {
-	if (whatDragged.picture.X + 100 > 820)//out of play area
-	{
-		playElements.splice(playElements.indexOf(whatDragged), 1); //delete element from the play elements
-	}
-	$.each(playElements, function() {
+	// if (whatDragged.picture.X + 100 > 820)//out of play area
+	// {
+	// 	items.splice(items.indexOf(whatDragged), 1); //delete element from the play elements
+	// }
+
+	//check collision
+	for(var i = 0; i < items.length; i++) {
 		sX = whatDragged.picture.X;
 		sW = whatDragged.picture.width;
 		sY = whatDragged.picture.Y;
 		sH = whatDragged.picture.height;
-		oX = playElements[i].picture.X;
-		oY = playElements[i].picture.Y;
-		oW = playElements[i].picture.width;
-		oH = playElements[i].picture.height;
+		oX = items[i].picture.X;
+		oY = items[i].picture.Y;
+		oW = items[i].picture.width;
+		oH = items[i].picture.height;
 		if (sX < oX + oW && sX + sW > oX && sY < oY + oH && sH + sY > oY) {
 			// wait for ship object for successful select
 		}
-	});
+	}
 	whatDragged = null;
 }
 

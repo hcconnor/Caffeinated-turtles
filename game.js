@@ -7,7 +7,7 @@
 // $.getScript("ShipLifetime.js", function() {
 // 	console.log("Ship loaded");
 // });
-
+var items = [];
 var bigShip = null;
 
 var playerNum = 0;
@@ -96,8 +96,8 @@ function start_build() {
 function main_build() {
     this.begin = function()
     {
-        this.items = [];
-        this.items.push(new Element("test_item", "sprites/test_object.png", 100, 100, 50, 50))
+        // this.items = [];
+        items.push(new Element("test_item", "sprites/test_object.png", 100, 100, 50, 50))
         this.theShip = new ship(0,0);
 
     };
@@ -107,7 +107,7 @@ function main_build() {
 	};
 	this.draw = function() {
         this.theShip.draw();
-        for(let item of this.items)
+        for(let item of items)
         {
             item.draw();
         }
