@@ -22,7 +22,19 @@ function ship(spritesheet, x, y){
 		this.slots.push(part);
 	};
 	
-	this.update = function(){
+	this.draw = function(){
+		//draw current sprite from spritesheet
+		$.each(this.slots, function(img){
+			contex.drawImage(img.sprite, img.X, img.Y);	
+		});
+		$.each(this.thrusters, function(img){
+			contex.drawImage(img.sprite, img.X, img.Y);	
+		});
+	};
+}
+
+var mainShip = ship.prototype;
+	mainShip.update = function(){
 		this.health--;
 		if(health >= 20000){ //Ship is deteriorating 
 			this.spritesheet.setFrameRange(1,1); //change this
@@ -38,18 +50,23 @@ function ship(spritesheet, x, y){
 			thruster.durability--;	
 		});
 	};
-	
-	this.draw = function(){
-		//draw current sprite from spritesheet
-		$.each(this.slots, function(img){
-			contex.drawImage(img.sprite, img.X, img.Y);	
+
+var escPod = ship.prototype;
+	escPod.value = 0;
+	escPod.calcScore = function(){
+		$.each(this.slots, function(object){
+			this.value += object.value;	
 		});
-		$.each(this.thrusters, function(img){
-			contex.drawImage(img.sprite, img.X, img.Y);	
+		$.each(this.thrusters, function(thruster){
+			this.value += thruster.value;	
 		});
 	};
+<<<<<<< HEAD
 }
 //requires global variables Happy and Fuel. Subject to change though based on ship object.
+=======
+
+>>>>>>> refs/remotes/origin/whotsits_stuff
 function LifeTime(ship){
 	var i;
 	var essential = [false, false, false, false];
