@@ -97,7 +97,7 @@ function main_build() {
     this.begin = function()
     {
         this.items = [];
-        this.items.push(new Element("test_item", "sprites/test_object.png", 100, 100, 50, 50))
+        this.items.push(new Element("test_item", "sprites/test_object.png", 100, 100, 50, 50));
         this.theShip = new ship(0,0);
 
     };

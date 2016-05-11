@@ -112,6 +112,23 @@ function checkBounds(image, mouseX, mouseY)
   }
 }
 
+//GUI--------------------------------------------------------------------------------------------------------------------//
+function gui (sprite){
+	this.overlay = sprite;
+	this.bar_length = 200;
+	this.bar_height = 25;
+
+	this.draw = function(){
+		contex.drawImage(this.overlay, 0, 0);
+		contex.fillRect(600, 450, this.bar_length * life_support/100, this.bar_height);
+		contex.fillRect(600, 500, this.bar_length * durability/100, this.bar_height);
+		contex.fillRect(600, 550, this.bar_length * happiness/100, this.bar_height);
+	};
+}
+
+
+
+
 // Sprite sheet code (don't use frame 0) ----------------------------------------------------------------------------------//
 
 function SpriteSheet (url, frameWidth, frameHeight, frameSpeed)
