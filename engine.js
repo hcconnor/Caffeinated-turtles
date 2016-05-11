@@ -115,15 +115,24 @@ function checkBounds(image, mouseX, mouseY)
 //GUI--------------------------------------------------------------------------------------------------------------------//
 function gui (sprite){
 	this.overlay = sprite;
-	this.bar_length = 200;
+	this.bar_length = 150;
 	this.bar_height = 25;
 
 	this.draw = function(){
-		contex.drawImage(this.overlay, 0, 0);\
+		contex.drawImage(this.overlay, 0, 0);
 		context.fillStyle = "#4FFF52";
-		contex.fillRect(600, 450, this.bar_length * life_support/100, this.bar_height);
-		contex.fillRect(600, 500, this.bar_length * durability/100, this.bar_height);
-		contex.fillRect(600, 550, this.bar_length * happiness/100, this.bar_height);
+		context.fillRect(400, 450, this.bar_length * life_support/100, this.bar_height);
+		context.fillRect(400, 500, this.bar_length * durability/100, this.bar_height);
+		context.fillRect(400, 550, this.bar_length * happiness/100, this.bar_height);
+		context.font = "15px Verdana";
+		context.fillStyle = "#FFF"
+		context.fillText("Life Support" ,600, 450);
+		context.fillText("Durability" ,600, 500);
+		context.fillText("Happiness" ,600, 550);
+
+		context.fillText(life_support ,450, 450);
+		context.fillText(durability ,450, 500);
+		context.fillText(happiness ,450, 550);
 	};
 }
 

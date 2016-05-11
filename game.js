@@ -11,6 +11,7 @@
 var bigShip = null;
 var happiness = 100;
 var fuel = 100;
+var life_support = 100;
 var durability = 100;
 
 var playerNum = 0;
