@@ -9,6 +9,9 @@
 // });
 
 var bigShip = null;
+var happiness = 100;
+var fuel = 100;
+var durability = 100;
 
 var playerNum = 0;
 var players = ["player_1", "player_2", "player_3", "player_4"];
@@ -24,13 +27,18 @@ states ["pause"] = new pause();
 states ["end_game"] = new end_game();
 var currentState = "main_build"; // currently set to main build for prototype
 transition_states("main_build");
+
 var sprites = {};
 var sources = {};
 
 // function loadContent() {
 //
-// 	sources ["test_object"] = "sprites/test_object.png");
-// 	sources ["test_box"] = "sprites/test_box.png");
+// 	sources ["test_object"] = "sprites/test_object.png";
+// 	sources ["test_box"] = "sprites/test_box.png";
+//  sources["ship_template"] = "sprites/ship_template.png";
+//	sources["oxygen_tank"] = "sprites/oxygen_tank.png";
+//	sources["thruster"] = "sprites/thruster.png";
+//	sources["fire_extinguisher"] = "sprites/fire_extinguisher.png";
 //
 // 	for ( i = 0; i < sources.length; i++) {
 // 		sprites[i] = new Image();
@@ -99,6 +107,7 @@ function main_build() {
         this.items = [];
         this.items.push(new Element("test_item", "sprites/test_object.png", 100, 100, 50, 50));
         this.theShip = new ship(0,0);
+				//this.gui = new GUI() uncomment when gui sprite is done
 
     };
 
