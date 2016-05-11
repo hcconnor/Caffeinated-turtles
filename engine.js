@@ -107,6 +107,20 @@ function checkBounds(image, mouseX, mouseY)
   }
 }
 
+//GUI--------------------------------------------------------------------------------------------------------------------//
+function gui (sprite){
+	this.overlay = sprite;
+	this.update = function(){
+		
+	};
+	this.draw = function(){
+		
+	};
+}
+
+
+
+
 // Sprite sheet code (don't use frame 0) ----------------------------------------------------------------------------------//
 
 function SpriteSheet (url, frameWidth, frameHeight, frameSpeed)
