@@ -61,12 +61,9 @@ var escPod = ship.prototype;
 			this.value += thruster.value;	
 		});
 	};
-<<<<<<< HEAD
-}
-//requires global variables Happy and Fuel. Subject to change though based on ship object.
-=======
 
->>>>>>> refs/remotes/origin/whotsits_stuff
+//requires global variables Happy and Fuel. Subject to change though based on ship object.
+
 function LifeTime(ship){
 	var i;
 	var essential = [false, false, false, false];
