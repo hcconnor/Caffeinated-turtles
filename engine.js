@@ -32,15 +32,20 @@ function player(name, pod){
 
 // Drag and Drop ----------------------------------------------------------------------//
 
-function Element(name, url, combo, width, height) {
+function Element(name, url, width, height, x, y) {
 	this.name = name;
 	this.picture = new Image();
 	this.picture.src = url;
-	this.picture.X = 0;
-	this.picture.Y = 0;
+	this.picture.X = x;
+	this.picture.Y = y;
 	this.picture.width = width;
 	this.picture.height = height;
-	this.combo = combo;
+
+    this.draw = function()
+    {
+        context.drawImage(this.picture, this.picture.X,
+             this.picture.Y,this.picture.width,this.picture.height);
+    };
 }
 
 function unlockElement(element) {
@@ -54,7 +59,7 @@ function unlockElement(element) {
 function selectElement(e) {
 	$.each(playElements, function() {
 		if (checkBounds(ef.picture, e.clientX, e.clientY)) {
-			whatDragged = new Element(ef.name, ef.picture.src, ef.combo, ef.picture.X, ef.picture.Y);
+			whatDragged = new Element(ef.name, ef.picture.src, ef.picture.X, ef.picture.Y);
 			playElements.push(whatDragged);
 		}
 	});
@@ -96,11 +101,11 @@ function deselectElement(e) {
 
 function checkBounds(image, mouseX, mouseY)
 {
-	if((mouseX < (image.X + image.width)) && (mouseY < (image.Y + image.height)) && (mouseX > (image.X)) && (mouseY > (image.Y))) 
+	if((mouseX < (image.X + image.width)) && (mouseY < (image.Y + image.height)) && (mouseX > (image.X)) && (mouseY > (image.Y)))
   {
   return true;
   }
-  
+
   else
   {
   return false;
@@ -113,18 +118,18 @@ function SpriteSheet (url, frameWidth, frameHeight, frameSpeed)
 {
 	var image = new Image();
   var numFrames;
-  
+
   var currentFrame = 0;
   var counter = 0;
   this.startFrame = 0;
   this.endFrame = 0;
   var animationL = this.endFrame - this.startFrame;
   image.src = url;
-  
+
   image.onload = function(){
   	numFrames = Math.floor(image.width / frameWidth);
   };
-  
+
   this.setFrameRange = function(start, finish)
   {
   	this.startFrame = start;
@@ -132,7 +137,7 @@ function SpriteSheet (url, frameWidth, frameHeight, frameSpeed)
     currentFrame = this.startFrame;
     animationL = this.endFrame - this.startFrame;
   };
-  
+
   this.update = function(){
   	if(counter == (frameSpeed - 1))
     {
@@ -148,22 +153,12 @@ function SpriteSheet (url, frameWidth, frameHeight, frameSpeed)
 
       counter = (counter + 1) % frameSpeed;
   };
-  
+
 	this.draw = function(x, y)
   {
   	var row = Math.floor(currentFrame / numFrames);
     var col = Math.floor(currentFrame % numFrames);
 		context.drawImage(image, col*frameWidth, row*frameHeight, frameWidth, frameHeight, x, y, frameWidth, frameHeight);
   };
-  
+
 }
-
-
-
-
-
-
-
-
-
-
