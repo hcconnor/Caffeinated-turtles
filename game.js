@@ -106,8 +106,8 @@ function main_build() {
 
 	};
 	this.draw = function() {
-		canvas.width = canvas.width;
-        theShip.draw();
+        canvas.width = canvas.width;
+        this.theShip.draw();
         for(let item of items)
         {
             item.draw();
