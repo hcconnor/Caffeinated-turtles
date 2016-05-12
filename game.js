@@ -13,6 +13,9 @@ var happiness = 100;
 var fuel = 100;
 var life_support = 100;
 var durability = 100;
+var spare_parts = 0;
+
+var partsBuffer = {};
 
 var playerNum = 0;
 var players = ["player_1", "player_2", "player_3", "player_4"];
