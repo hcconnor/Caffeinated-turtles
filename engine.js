@@ -40,6 +40,10 @@ function Element(name, url, width, height, x, y) {
 	this.picture.Y = y;
 	this.picture.width = width;
 	this.picture.height = height;
+    this.update = function()
+    {
+        //console.log("X:" + this.picture.X +"Y:"+ this.picture.Y + this.picture.width + this.picture.height);
+    };
 
     this.draw = function()
     {
@@ -75,8 +79,8 @@ function selectElement(e) {
 function moveElement(e) {
 	if (whatDragged) {
 		//nameText = whatDragged.name;
-		whatDragged.picture.X = e.clientX - whatDragged.picture.height / 2;
-		whatDragged.picture.Y = e.clientY - whatDragged.picture.width / 2;
+		whatDragged.picture.X = e.clientX - whatDragged.picture.width / 2;
+		whatDragged.picture.Y = e.clientY - whatDragged.picture.height / 2;
 	}
 }
 
@@ -99,6 +103,8 @@ function deselectElement(e) {
 		if (sX < oX + oW && sX + sW > oX && sY < oY + oH && sH + sY > oY) {
 			// wait for ship object for successful select
 			console.log("collision!");
+            whatDragged.picture.X = theShip.slots[i].picture.X -( theShip.slots[i].picture.width - whatDragged.picture.width);
+            whatDragged.picture.Y = theShip.slots[i].picture.Y - (theShip.slots[i].picture.height - whatDragged.picture.height);
 		}
 	}
 	whatDragged = null;
