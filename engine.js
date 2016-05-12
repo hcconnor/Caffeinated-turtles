@@ -81,6 +81,7 @@ function moveElement(e) {
 		//nameText = whatDragged.name;
 		whatDragged.picture.X = e.clientX - whatDragged.picture.width / 2;
 		whatDragged.picture.Y = e.clientY - whatDragged.picture.height / 2;
+
 	}
 }
 
@@ -91,22 +92,12 @@ function deselectElement(e) {
 	// }
 
 	//check collision
-	for(var i = 0; i < theShip.slots.length; i++) {
-		sX = whatDragged.picture.X;
-		sW = whatDragged.picture.width;
-		sY = whatDragged.picture.Y;
-		sH = whatDragged.picture.height;
-		oX = theShip.slots[i].picture.X;
-		oY = theShip.slots[i].picture.Y;
-		oW = theShip.slots[i].picture.width;
-		oH = theShip.slots[i].picture.height;
-		if (sX < oX + oW && sX + sW > oX && sY < oY + oH && sH + sY > oY) {
-			// wait for ship object for successful select
-			console.log("collision!");
-            whatDragged.picture.X = theShip.slots[i].picture.X -( theShip.slots[i].picture.width - whatDragged.picture.width);
-            whatDragged.picture.Y = theShip.slots[i].picture.Y - (theShip.slots[i].picture.height - whatDragged.picture.height);
-		}
-	}
+    var slot = collisionList(whatDragged, theShip.slots);
+	if (slot)
+    {
+        whatDragged.picture.X = slot.picture.X - (slot.picture.width - whatDragged.picture.width);
+        whatDragged.picture.Y = slot.picture.Y - (slot.picture.height - whatDragged.picture.height);
+    }
 	whatDragged = null;
 }
 
@@ -121,6 +112,39 @@ function checkBounds(image, mouseX, mouseY)
   {
   return false;
   }
+}
+
+
+
+
+function collisionList(image, array)
+{
+    for(var i = 0; i < array.length; i++)
+    {
+        if (doesCollide(image, array[i]))
+        {
+            return array[i];
+        }
+    }
+    return false;
+}
+
+function doesCollide(image1, image2)
+{
+    sX = image1.picture.X;
+    sW = image1.picture.width;
+    sY = image1.picture.Y;
+    sH = image1.picture.height;
+    oX = image2.picture.X;
+    oY = image2.picture.Y;
+    oW = image2.picture.width;
+    oH = image2.picture.height;
+
+    if (sX < oX + oW && sX + sW > oX && sY < oY + oH && sH + sY > oY)
+    {
+        return true;
+    }
+    return false;
 }
 
 // Sprite sheet code (don't use frame 0) ----------------------------------------------------------------------------------//

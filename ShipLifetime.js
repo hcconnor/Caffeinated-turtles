@@ -35,6 +35,12 @@ function ship(x, y){
 	this.addPart = function(part){
 		this.slots.push(part);
 	};
+    this.update = function()
+    {
+        for(let slot of this.slots){
+            slot.update();
+        };
+    }
 
 	this.draw = function(){
         //draw ship
@@ -45,8 +51,7 @@ function ship(x, y){
 		//draw current sprite from spritesheet
         //iterates all the slots and draws them
 		for(let slot of this.slots){
-			context.drawImage(slot.picture, slot.picture.X,
-                 slot.picture.Y,slot.picture.width,slot.picture.height);
+			slot.draw();
 		};
 
 	};
@@ -61,6 +66,29 @@ function slot (x, y, element = null)
     this.picture.width = 100;
     this.picture.height = 100;
     this.element = element;
+
+    this.update = function()
+    {
+        if (whatDragged == null)
+        {
+            return
+        }
+        if (doesCollide(this, whatDragged))
+        {
+            console.log("light up slot!");
+            this.picture.src = "sprites/test_object.png";
+        }
+        else
+        {
+            this.picture.src = "sprites/test_box.png";
+        }
+    }
+
+    this.draw = function()
+    {
+        context.drawImage(this.picture, this.picture.X,
+             this.picture.Y,this.picture.width,this.picture.height);
+    }
 }
 
 

@@ -107,6 +107,7 @@ function main_build() {
         {
             item.update();
         }
+        theShip.update();
 	};
 	this.draw = function() {
         canvas.width = canvas.width;
