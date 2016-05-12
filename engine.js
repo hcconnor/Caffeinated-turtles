@@ -31,7 +31,7 @@ function player(name, pod){
 
 
 // Drag and Drop ----------------------------------------------------------------------//
-
+//add funtion with itembase
 function Element(name, url, width, height, x, y) {
 	this.name = name;
 	this.picture = new Image();
@@ -87,17 +87,18 @@ function deselectElement(e) {
 	// }
 
 	//check collision
-	for(var i = 0; i < items.length; i++) {
+	for(var i = 0; i < theShip.slots.length; i++) {
 		sX = whatDragged.picture.X;
 		sW = whatDragged.picture.width;
 		sY = whatDragged.picture.Y;
 		sH = whatDragged.picture.height;
-		oX = items[i].picture.X;
-		oY = items[i].picture.Y;
-		oW = items[i].picture.width;
-		oH = items[i].picture.height;
+		oX = theShip.slots[i].picture.X;
+		oY = theShip.slots[i].picture.Y;
+		oW = theShip.slots[i].picture.width;
+		oH = theShip.slots[i].picture.height;
 		if (sX < oX + oW && sX + sW > oX && sY < oY + oH && sH + sY > oY) {
 			// wait for ship object for successful select
+			console.log("collision!");
 		}
 	}
 	whatDragged = null;

@@ -8,7 +8,7 @@
 // 	console.log("Ship loaded");
 // });
 var items = [];
-var bigShip = null;
+var theShip = null;
 
 var playerNum = 0;
 var players = ["player_1", "player_2", "player_3", "player_4"];
@@ -98,15 +98,16 @@ function main_build() {
     {
         // this.items = [];
         items.push(new Element("test_item", "sprites/test_object.png", 100, 100, 50, 50))
-        this.theShip = new ship(0,0);
-
+        //this.theShip = new ship(0,0);
+				theShip = new ship(0,0);
     };
 
 	this.update = function() {
 
 	};
 	this.draw = function() {
-        this.theShip.draw();
+		canvas.width = canvas.width;
+        theShip.draw();
         for(let item of items)
         {
             item.draw();

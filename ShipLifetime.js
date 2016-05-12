@@ -2,7 +2,7 @@
 //returns 1 value representing that you're still alive
 
 function ship(x, y){
-    this.numSlots = 5;
+    this.numSlots = 4;
 	//this.spritesheet = spritesheet;
     this.picture = new Image();
 	this.picture.height = 700;
@@ -41,7 +41,7 @@ function ship(x, y){
         context.drawImage(this.picture, this.picture.X,
              this.picture.Y,this.picture.width,this.picture.height);
 
-             
+
 		//draw current sprite from spritesheet
         //iterates all the slots and draws them
 		for(let slot of this.slots){
