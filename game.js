@@ -7,6 +7,23 @@
 // $.getScript("ShipLifetime.js", function() {
 // 	console.log("Ship loaded");
 // });
+keysPressed = {}
+keysPressed[81] = false;
+
+document.addEventListener('keyup', keyUp);
+
+
+function keyUp(evt)
+{
+	if(evt.keyCode in keysPressed)
+		keysPressed[evt.keyCode] = false;
+}
+
+
+canvas.addEventListener("esc", pause);
+
+
+
 var items = [];
 var theShip = null;
 
@@ -108,6 +125,10 @@ function main_build() {
             item.update();
         }
         theShip.update();
+        if (keysPressed[81])
+        {
+            transition_states("pause");
+        }
 	};
 	this.draw = function() {
         canvas.width = canvas.width;
@@ -134,7 +155,17 @@ function pause() {
     {
 
     };
+    this.update = function()
+    {
+        if (keysPressed[81])
+        {
+            transition_states("main_build");
+        }
+    }
+    this.draw = function()
+    {
 
+    }
 }
 
 //Win, loss, end game states
