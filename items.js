@@ -1,0 +1,3 @@
+rocketThruster = new Item(){
+
+}
