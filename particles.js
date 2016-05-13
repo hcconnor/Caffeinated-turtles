@@ -20,6 +20,14 @@ function spriteImage(){
 	}
 }
 
+// will need to reference Item from ItemBase JK (that holds content)
+// will need to reference Element, (holds src)
+// hash table, map? 
+
+// map (JS)
+var items = {};
+items [""] 
+
 function randomize(particle) {
   particle.X = canvas.width;
   particle.Y = Math.random() * canvas.height;
