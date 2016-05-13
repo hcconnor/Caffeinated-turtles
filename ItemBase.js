@@ -12,3 +12,16 @@ function Item(X, Y, image, type, level, name, durability){
 	this.name = name;
 	this.durability = durability;
 }
+
+
+//Adds value to spare_parts and moves element to an array for reuse
+function recycle(item){
+	spare_parts += item.value;
+	partsBuffer.push(playElements.splice(indexOf(item), 1));
+}
+
+//Increases item durability while subtracting from spare parts
+function fix(item, amount){
+	spare_parts -= item.value;
+	item.durability += amount;
+}
