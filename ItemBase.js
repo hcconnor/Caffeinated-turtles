@@ -1,9 +1,7 @@
 
 //Item(x coordinate, y coordinate, height, width, sprite image, [consumable/part/vanity, health benefit, name)
 //returns an object item
-function Item(X, Y, image, type, level, name, durability){
-	this.X = X;
-	this.Y = Y;
+function Item(image, type, level, name, durability){
 	this.image = image;
 	this.height = image.height;
 	this.width = image.width;
