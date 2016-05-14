@@ -1,4 +1,4 @@
-var canvas = document.getElementById('RocketRush');
+var canvas = document.getElementById('S.O.S.');
 var context = canvas.getContext('2d');
 var whatDragged = null;
 
