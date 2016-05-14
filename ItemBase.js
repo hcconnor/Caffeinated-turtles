@@ -13,15 +13,8 @@ function Item(X, Y, image, type, level, name, durability){
 	this.durability = durability;
 }
 
-
-//Adds value to spare_parts and moves element to an array for reuse
-function recycle(item){
-	spare_parts += item.value;
-	partsBuffer.push(playElements.splice(indexOf(item), 1));
-}
-
-//Increases item durability while subtracting from spare parts
-function fix(item, amount){
-	spare_parts -= item.value;
-	item.durability += amount;
+//fix a part by dragging a part onto another that is already slotted into the ship
+function fix(part1, part2){
+	elements.splice(indexOf(part2), 1);
+	part1.durability += part2.value;
 }
