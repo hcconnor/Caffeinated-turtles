@@ -1,4 +1,12 @@
-
+// $.getScript("engine.js", function() {
+// 	console.log("Game engine loaded");
+// });
+// $.getScript("ItemBase.js", function() {
+// 	console.log("Draggables loaded");
+// });
+// $.getScript("ShipLifetime.js", function() {
+// 	console.log("Ship loaded");
+// });
 var items = [];
 var theShip = null;
 
@@ -95,15 +103,13 @@ function main_build() {
     };
 
 	this.update = function() {
-        for(let item of items)
-        {
-            item.update();
-        }
-        theShip.update();
+
 	};
 	this.draw = function() {
+
         canvas.width = canvas.width;
-        theShip.draw();
+        this.theShip.draw();
+>>>>>>> origin/making_drag_and_drop
         for(let item of items)
         {
             item.draw();
