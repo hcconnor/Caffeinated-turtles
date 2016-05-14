@@ -192,7 +192,11 @@ function SpriteSheet (url, frameWidth, frameHeight, frameSpeed)
 
 //Particle System ---------------------------------------------------------------------------------------------------------------//
 function particle_system(){
+
 	this.init(){
-		
+			this.stage = 4;
+			for(i = 0; i < (this.stage*3); i++){
+				
+			}
 	};
 }
