@@ -189,3 +189,10 @@ function SpriteSheet (url, frameWidth, frameHeight, frameSpeed)
   };
 
 }
+
+//Particle System ---------------------------------------------------------------------------------------------------------------//
+function particle_system(){
+	this.init(){
+		
+	};
+}
