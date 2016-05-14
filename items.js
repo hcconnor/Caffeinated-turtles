@@ -1,3 +1,7 @@
+low = 50;
+mid = 100;
+high = 200;
+
 rocketThruster = new Item("propulsion","Standard Thruster",100){
   this.efficiency = 10;
 }
