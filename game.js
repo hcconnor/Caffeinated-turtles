@@ -1,12 +1,4 @@
-// $.getScript("engine.js", function() {
-// 	console.log("Game engine loaded");
-// });
-// $.getScript("ItemBase.js", function() {
-// 	console.log("Draggables loaded");
-// });
-// $.getScript("ShipLifetime.js", function() {
-// 	console.log("Ship loaded");
-// });
+
 var items = [];
 var theShip = null;
 
