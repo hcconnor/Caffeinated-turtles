@@ -130,10 +130,6 @@ function LifeTime(ship){
 			essential[0] = true;
 			spd += ship.thruster[i].durability;
 		}
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> origin/master
 	});
 	$.each(ship.slots, function(){
 		if(ship.slots[i].type == "thruster"){
@@ -145,8 +141,6 @@ function LifeTime(ship){
 			Happy += ship.slots[i].durability;
 		} else if(ship.slots[i].type == "lifeSupport"){
 			essential[2] = true;
-<<<<<<< HEAD
-=======
 	}
 	for(i = 0; i< ship.slots.length; i++){
 		if(ship.misc[i].type == "thruster"){
@@ -159,9 +153,6 @@ function LifeTime(ship){
 		} else if(ship.slots[i].type == "lifeSupport"){
 			essential[2] = true;
       life_support += ship.slots[i].value;
->>>>>>> origin/master
-=======
->>>>>>> origin/master
 		} else if(ship.slots[i].type =- "oxygen"){
 			essential[3] = true;
 		}
