@@ -7,6 +7,7 @@ function Item(type, name, durability, src){
 	this.name = name;
 	this.durability = durability;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	this.image = new image;
 	this.image.src = src;
 =======
@@ -16,5 +17,9 @@ function Item(type, name, durability, src){
 function fix(part1, part2){
 	elements.splice(indexOf(part2), 1);
 	part1.durability += part2.value;
+>>>>>>> origin/master
+=======
+	this.image = new image;
+	this.image.src = src;
 >>>>>>> origin/master
 }

@@ -7,7 +7,7 @@ canvas.addEventListener("mousedown", selectElement);
 canvas.addEventListener("mouseup", deselectElement);
 
 var unlocked = new Set();
-var playElements = {};
+//var playElements = {};
 
 
 //Clock ------------------------------------------------------------------------------------//
@@ -31,7 +31,7 @@ function player(name, pod){
 
 
 // Drag and Drop ----------------------------------------------------------------------//
-
+//add funtion with itembase
 function Element(name, url, width, height, x, y) {
 	this.name = name;
 	this.picture = new Image();
@@ -40,6 +40,10 @@ function Element(name, url, width, height, x, y) {
 	this.picture.Y = y;
 	this.picture.width = width;
 	this.picture.height = height;
+    this.update = function()
+    {
+        //console.log("X:" + this.picture.X +"Y:"+ this.picture.Y + this.picture.width + this.picture.height);
+    };
 
     this.draw = function()
     {
@@ -57,45 +61,43 @@ function Element(name, url, width, height, x, y) {
 // }
 
 function selectElement(e) {
-	$.each(playElements, function() {
-		if (checkBounds(ef.picture, e.clientX, e.clientY)) {
-			whatDragged = new Element(ef.name, ef.picture.src, ef.picture.X, ef.picture.Y);
-			playElements.push(whatDragged);
+	// for(let ef of unlocked){
+	// 	if (checkBounds(ef.picture, e.clientX, e.clientY)) {
+	// 		whatDragged = new Element(ef.name, ef.picture.src, ef.picture.X, ef.picture.Y);
+	// 		items.push(whatDragged);
+	// 	}
+	// });
+
+	//select element from array of elements on screen
+	for(var i = 0; i < items.length; i++){
+		if (checkBounds(items[i].picture, e.clientX, e.clientY)) {
+			whatDragged = items[i];
 		}
-	});
-	$.each(playElements, function() {
-		if (checkBounds(playElements[i].picture, e.clientX, e.clientY)) {
-			whatDragged = playElements[i];
-		}
-	});
+	}
 }
 
 function moveElement(e) {
 	if (whatDragged) {
-		nameText = whatDragged.name;
-		whatDragged.picture.X = e.clientX - whatDragged.picture.height / 2;
-		whatDragged.picture.Y = e.clientY - whatDragged.picture.width / 2;
+		//nameText = whatDragged.name;
+		whatDragged.picture.X = e.clientX - whatDragged.picture.width / 2;
+		whatDragged.picture.Y = e.clientY - whatDragged.picture.height / 2;
+
 	}
 }
 
 function deselectElement(e) {
-	if (whatDragged.picture.X + 100 > 820)//out of play area
-	{
-		playElements.splice(playElements.indexOf(whatDragged), 1); //delete element from the play elements
-	}
-	$.each(playElements, function() {
-		sX = whatDragged.picture.X;
-		sW = whatDragged.picture.width;
-		sY = whatDragged.picture.Y;
-		sH = whatDragged.picture.height;
-		oX = playElements[i].picture.X;
-		oY = playElements[i].picture.Y;
-		oW = playElements[i].picture.width;
-		oH = playElements[i].picture.height;
-		if (sX < oX + oW && sX + sW > oX && sY < oY + oH && sH + sY > oY) {
-			// wait for ship object for successful select
-		}
-	});
+	// if (whatDragged.picture.X + 100 > 820)//out of play area
+	// {
+	// 	items.splice(items.indexOf(whatDragged), 1); //delete element from the play elements
+	// }
+
+	//check collision
+    var slot = collisionList(whatDragged, theShip.slots);
+	if (slot)
+    {
+        whatDragged.picture.X = slot.picture.X - (slot.picture.width - whatDragged.picture.width);
+        whatDragged.picture.Y = slot.picture.Y - (slot.picture.height - whatDragged.picture.height);
+    }
 	whatDragged = null;
 }
 
@@ -112,32 +114,38 @@ function checkBounds(image, mouseX, mouseY)
   }
 }
 
-//GUI--------------------------------------------------------------------------------------------------------------------//
-function gui (sprite){
-	this.overlay = sprite;
-	this.bar_length = 150;
-	this.bar_height = 25;
 
-	this.draw = function(){
-		contex.drawImage(this.overlay, 0, 0);
-		context.fillStyle = "#4FFF52";
-		context.fillRect(400, 450, this.bar_length * life_support/100, this.bar_height);
-		context.fillRect(400, 500, this.bar_length * durability/100, this.bar_height);
-		context.fillRect(400, 550, this.bar_length * happiness/100, this.bar_height);
-		context.font = "15px Verdana";
-		context.fillStyle = "#FFF"
-		context.fillText("Life Support" ,600, 450);
-		context.fillText("Durability" ,600, 500);
-		context.fillText("Happiness" ,600, 550);
 
-		context.fillText(life_support ,450, 450);
-		context.fillText(durability ,450, 500);
-		context.fillText(happiness ,450, 550);
-	};
+
+function collisionList(image, array)
+{
+    for(var i = 0; i < array.length; i++)
+    {
+        if (doesCollide(image, array[i]))
+        {
+            return array[i];
+        }
+    }
+    return false;
 }
 
+function doesCollide(image1, image2)
+{
+    sX = image1.picture.X;
+    sW = image1.picture.width;
+    sY = image1.picture.Y;
+    sH = image1.picture.height;
+    oX = image2.picture.X;
+    oY = image2.picture.Y;
+    oW = image2.picture.width;
+    oH = image2.picture.height;
 
-
+    if (sX < oX + oW && sX + sW > oX && sY < oY + oH && sH + sY > oY)
+    {
+        return true;
+    }
+    return false;
+}
 
 // Sprite sheet code (don't use frame 0) ----------------------------------------------------------------------------------//
 
@@ -188,11 +196,4 @@ function SpriteSheet (url, frameWidth, frameHeight, frameSpeed)
 		context.drawImage(image, col*frameWidth, row*frameHeight, frameWidth, frameHeight, x, y, frameWidth, frameHeight);
   };
 
-}
-
-//Particle System ---------------------------------------------------------------------------------------------------------------//
-function particle_system(){
-	this.init(){
-		
-	};
 }
