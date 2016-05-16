@@ -8,8 +8,10 @@ function Item(type, name, durability, src){
 	this.durability = durability;
 	this.image = new image;
 	this.image.src = src;
-=======
 }
+
+var thruster = Item.prototype;
+thruster.efficiency = 0;
 
 //fix a part by dragging a part onto another that is already slotted into the ship
 function fix(part1, part2){

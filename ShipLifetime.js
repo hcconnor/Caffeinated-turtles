@@ -165,8 +165,9 @@ function LifeTime(ship){
 		} else if(ship.slots[i].type =- "oxygen"){
 			essential[3] = true;
 		}
-	});
+	}
 	$.each(essential, function(){
 		if(essential[i] == false) lose = true;
 	});
+});
 }
