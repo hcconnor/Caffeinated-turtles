@@ -18,10 +18,10 @@ function ship(x, y){
 
 
 	this.slots = [];
-    this.slots.push(new slot(20,20));
-    this.slots.push(new slot(20,220));
-    this.slots.push(new slot(20,420));
-    this.slots.push(new slot(20,620));
+    this.slots.push(new slot(100,150));
+    this.slots.push(new slot(100,250));
+    this.slots.push(new slot(150,50));
+    this.slots.push(new slot(300,100));
 	this.health = 30000;
 
 	this.init = function(){
