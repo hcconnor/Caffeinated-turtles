@@ -1,4 +1,3 @@
-
 var anime = false;
 
 var particles = {};
@@ -22,11 +21,11 @@ function spriteImage(){
 
 // will need to reference Item from ItemBase JK (that holds content)
 // will need to reference Element, (holds src)
-// hash table, map? 
+// hash table, map?
 
 // map (JS)
 var items = {};
-items [""] 
+items [""]
 
 function randomize(particle) {
   particle.X = canvas.width;
@@ -59,7 +58,7 @@ function draw() {
     var particle = particles[i];
     ctx.drawImage(particle, particle.X, particle.Y, particle.width, particle.height);
     //particles.rotate(20*Math.PI/180);
-  } 
+  }
 }
 
 function onEnterFrame(){
@@ -84,10 +83,3 @@ function onEnterFrame(){
 }
 
 setInterval(onEnterFrame, 30);
-
-
-
-
-
-
-
