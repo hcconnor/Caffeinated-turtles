@@ -1,3 +1,4 @@
+
 var canvas = document.getElementById('SOS');
 var context = canvas.getContext('2d');
 var whatDragged = null;

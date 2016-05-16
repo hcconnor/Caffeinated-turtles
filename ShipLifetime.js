@@ -150,6 +150,18 @@ function LifeTime(ship){
 			Happy += ship.slots[i].durability;
 		} else if(ship.slots[i].type == "lifeSupport"){
 			essential[2] = true;
+	}
+	for(i = 0; i< ship.slots.length; i++){
+		if(ship.misc[i].type == "thruster"){
+			lose = true;
+		} else if(ship.slots[i].type == "fuel"){
+			essential[1] = true;
+			fuel += ship.slots[i].value;
+		} else if(ship.slots[i].type == "vanity"){
+			happiness += ship.slots[i].value;
+		} else if(ship.slots[i].type == "lifeSupport"){
+			essential[2] = true;
+      life_support += ship.slots[i].value;
 		} else if(ship.slots[i].type =- "oxygen"){
 			essential[3] = true;
 		}

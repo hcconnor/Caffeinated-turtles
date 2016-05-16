@@ -121,7 +121,7 @@ function change_turn() {
 
 }
 
-//Pause / resume, stops update
+//Pause / resume, stops update (TURN THIS INTO A GLOBAL VARIABLE THAT HALTS ALL UPDATES)
 function pause() {
     this.begin = function()
     {
