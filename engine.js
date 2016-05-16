@@ -1,4 +1,5 @@
-var canvas = document.getElementById('S.O.S.');
+
+var canvas = document.getElementById('SOS');
 var context = canvas.getContext('2d');
 var whatDragged = null;
 
@@ -6,8 +7,6 @@ canvas.addEventListener("mousemove", moveElement);
 canvas.addEventListener("mousedown", selectElement);
 canvas.addEventListener("mouseup", deselectElement);
 
-var unlocked = new Set();
-//var playElements = {};
 
 
 //Clock ------------------------------------------------------------------------------------//
@@ -34,21 +33,33 @@ function player(name, pod){
 //add funtion with itembase
 function Element(name, url, width, height, x, y) {
 	this.name = name;
-	this.picture = new Image();
-	this.picture.src = url;
-	this.picture.X = x;
-	this.picture.Y = y;
-	this.picture.width = width;
-	this.picture.height = height;
+	this.x = x;
+	this.y = y;
+	this.width = width;
+	this.height = height;
+    this.inUse = false;
+    this.sprite = new SpriteSheet(url, this.width, this.height, 4);
+    this.sprite.setFrameRange(0,10);
+
+    this.setInUse = function()
+    {
+        this.inUse = true;
+        this.sprite.setFrameRange(0,0);
+    }
+    this.unSetInUse = function()
+    {
+        this.inUse = false;
+        this.sprite.setFrameRange(0,10);
+    }
     this.update = function()
     {
+        this.sprite.update();
         //console.log("X:" + this.picture.X +"Y:"+ this.picture.Y + this.picture.width + this.picture.height);
     };
 
     this.draw = function()
     {
-        context.drawImage(this.picture, this.picture.X,
-             this.picture.Y,this.picture.width,this.picture.height);
+        this.sprite.draw(this.x, this.y);
     };
 }
 
@@ -70,17 +81,18 @@ function selectElement(e) {
 
 	//select element from array of elements on screen
 	for(var i = 0; i < items.length; i++){
-		if (checkBounds(items[i].picture, e.clientX, e.clientY)) {
+		if (checkBounds(items[i], e.clientX, e.clientY)) {
 			whatDragged = items[i];
 		}
 	}
+    whatDragged.unSetInUse();
 }
 
 function moveElement(e) {
 	if (whatDragged) {
 		//nameText = whatDragged.name;
-		whatDragged.picture.X = e.clientX - whatDragged.picture.width / 2;
-		whatDragged.picture.Y = e.clientY - whatDragged.picture.height / 2;
+		whatDragged.x = e.clientX - whatDragged.width / 2;
+		whatDragged.y = e.clientY - whatDragged.height / 2;
 
 	}
 }
@@ -95,15 +107,21 @@ function deselectElement(e) {
     var slot = collisionList(whatDragged, theShip.slots);
 	if (slot)
     {
-        whatDragged.picture.X = slot.picture.X - (slot.picture.width - whatDragged.picture.width);
-        whatDragged.picture.Y = slot.picture.Y - (slot.picture.height - whatDragged.picture.height);
+        whatDragged.x = slot.x - (slot.width - whatDragged.width);
+        whatDragged.y = slot.y - (slot.height - whatDragged.height);
+        slot.addElement();
+        whatDragged.setInUse();
+    }
+    else
+    {
+        whatDragged.unSetInUse();
     }
 	whatDragged = null;
 }
 
-function checkBounds(image, mouseX, mouseY)
+function checkBounds(object, mouseX, mouseY)
 {
-	if((mouseX < (image.X + image.width)) && (mouseY < (image.Y + image.height)) && (mouseX > (image.X)) && (mouseY > (image.Y)))
+	if((mouseX < (object.x + object.width)) && (mouseY < (object.y + object.height)) && (mouseX > (object.x)) && (mouseY > (object.y)))
   {
   return true;
   }
@@ -117,11 +135,11 @@ function checkBounds(image, mouseX, mouseY)
 
 
 
-function collisionList(image, array)
+function collisionList(object, array)
 {
     for(var i = 0; i < array.length; i++)
     {
-        if (doesCollide(image, array[i]))
+        if (doesCollide(object, array[i]))
         {
             return array[i];
         }
@@ -129,16 +147,16 @@ function collisionList(image, array)
     return false;
 }
 
-function doesCollide(image1, image2)
+function doesCollide(obj1, obj2)
 {
-    sX = image1.picture.X;
-    sW = image1.picture.width;
-    sY = image1.picture.Y;
-    sH = image1.picture.height;
-    oX = image2.picture.X;
-    oY = image2.picture.Y;
-    oW = image2.picture.width;
-    oH = image2.picture.height;
+    sX = obj1.x;
+    sW = obj1.width;
+    sY = obj1.y;
+    sH = obj1.height;
+    oX = obj2.x;
+    oY = obj2.y;
+    oW = obj2.width;
+    oH = obj2.height;
 
     if (sX < oX + oW && sX + sW > oX && sY < oY + oH && sH + sY > oY)
     {
@@ -154,10 +172,10 @@ function SpriteSheet (url, frameWidth, frameHeight, frameSpeed)
 	var image = new Image();
   var numFrames;
 
-  var currentFrame = 0;
+  var currentFrame = 1;
   var counter = 0;
-  this.startFrame = 0;
-  this.endFrame = 0;
+  this.startFrame = 1;
+  this.endFrame = 1;
   var animationL = this.endFrame - this.startFrame;
   image.src = url;
 
@@ -176,7 +194,7 @@ function SpriteSheet (url, frameWidth, frameHeight, frameSpeed)
   this.update = function(){
   	if(counter == (frameSpeed - 1))
     {
-      if(currentFrame == this.endFrame - 1)
+      if(currentFrame == this.endFrame)
     	{
     		currentFrame -= animationL;
     	}

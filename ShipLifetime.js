@@ -5,23 +5,23 @@ function ship(x, y){
     this.numSlots = 4;
 	//this.spritesheet = spritesheet;
     this.picture = new Image();
-	this.picture.height = 700;
-	this.picture.width = 800;
+	this.picture.height = 450;
+	this.picture.width = 750;
 	//this.X = x;//this.width/2;
 	//this.Y = y;//this.height/2;
 //	this.thrusters = {};
 
-    this.picture.src = "sprites/shiptest.png";
+    this.picture.src = "sprites/BigShip.png";
     this.picture.X = x;
     this.picture.Y = y;
 
 
 
 	this.slots = [];
-    this.slots.push(new slot(20,20));
-    this.slots.push(new slot(20,220));
-    this.slots.push(new slot(20,420));
-    this.slots.push(new slot(20,620));
+    this.slots.push(new slot(100,150));
+    this.slots.push(new slot(100,250));
+    this.slots.push(new slot(150,50));
+    this.slots.push(new slot(300,100));
 	this.health = 30000;
 
 	this.init = function(){
@@ -60,34 +60,43 @@ function ship(x, y){
 function slot (x, y, element = null)
 {
     this.picture = new Image();
-	this.picture.src = "sprites/test_box.png";
-    this.picture.X = x;
-    this.picture.Y = y;
-    this.picture.width = 100;
-    this.picture.height = 100;
+    this.x = x;
+    this.y = y;
+    this.width = 50;
+    this.height = 50;
     this.element = element;
 
+    this.sprite = new SpriteSheet('sprites/SlotSprite.png', this.width, this.height, 4);
+    this.sprite.setFrameRange(1,1);
     this.update = function()
     {
-        if (whatDragged == null)
+        if (whatDragged != null)
         {
-            return
-        }
-        if (doesCollide(this, whatDragged))
-        {
-            console.log("light up slot!");
-            this.picture.src = "sprites/test_object.png";
+            if (doesCollide(this, whatDragged))
+            {
+                console.log("light up slot!");
+                this.sprite.setFrameRange (2,2);
+            }
+            else
+            {
+                this.sprite.setFrameRange (1,1);
+            }
         }
         else
         {
-            this.picture.src = "sprites/test_box.png";
+            this.sprite.setFrameRange (1,1);
         }
+        this.sprite.update();
     }
 
     this.draw = function()
     {
-        context.drawImage(this.picture, this.picture.X,
-             this.picture.Y,this.picture.width,this.picture.height);
+        this.sprite.draw(this.x, this.y);
+    }
+
+    this.addElement = function(item)
+    {
+        this.element = item;
     }
 }
 
