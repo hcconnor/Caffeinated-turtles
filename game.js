@@ -89,9 +89,10 @@ function main_build() {
     this.begin = function()
     {
         // this.items = [];
-        items.push(new Element("test_item", "sprites/test_object.png", 100, 100, 50, 50))
+        items.push(new Element("test_item", "sprites/fire_extinguisher.png", 50, 50, 100, 100));
+        items.push(new Element("test_item", "sprites/fire_extinguisher.png", 50, 50, 200, 200))
         //this.theShip = new ship(0,0);
-				theShip = new ship(0,0);
+		theShip = new ship(0,0);
     };
 
 	this.update = function() {
