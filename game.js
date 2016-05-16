@@ -1,14 +1,6 @@
-// $.getScript("engine.js", function() {
-// 	console.log("Game engine loaded");
-// });
-// $.getScript("ItemBase.js", function() {
-// 	console.log("Draggables loaded");
-// });
-// $.getScript("ShipLifetime.js", function() {
-// 	console.log("Ship loaded");
-// });
 
-var bigShip = null;
+var items = [];
+var theShip = null;
 
 var playerNum = 0;
 var players = ["player_1", "player_2", "player_3", "player_4"];
@@ -96,18 +88,23 @@ function start_build() {
 function main_build() {
     this.begin = function()
     {
-        this.items = [];
-        this.items.push(new Element("test_item", "sprites/test_object.png", 100, 100, 50, 50))
-        this.theShip = new ship(0,0);
-
+        // this.items = [];
+        items.push(new Element("test_item", "sprites/test_object.png", 100, 100, 50, 50))
+        //this.theShip = new ship(0,0);
+				theShip = new ship(0,0);
     };
 
 	this.update = function() {
-
+        for(let item of items)
+        {
+            item.update();
+        }
+        theShip.update();
 	};
 	this.draw = function() {
-        this.theShip.draw();
-        for(let item of this.items)
+        canvas.width = canvas.width;
+        theShip.draw();
+        for(let item of items)
         {
             item.draw();
         }
