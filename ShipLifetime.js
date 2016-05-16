@@ -121,67 +121,31 @@ var escPod = ship.prototype;
 //requires global variables Happy and Fuel. Subject to change though based on ship element.
 
 function LifeTime(ship){
+	var i;
 	var essential = [false, false, false, false];
-	for(i = 0; i < ship.thrusters.length, i++){
+	$.each(ship.thruster, function(){
 		if(ship.thruster[i].type != "thruster"){
 			lose = true;
 		} else if(ship.thruster[i].type == "thruster"){
 			essential[0] = true;
 			spd += ship.thruster[i].value;
 		}
-	}
-	for(i = 0; i< ship.slots.length; i++){
+	});
+	$.each(ship.misc, function(){
 		if(ship.misc[i].type == "thruster"){
 			lose = true;
-		} else if(ship.slots[i].type == "fuel"){
+		} else if(ship.misc[i].type == "fuel"){
 			essential[1] = true;
-			fuel += ship.slots[i].value;
-		} else if(ship.slots[i].type == "vanity"){
-			happiness += ship.slots[i].value;
-		} else if(ship.slots[i].type == "lifeSupport"){
+			Fuel += ship.misc[i].value;
+		} else if(ship.misc[i].type == "vanity"){
+			Happy += ship.misc[i].value;
+		} else if(ship.misc[i].type == "lifeSupport"){
 			essential[2] = true;
-      life_support += ship.slots[i].value;
-		} else if(ship.slots[i].type =- "oxygen"){
+		} else if(ship.misc[i].type =- "oxygen"){
 			essential[3] = true;
 		}
-	}
-	for(i = 0; i < essential.length, i++){
+	});
+	$.each(essential, function(){
 		if(essential[i] == false) lose = true;
-	}
-}
-
-function escPodValue(pod){
-  var fail = false;
-  var score = 0;
-  var essential = [false, false, false, false];
-
-  for(i = 0; i< pod.slots.length; i++){
-    if(pod.misc[i].type == "thruster"){
-      fail = true;
-    } else if(pod.slots[i].type == "fuel"){
-      essential[1] = true;
-      score += pod.slots[i].value;
-    } else if(pod.slots[i].type == "vanity"){
-      score += pod.slots[i].value;
-    } else if(pod.slots[i].type == "lifeSupport"){
-      essential[2] = true;
-      score += pod.slots[i].value;
-    } else if(pod.slots[i].type =- "oxygen"){
-      essential[3] = true;
-      score += pod.slots[i].value;
-    }
-  }
-  for(i = 0; i < pod.thrusters.length, i++){
-    if(pod.thruster[i].type != "thruster"){
-      fail = true;
-    } else if(pod.thruster[i].type == "thruster"){
-      essential[0] = true;
-      score += pod.thruster[i].value;
-    }
-  }
-  for(i = 0; i < essential.length, i++){
-    if(essential[i] == false) fail = true;
-  }
-  if(fail != true) return score;
-  else return 0;
+	});
 }
