@@ -128,20 +128,20 @@ function LifeTime(ship){
 			lose = true;
 		} else if(ship.thruster[i].type == "thruster"){
 			essential[0] = true;
-			spd += ship.thruster[i].value;
+			spd += ship.thruster[i].durability;
 		}
 	});
-	$.each(ship.misc, function(){
-		if(ship.misc[i].type == "thruster"){
+	$.each(ship.slots, function(){
+		if(ship.slots[i].type == "thruster"){
 			lose = true;
-		} else if(ship.misc[i].type == "fuel"){
+		} else if(ship.slots[i].type == "fuel"){
 			essential[1] = true;
-			Fuel += ship.misc[i].value;
-		} else if(ship.misc[i].type == "vanity"){
-			Happy += ship.misc[i].value;
-		} else if(ship.misc[i].type == "lifeSupport"){
+			Fuel += ship.slots[i].durability;
+		} else if(ship.slots[i].type == "vanity"){
+			Happy += ship.slots[i].durability;
+		} else if(ship.slots[i].type == "lifeSupport"){
 			essential[2] = true;
-		} else if(ship.misc[i].type =- "oxygen"){
+		} else if(ship.slots[i].type =- "oxygen"){
 			essential[3] = true;
 		}
 	});
