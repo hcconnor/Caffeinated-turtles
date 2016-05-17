@@ -5,7 +5,7 @@ var distance = 0;
 
 var playerNum = 0;
 var players = {};
-players["player_1"] = new Player()
+players["player_1"] = new Player();
 
 var states = {}; //implement cleanup of each state at beginning of new state
 // map   ["key"]  =  the thing;
@@ -73,6 +73,7 @@ function player_select() {
     };
 	this.update = function() {
 		//create 4 buttons for each player number choice
+		var playerNum = 1;
 	};
 	this.draw = function() {
 

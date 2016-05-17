@@ -1,11 +1,8 @@
-function handleWin(){
+function checkWin(player){
   for(i = 0; i < players.length; i++){
-    if(players[i].win == true){
-      //When ship dies, go to win screen
+    if(player.score > players[i].score){
+      player.win = true;
+      
     }
   }
-}
-
-function handleLoss(){
-
 }
