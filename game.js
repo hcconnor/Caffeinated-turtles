@@ -1,9 +1,11 @@
 
 var items = [];
 var theShip = null;
+var distance = 0;
 
 var playerNum = 0;
-var players = ["player_1", "player_2", "player_3", "player_4"];
+var players = {};
+players["player_1"] = new Player()
 
 var states = {}; //implement cleanup of each state at beginning of new state
 // map   ["key"]  =  the thing;
@@ -31,6 +33,13 @@ var sources = {};
 // 	bigShip = new mainShip(sprites[0], canvas.width/2, canvas.height/2);
 // }
 // loadContent();
+
+//Player Object -------------------------------------------------------------------------------------------------------//
+function Player(Name){
+	this.win = false;
+	this.name = Name;
+	this.Pod = null;
+}
 
 //Game States -------------------------------------------------------------------------------------------------------//
 
