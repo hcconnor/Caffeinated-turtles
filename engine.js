@@ -48,14 +48,6 @@ function Element(name, url, width, height, x, y) {
     };
 }
 
-// function unlockElement(element) {
-// 	if (!unlocked.has(element)) {
-// 		element.picture.X = 820;
-// 		element.picture.Y = unlocked.size * 50 + 10;
-// 		unlocked.add(element);
-// 	}
-// }
-
 function selectElement(e) {
 	$.each(playElements, function() {
 		if (checkBounds(ef.picture, e.clientX, e.clientY)) {
@@ -191,8 +183,11 @@ function SpriteSheet (url, frameWidth, frameHeight, frameSpeed)
 }
 
 //Particle System ---------------------------------------------------------------------------------------------------------------//
-function particle_system(){
+function particle_system(num_particles){
+	this.particles = {};
 	this.init(){
-		
-	};
+		for(i = 0; i < num_particles; i++){
+			this.particles[i] = new part()
+		}
+	}
 }
