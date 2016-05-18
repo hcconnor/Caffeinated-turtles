@@ -1,9 +1,10 @@
 var items = [];
 var theShip = null;
-var parts_buffer= new Set();
+var parts_buffer= {};
+var distance = 0;
 
 var playerNum = 0;
-var players = ["player_1", "player_2", "player_3", "player_4"];
+//var players = [new player("Bob", null)];
 
 var states = {}; //implement cleanup of each state at beginning of new state
 // map   ["key"]  =  the thing;
@@ -16,21 +17,7 @@ states ["pause"] = new pause();
 states ["end_game"] = new end_game();
 var currentState = "main_build"; // currently set to main build for prototype
 transition_states("main_build");
-var sprites = {};
-var sources = {};
-
-// function loadContent() {
-//
-// 	sources ["test_object"] = "sprites/test_object.png");
-// 	sources ["test_box"] = "sprites/test_box.png");
-//
-// 	for ( i = 0; i < sources.length; i++) {
-// 		sprites[i] = new Image();
-// 		$(sprites[i]).attr("src", sources[i]);
-// 	}
-// 	bigShip = new mainShip(sprites[0], canvas.width/2, canvas.height/2);
-// }
-// loadContent();
+var debris = null;
 
 //Game States -------------------------------------------------------------------------------------------------------//
 
@@ -89,10 +76,12 @@ function main_build() {
     this.begin = function()
     {
         // this.items = [];
-        items.push(new Element("test_item", "sprites/fire_extinguisher.png", 50, 50, 400, 400));
-        items.push(new Element("test_item", "sprites/storage.png", 50, 50, 200, 200))
+        //items.push(new Element("test_item", "sprites/fire_extinguisher.png", 50, 50, 400, 400));
+        //items.push(new Element("test_item", "sprites/storage.png", 50, 50, 200, 200))
         //this.theShip = new ship(0,0);
-		theShip = new ship(0,0);
+				debris = new particle_system(12, items.valueOf);
+				debris.init();
+				theShip = new ship(0,0);
     };
 
 	this.update = function() {
@@ -100,6 +89,7 @@ function main_build() {
         {
             item.update();
         }
+				debris.update();
         theShip.update();
 	};
 	this.draw = function() {

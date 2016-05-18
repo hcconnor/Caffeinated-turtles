@@ -13,10 +13,8 @@ function Item(type, name, durability, src){
 var thruster = Item.prototype;
 thruster.efficiency = 0;
 
-//fix a part by dragging a part onto another that is already slotted into the ship
+//fix a part by dragging a part onto another that is already slotted into the ship.  Sets durability back to full
 function fix(part1, part2){
-	elements.splice(indexOf(part2), 1);
-	part1.durability += part2.value;
-	this.image = new image;
-	this.image.src = src;
+	parts_buffer = items.splice(indexOf(part2), 1);
+	part1.durability = 100;
 }
