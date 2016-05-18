@@ -9,17 +9,18 @@ function Item(type, name, durability, src){
 	this.maxDurability = durability;
 	this.image = new image;
 	this.image.src = src;
+	this.damageLevel = 0;
 
 	this.updateDurab = function(){
 		this.durability --;
 		if(this.durability == (this.maxDurability - this.maxDurability/4)){
-			
+			this.damageLevel = 1;
 		} else if(this.durability == this.maxDurability/2){
-
+			this.damageLevel = 2;
 		}else if(this.durability == this.maxDurability/4){
-
+			this.damageLevel = 3;
 		}else if(this.durability <= 0){
-
+			this.damageLevel = 4;
 		}
 }
 
