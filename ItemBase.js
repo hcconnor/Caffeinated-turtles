@@ -6,8 +6,21 @@ function Item(type, name, durability, src){
 	this.level = level;
 	this.name = name;
 	this.durability = durability;
+	this.maxDurability = durability;
 	this.image = new image;
 	this.image.src = src;
+
+	this.updateDurab = function(){
+		this.durability --;
+		if(this.durability == (this.maxDurability - this.maxDurability/4)){
+			
+		} else if(this.durability == this.maxDurability/2){
+
+		}else if(this.durability == this.maxDurability/4){
+
+		}else if(this.durability <= 0){
+
+		}
 }
 
 var thruster = Item.prototype;
