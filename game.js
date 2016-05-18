@@ -100,7 +100,7 @@ function main_build() {
     {
         // this.items = [];
         items.push(new Element("test_item", "sprites/fire_extinguisher.png", 50, 50, 400, 400));
-        items.push(new Element("test_item", "sprites/storage.png", 50, 50, 200, 200))
+        items.push(new Element("test_item", "sprites/storage.png", 50, 50, 200, 200));
         //this.theShip = new ship(0,0);
 		theShip = new ship(0,0);
     };
