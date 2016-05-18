@@ -1,7 +1,7 @@
 $(function STARS() {
   "use strict";
-  var canvas = document.getElementById("canvas");
-  var context = canvas.getContext("2d");
+  //var canvas = document.getElementById("canvas");
+  //var context = canvas.getContext("2d");
 
   var time = Date.now();
   var deltaTime = 0;
