@@ -89,9 +89,10 @@ function main_build() {
     this.begin = function()
     {
         // this.items = [];
-        items.push(new Element("test_item", "sprites/test_object.png", 100, 100, 50, 50))
+        items.push(new Element("test_item", "sprites/fire_extinguisher.png", 50, 50, 400, 400));
+        items.push(new Element("test_item", "sprites/storage.png", 50, 50, 200, 200))
         //this.theShip = new ship(0,0);
-				theShip = new ship(0,0);
+		theShip = new ship(0,0);
     };
 
 	this.update = function() {
@@ -120,7 +121,7 @@ function change_turn() {
 
 }
 
-//Pause / resume, stops update
+//Pause / resume, stops update (TURN THIS INTO A GLOBAL VARIABLE THAT HALTS ALL UPDATES)
 function pause() {
     this.begin = function()
     {
