@@ -1,30 +1,34 @@
-var anime = false;
-
 // will need to reference Item from ItemBase JK (that holds content)
 // will need to reference Element, (holds src)
 // hash table, map?
 
-// map (JS)
-var items = {};
-items ["rocketThruster"] = new rocketThruster();
-items ["fuelTank"] = new oxygenTank();
-items ["iceCream"] new iceCream();
+// can go back to array lol...
 
-//randomize("rocketThruster");
+function item(x, y){
+	this.pic = new Image();
+		this.pic.height = 100;
+		this.pic.width =  100;
+		this.pic.src = "sprites/Thruster.png";
+	
+	var items = new Array();
+	items.push("sprites/Thruster.png");
+	items.push("sprites/Storage.png");
+	items.push("sprites/Thruster.png");
+	items.push("sprites/IceCreamMachine.png");
 
-//var sprites = {};
-//var sources = {}; already in items program
-
-function randomize(items) {
-  items.X = canvas.width;
-  items.Y = Math.random() * canvas.height;
-  items.s = 0.4 + Math.random() * 0.5; //speed
+	function randomize(items) {
+		item.X = canvas.width;
+		item.Y = Math.random() * canvas.height;
+		item.s = 0.4 + Math.random() * 0.5; //speed
+		
+}
+	
 }
 
 function animation() {
   if (anime) {
     for (var i = 0; i < items.length; i++) {
-      var items = itemss[i];
+      var items = items[i];
       item.Y += item.s;
       if (item.X < 0) {
         randomize(item);
