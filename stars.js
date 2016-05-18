@@ -1,4 +1,4 @@
-//work plz
+//work please?
 $(function STARS() {
   "use strict";
   //var canvas = document.getElementById("canvas");
