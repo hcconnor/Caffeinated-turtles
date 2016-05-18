@@ -5,23 +5,23 @@ function ship(x, y){
     this.numSlots = 4;
 	//this.spritesheet = spritesheet;
     this.picture = new Image();
-	this.picture.height = 700;
-	this.picture.width = 800;
+	this.picture.height = 450;
+	this.picture.width = 750;
 	//this.X = x;//this.width/2;
 	//this.Y = y;//this.height/2;
 //	this.thrusters = {};
 
-    this.picture.src = "sprites/shiptest.png";
+    this.picture.src = "sprites/BigShip.png";
     this.picture.X = x;
     this.picture.Y = y;
 
 
 
 	this.slots = [];
-    this.slots.push(new slot(20,20));
-    this.slots.push(new slot(20,220));
-    this.slots.push(new slot(20,420));
-    this.slots.push(new slot(20,620));
+    this.slots.push(new slot(100,150));
+    this.slots.push(new slot(100,250));
+    this.slots.push(new slot(150,50));
+    this.slots.push(new slot(300,100));
 	this.health = 30000;
 
 	this.init = function(){
@@ -60,34 +60,43 @@ function ship(x, y){
 function slot (x, y, element = null)
 {
     this.picture = new Image();
-	this.picture.src = "sprites/test_box.png";
-    this.picture.X = x;
-    this.picture.Y = y;
-    this.picture.width = 100;
-    this.picture.height = 100;
+    this.x = x;
+    this.y = y;
+    this.width = 50;
+    this.height = 50;
     this.element = element;
 
+    this.sprite = new SpriteSheet('sprites/SlotSprite.png', this.width, this.height, 4);
+    this.sprite.setFrameRange(1,1);
     this.update = function()
     {
-        if (whatDragged == null)
+        if (whatDragged != null)
         {
-            return
-        }
-        if (doesCollide(this, whatDragged))
-        {
-            console.log("light up slot!");
-            this.picture.src = "sprites/test_object.png";
+            if (doesCollide(this, whatDragged))
+            {
+                console.log("light up slot!");
+                this.sprite.setFrameRange (2,2);
+            }
+            else
+            {
+                this.sprite.setFrameRange (1,1);
+            }
         }
         else
         {
-            this.picture.src = "sprites/test_box.png";
+            this.sprite.setFrameRange (1,1);
         }
+        this.sprite.update();
     }
 
     this.draw = function()
     {
-        context.drawImage(this.picture, this.picture.X,
-             this.picture.Y,this.picture.width,this.picture.height);
+        this.sprite.draw(this.x, this.y);
+    }
+
+    this.addElement = function(item)
+    {
+        this.element = item;
     }
 }
 
@@ -121,14 +130,26 @@ var escPod = ship.prototype;
 //requires global variables Happy and Fuel. Subject to change though based on ship element.
 
 function LifeTime(ship){
+	var i;
 	var essential = [false, false, false, false];
-	for(i = 0; i < ship.thrusters.length, i++){
+	$.each(ship.thruster, function(){
 		if(ship.thruster[i].type != "thruster"){
 			lose = true;
 		} else if(ship.thruster[i].type == "thruster"){
 			essential[0] = true;
-			spd += ship.thruster[i].value;
+			spd += ship.thruster[i].durability;
 		}
+	});
+	$.each(ship.slots, function(){
+		if(ship.slots[i].type == "thruster"){
+			lose = true;
+		} else if(ship.slots[i].type == "fuel"){
+			essential[1] = true;
+			Fuel += ship.slots[i].durability;
+		} else if(ship.slots[i].type == "vanity"){
+			Happy += ship.slots[i].durability;
+		} else if(ship.slots[i].type == "lifeSupport"){
+			essential[2] = true;
 	}
 	for(i = 0; i< ship.slots.length; i++){
 		if(ship.misc[i].type == "thruster"){
@@ -145,43 +166,8 @@ function LifeTime(ship){
 			essential[3] = true;
 		}
 	}
-	for(i = 0; i < essential.length, i++){
+	$.each(essential, function(){
 		if(essential[i] == false) lose = true;
-	}
-}
-
-function escPodValue(pod){
-  var fail = false;
-  var score = 0;
-  var essential = [false, false, false, false];
-
-  for(i = 0; i< pod.slots.length; i++){
-    if(pod.misc[i].type == "thruster"){
-      fail = true;
-    } else if(pod.slots[i].type == "fuel"){
-      essential[1] = true;
-      score += pod.slots[i].value;
-    } else if(pod.slots[i].type == "vanity"){
-      score += pod.slots[i].value;
-    } else if(pod.slots[i].type == "lifeSupport"){
-      essential[2] = true;
-      score += pod.slots[i].value;
-    } else if(pod.slots[i].type =- "oxygen"){
-      essential[3] = true;
-      score += pod.slots[i].value;
-    }
-  }
-  for(i = 0; i < pod.thrusters.length, i++){
-    if(pod.thruster[i].type != "thruster"){
-      fail = true;
-    } else if(pod.thruster[i].type == "thruster"){
-      essential[0] = true;
-      score += pod.thruster[i].value;
-    }
-  }
-  for(i = 0; i < essential.length, i++){
-    if(essential[i] == false) fail = true;
-  }
-  if(fail != true) return score;
-  else return 0;
+	});
+});
 }

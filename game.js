@@ -1,11 +1,6 @@
-
-var bigShip = null;
-var happiness = 100;
-var fuel = 100;
-var life_support = 100;
-var durability = 100;
-
-var partsBuffer = {};
+var items = [];
+var theShip = null;
+var parts_buffer= new Set();
 
 var playerNum = 0;
 var players = ["player_1", "player_2", "player_3", "player_4"];
@@ -21,18 +16,13 @@ states ["pause"] = new pause();
 states ["end_game"] = new end_game();
 var currentState = "main_build"; // currently set to main build for prototype
 transition_states("main_build");
-
 var sprites = {};
 var sources = {};
 
 // function loadContent() {
 //
-// 	sources ["test_object"] = "sprites/test_object.png";
-// 	sources ["test_box"] = "sprites/test_box.png";
-//  sources["ship_template"] = "sprites/ship_template.png";
-//	sources["oxygen_tank"] = "sprites/oxygen_tank.png";
-//	sources["thruster"] = "sprites/thruster.png";
-//	sources["fire_extinguisher"] = "sprites/fire_extinguisher.png";
+// 	sources ["test_object"] = "sprites/test_object.png");
+// 	sources ["test_box"] = "sprites/test_box.png");
 //
 // 	for ( i = 0; i < sources.length; i++) {
 // 		sprites[i] = new Image();
@@ -98,19 +88,24 @@ function start_build() {
 function main_build() {
     this.begin = function()
     {
-        this.items = [];
-        this.items.push(new Element("test_item", "sprites/test_object.png", 100, 100, 50, 50));
-        this.theShip = new ship(0,0);
-				//this.gui = new GUI() uncomment when gui sprite is done
-
+        // this.items = [];
+        items.push(new Element("test_item", "sprites/fire_extinguisher.png", 50, 50, 400, 400));
+        items.push(new Element("test_item", "sprites/storage.png", 50, 50, 200, 200))
+        //this.theShip = new ship(0,0);
+		theShip = new ship(0,0);
     };
 
 	this.update = function() {
-
+        for(let item of items)
+        {
+            item.update();
+        }
+        theShip.update();
 	};
 	this.draw = function() {
-        this.theShip.draw();
-        for(let item of this.items)
+        canvas.width = canvas.width;
+        theShip.draw();
+        for(let item of items)
         {
             item.draw();
         }
@@ -126,7 +121,7 @@ function change_turn() {
 
 }
 
-//Pause / resume, stops update
+//Pause / resume, stops update (TURN THIS INTO A GLOBAL VARIABLE THAT HALTS ALL UPDATES)
 function pause() {
     this.begin = function()
     {
