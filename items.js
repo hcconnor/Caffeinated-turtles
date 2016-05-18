@@ -3,7 +3,6 @@ var mid = 100;
 var high = 200;
 
 rocketThruster = new thruster("propulsion","Standard Thruster",100, "sprites/Thruster.png");
-rocketThruster.efficiency = 10;
 
 supplyCrate = new Item("system","Supply Crate",100, "sprites/Storage.png");
 
