@@ -181,13 +181,23 @@ function SpriteSheet (url, frameWidth, frameHeight, frameSpeed)
   };
 
 }
+//Element generator -------------------------------------------------------------------------------------------------------------//
+function randomElement(){
+
+
+}
 
 //Particle System ---------------------------------------------------------------------------------------------------------------//
 function particle_system(num_particles){
-	this.particles = {};
-	this.init(){
+	this.particles = new Set;
+	this.init = function(){
 		for(i = 0; i < num_particles; i++){
-			this.particles[i] = new part()
+			 this.particles.add(randomElement());
 		}
-	}
+	};
+	this.update = function(speed);
+		for(let part of this.particles){
+			part.X -= Math.random() * speed;
+		}
+	};
 }
