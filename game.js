@@ -1,6 +1,6 @@
-var items = [];
+var items = new Array();
 var theShip = null;
-var parts_buffer= {};
+var parts_buffer= [];
 var distance = 0;
 
 var playerNum = 0;
@@ -79,7 +79,7 @@ function main_build() {
         //items.push(new Element("test_item", "sprites/fire_extinguisher.png", 50, 50, 400, 400));
         //items.push(new Element("test_item", "sprites/storage.png", 50, 50, 200, 200))
         //this.theShip = new ship(0,0);
-				debris = new particle_system(12, items.valueOf);
+				debris = new particle_system(12, items);
 				debris.init();
 				theShip = new ship(0,0);
     };
