@@ -215,3 +215,24 @@ function SpriteSheet (url, frameWidth, frameHeight, frameSpeed)
   };
 
 }
+//GUI-------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+function gui(x, y){
+    this.X = x; //700
+    this.Y = y; //550
+    this.sprite = new Image();
+    this.sprite.src = "";
+    this.barWidth = 150;
+    this.barHeight = 25;
+
+    this.draw = function(){
+      context.drawImage(this.sprite, this.X, this.Y);
+      context.fillStyle = "#04ff82";
+      context.fillRect(725, 475, this.barWidth, this.barHeight);
+      context.fillRect(725, 525, this.barWidth, this.barHeight);
+      context.fillRect(725, 575, this.barWidth, this.barHeight);
+      context.fillStyle = "#ffffff";
+      context.fillText(durability, 800, 500);
+      context.fillText(fuel, 800, 550);
+      context.fillText(happiness, 600, 600);
+    }
+}
