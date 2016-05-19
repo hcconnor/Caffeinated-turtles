@@ -89,7 +89,7 @@ function main_build() {
         {
             item.update();
         }
-				debris.update();
+				debris.update(4);
         theShip.update();
 	};
 	this.draw = function() {
