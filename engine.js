@@ -201,9 +201,9 @@ function randomElement(list) {
 //Particle System ---------------------------------------------------------------------------------------------------------------//
 //Takes in numnber of particles and array of all world objects.
 function particle_system(num_particles, objects) {
-    this.particles = objects;
-    this.init = function() {
-        for (i = 0; i < num_particles; i++) {
+        this.particles = objects;
+        this.init = function() {
+        for (j = 0; j < num_particles; j++) {
             var randomPart = randomElement(parts); //referencing parts array in items.js
             var dragElement = new Element(randomPart, randomPart.src, 50, 50, canvas.width, canvas.height * Math.random());
             this.particles.push(dragElement);
