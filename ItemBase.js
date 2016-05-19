@@ -23,10 +23,13 @@ function Item(type, name, durability, src){
 	};
 }
 
-//fix a part by dragging a part onto another that is already slotted into the ship
+function thruster(type, name, durability, src, efficiency){
+	Item.call(this, type, name, durability, src);
+	this.efficiency = efficiency;
+}
+
+//fix a part by dragging a part onto another that is already slotted into the ship.  Sets durability back to full
 function fix(part1, part2){
-	elements.splice(indexOf(part2), 1);
-	part1.durability += part2.value;
-	this.image = new image;
-	this.image.src = src;
+	parts_buffer = items.splice(indexOf(part2), 1);
+	part1.durability = 100;
 }
