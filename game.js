@@ -17,7 +17,8 @@ states ["pause"] = new pause();
 states ["end_game"] = new end_game();
 var currentState = "main_build"; // currently set to main build for prototype
 transition_states("main_build");
-var debris = null;
+var debris = debris = new particle_system(12);
+debris.init();
 
 //Game States -------------------------------------------------------------------------------------------------------//
 
@@ -79,7 +80,7 @@ function main_build() {
         //items.push(new Element("test_item", "sprites/fire_extinguisher.png", 50, 50, 400, 400));
         //items.push(new Element("test_item", "sprites/storage.png", 50, 50, 200, 200))
         //this.theShip = new ship(0,0);
-				debris = new particle_system(12, items);
+				debris = new particle_system(12);
 				debris.init();
 				theShip = new ship(0,0);
     };

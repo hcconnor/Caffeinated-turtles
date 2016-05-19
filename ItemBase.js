@@ -21,12 +21,14 @@ function Item(type, name, durability, src){
 			this.damageLevel = 4;
 		}
 	};
+	this.src = src;
 }
 
 function thruster(type, name, durability, src, efficiency){
 	Item.call(this, type, name, durability, src);
 	this.efficiency = efficiency;
 }
+
 
 //fix a part by dragging a part onto another that is already slotted into the ship.  Sets durability back to full
 function fix(part1, part2){

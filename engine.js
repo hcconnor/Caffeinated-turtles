@@ -188,30 +188,28 @@ function randomElement(list) {
     var random = Math.random();
     var weight = [0.4, 0.3, 0.2, 0.1];
     var weight_sum = 0;
-    var tier = null;
 
-    for (i = 0; i < list.length; i++) {
-        weight_sum += weight[i];
+    for (j = 0; j < list.length; j++) {
+        weight_sum += weight[j];
         weight_sum = +weight_sum.toFixed(2);
-        if (random <= weight_sum) tier = list[i].valueOf();
+        if (random <= weight_sum) return list[j][Math.floor(Math.random() * list[j].length)];
     }
-    return tier[Math.floor(Math.random() * tier.length)];
 }
 
 //Particle System ---------------------------------------------------------------------------------------------------------------//
 //Takes in numnber of particles and array of all world objects.
-function particle_system(num_particles, objects) {
-        this.particles = objects;
-        this.init = function() {
-        for (j = 0; j < num_particles; j++) {
+function particle_system(num_particles) {
+    this.init = function() {
+        for (i = 0; i < num_particles; i++) {
             var randomPart = randomElement(parts); //referencing parts array in items.js
             var dragElement = new Element(randomPart, randomPart.src, 50, 50, canvas.width, canvas.height * Math.random());
-            this.particles.push(dragElement);
+            items.push(dragElement);
+            console.log(items[i]);
         }
     };
     this.update = function(speed) {
-        for (let part of this.particles) {
-            if (!part.inUse && whatDragged != part) part.X -= Math.random() * speed;
+        for (let part of items) {
+            if (!part.inUse) part.x -= Math.random() * speed;
         }
     };
 }
