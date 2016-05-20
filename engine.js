@@ -95,9 +95,10 @@ function deselectElement(e) {
     if (slot) {
         whatDragged.x = slot.x - (slot.width - whatDragged.width);
         whatDragged.y = slot.y - (slot.height - whatDragged.height);
-        slot.addElement();
+        slot.addElement(whatDragged);
         whatDragged.setInUse();
     } else {
+        //slot.removeElement();
         whatDragged.unSetInUse();
     }
     whatDragged = null;
