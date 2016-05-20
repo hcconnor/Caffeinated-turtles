@@ -75,11 +75,11 @@ function slot (x, y, element = null)
             if (doesCollide(this, whatDragged))
             {
                 console.log("light up slot!");
-                this.sprite.setFrameRange (2,2);
+                this.sprite.setFrameRange (3,3);
             }
             else
             {
-                this.sprite.setFrameRange (1,1);
+                this.sprite.setFrameRange (2,2);
             }
         }
         else
