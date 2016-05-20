@@ -1,5 +1,5 @@
 var tier1 = [];
-tier1.push(new Item("vanity","Ice Cream Machine",100, "sprites/IceCreamMachine.png"));
+tier1.push(new Item("vanity","Ice Cream Machine",100, "sprites/ice_cream_machine.png"));
 tier1.push(new thruster("propulsion","Standard Thruster",100, "sprites/Thruster.png", 10));
 
 var tier2 = [];

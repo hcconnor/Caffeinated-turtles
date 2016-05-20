@@ -219,3 +219,38 @@ function particle_system(num_particles) {
         }
     };
 }
+//GUI-------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+function gui(x, y, src){
+    this.X = x; //700
+    this.Y = y; //550
+		this.sprites = [];
+		this.sources = [];
+		this.barWidth = 150;
+    this.barHeight = 25;
+		this.sources.push("GUI/GUI.png");
+		this.sources.push("GUI/oxygen.png");
+		this.sources.push("GUI/fuel_tank.png");
+		this.sources.push("GUI/happiness.png");
+
+		this.init = function(){
+			for(i = 0; i < 4; i++){
+				this.sprites[i] = new Image();
+				this.sprites[i].src = this.sources[i];
+			}
+		}
+
+    this.draw = function(){
+      context.drawImage(this.sprites[0], this.X, this.Y - this.sprites[0].height/2);
+      context.fillStyle = "#04ff82";
+      context.fillRect(725, 475, this.barWidth * durability/100, this.barHeight);
+      context.fillRect(725, 525, this.barWidth * fuel/100, this.barHeight);
+      context.fillRect(725, 575, this.barWidth * happiness/100, this.barHeight);
+      context.fillStyle = "#ffffff";
+      context.fillText(durability, 795, 500);
+      context.fillText(fuel, 795, 550);
+      context.fillText(happiness, 795, 600);
+			context.drawImage(this.sprites[1], 850, 475);
+			context.drawImage(this.sprites[2], 850, 525);
+			context.drawImage(this.sprites[3], 850, 575);
+    }
+}
