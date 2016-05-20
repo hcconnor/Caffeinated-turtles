@@ -98,8 +98,13 @@ function deselectElement(e) {
         slot.addElement(whatDragged);
         whatDragged.setInUse();
     } else {
-        //slot.removeElement();
-        whatDragged.unSetInUse();
+      whatDragged.unSetInUse();
+        for(var i in theShip.slots){
+          if(theShip.slots[i].element == whatDragged){
+            theShip.slots[i].removeElement();
+            break;
+          }
+        }
     }
     whatDragged = null;
 }

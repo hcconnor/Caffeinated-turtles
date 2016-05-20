@@ -99,7 +99,6 @@ function slot (x, y, element = null)
     this.addElement = function(item)
     {
         this.element = item;
-        alert(item);
         this.occupied = true;
     }
 
