@@ -29,6 +29,7 @@ function thruster(type, name, durability, src, efficiency){
 	this.efficiency = efficiency;
 }
 
+
 //fix a part by dragging a part onto another that is already slotted into the ship.  Sets durability back to full
 function fix(part1, part2){
 	parts_buffer = items.splice(indexOf(part2), 1);
