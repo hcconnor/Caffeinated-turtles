@@ -1,6 +1,6 @@
 var items = new Array();
 var theShip = null;
-var parts_buffer= [];
+var parts_buffer = [];
 var distance = 0;
 
 var playerNum = 0;

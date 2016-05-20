@@ -204,12 +204,30 @@ function particle_system(num_particles) {
             var randomPart = randomElement(parts); //referencing parts array in items.js
             var dragElement = new Element(randomPart, randomPart.src, 50, 50, canvas.width, canvas.height * Math.random());
             items.push(dragElement);
-            console.log(items[i]);
         }
     };
+
     this.update = function(speed) {
-        for (let part of items) {
-            if (!part.inUse) part.x -= Math.random() * speed;
+        for (j = 0; j < items.length; j++) {
+            if (!items[j].inUse){
+              items[j].x -= Math.random() * speed;
+              if(items[j].x <= 0){
+                var part = items.splice(j, 1);
+                parts_buffer.push(part);
+                if(parts_buffer.length < 50){
+                  var randomPart = randomElement(parts)
+                  items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width, canvas.height * Math.random()));
+                  console.log("NEW!");
+                }
+                else{
+                  console.log(parts_buffer);
+                  items[j] = parts_buffer.slice(-1);
+                  items[j] = canvas.width;
+                  items[j] = canvas.height * Math.random();
+                  console.log("RECYCLED!");
+                }
+              }
+            }
         }
     };
 }
