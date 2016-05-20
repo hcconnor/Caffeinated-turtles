@@ -2,6 +2,9 @@ var items = new Array();
 var theShip = null;
 var parts_buffer = [];
 var distance = 0;
+var fuel = 100;
+var happiness = 100;
+var durability = 100;
 
 var playerNum = 0;
 //var players = [new player("Bob", null)];
@@ -19,6 +22,9 @@ var currentState = "main_build"; // currently set to main build for prototype
 transition_states("main_build");
 var debris = debris = new particle_system(12);
 debris.init();
+var GUI = new gui(700, 550, "GUI/GUI.png");
+GUI.init();
+//var GUI = new gui(700, 550, durability, fuel, happiness, "GUI/GUI.png");
 
 //Game States -------------------------------------------------------------------------------------------------------//
 
@@ -83,6 +89,7 @@ function main_build() {
 				debris = new particle_system(12);
 				debris.init();
 				theShip = new ship(0,0);
+
     };
 
 	this.update = function() {
@@ -96,6 +103,7 @@ function main_build() {
 	this.draw = function() {
         canvas.width = canvas.width;
         theShip.draw();
+				GUI.draw();
         for(let item of items)
         {
             item.draw();
