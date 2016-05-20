@@ -92,13 +92,19 @@ function deselectElement(e) {
 
     //check collision
     var slot = collisionList(whatDragged, theShip.slots);
-    if (slot) {
+    if (slot && slot.element == null) {
         whatDragged.x = slot.x - (slot.width - whatDragged.width);
         whatDragged.y = slot.y - (slot.height - whatDragged.height);
-        slot.addElement();
+        slot.addElement(whatDragged);
         whatDragged.setInUse();
     } else {
-        whatDragged.unSetInUse();
+      whatDragged.unSetInUse();
+        for(var i in theShip.slots){
+          if(theShip.slots[i].element == whatDragged){
+            theShip.slots[i].removeElement();
+            break;
+          }
+        }
     }
     whatDragged = null;
 }
