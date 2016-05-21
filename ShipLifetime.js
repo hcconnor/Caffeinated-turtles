@@ -21,7 +21,7 @@ function ship(x, y){
     this.slots.push(new slot(150,350));
     this.slots.push(new slot(300,350));
     this.slots.push(new slot(150,50));
-    this.slots.push(new slot(300,100));
+    this.slots.push(new slot(300,50));
 	this.health = 30000;
 
   this.thruster = [];
@@ -47,6 +47,7 @@ function ship(x, y){
         for(let thrust of this.thruster){
             thrust.update();
         }
+        LifeTime(this);
     }
 
 	this.draw = function(){
@@ -67,14 +68,14 @@ function ship(x, y){
 	};
 }
 
-function slot (x, y, element = null)
+function slot (x, y)
 {
     this.picture = new Image();
     this.x = x;
     this.y = y;
     this.width = 50;
     this.height = 50;
-    this.element = element;
+    this.element = null;
     this.occupied = false;
 
     this.sprite = new SpriteSheet('sprites/SlotSprite.png', this.width, this.height, 4);
@@ -99,26 +100,25 @@ function slot (x, y, element = null)
             this.sprite.setFrameRange (1,1);
         }
         this.sprite.update();
-        //if(this.element != null) this.element.durability --;
         happiness--;
-    }
+    };
 
     this.draw = function()
     {
         this.sprite.draw(this.x, this.y);
-    }
+    };
 
     this.addElement = function(item)
     {
         this.element = item;
         this.occupied = true;
-    }
+    };
 
     this.removeElement = function()
     {
       this.element = null;
       this.occupied = false;
-    }
+    };
 }
 
 
@@ -151,7 +151,6 @@ var escPod = ship.prototype;
 //requires global variables Happy and Fuel. Subject to change though based on ship element.
 
 function LifeTime(ship){
-	var i;
 	var essential = [false, false, false, false];
 	for (let thrust of ship.thruster){
 		if(thrust.element != null && thrust.element.type != "thruster"){
@@ -174,7 +173,7 @@ function LifeTime(ship){
 			essential[2] = true;
 	   }
 	};
-	$.each(essential, function(){
-		if(essential[i] == false) lose = true;
-	});
+	for(let system in essential){
+		if(system == false) lose = true;
+	};
 }
