@@ -213,6 +213,7 @@ function particle_system(num_particles) {
               items[j].x -= Math.random() * speed;
               if(items[j].x <= 0){
                 var part = items.splice(j, 1);
+                console.log(part);
                 parts_buffer.push(part);
                 if(parts_buffer.length < 50){
                   var randomPart = randomElement(parts)
