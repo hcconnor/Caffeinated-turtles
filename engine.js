@@ -210,19 +210,38 @@ function particle_system(num_particles) {
             var randomPart = randomElement(parts); //referencing parts array in items.js
             var dragElement = new Element(randomPart, randomPart.src, 50, 50, canvas.width, canvas.height * Math.random());
             items.push(dragElement);
-            console.log(items[i]);
         }
     };
+
     this.update = function(speed) {
-        for (let part of items) {
-            if (!part.inUse) part.x -= Math.random() * speed;
+        for (j = 0; j < items.length; j++) {
+            if (!items[j].inUse){
+              items[j].x -= Math.random() * speed;
+              if(items[j].x <= 0){
+                var part = items.splice(j, 1);
+                console.log(part);
+                parts_buffer.push(part);
+                if(parts_buffer.length < 50){
+                  var randomPart = randomElement(parts)
+                  items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width, canvas.height * Math.random()));
+                  console.log("NEW!");
+                }
+                else{
+                  console.log(parts_buffer);
+                  items[j] = parts_buffer.slice(-1);
+                  items[j] = canvas.width;
+                  items[j] = canvas.height * Math.random();
+                  console.log("RECYCLED!");
+                }
+              }
+            }
         }
     };
 }
 //GUI-------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 function gui(x, y, src){
-    this.X = x; //700
-    this.Y = y; //550
+    this.X = x; //1000
+    this.Y = y; // 750
 		this.sprites = [];
 		this.sources = [];
 		this.barWidth = 150;
@@ -242,15 +261,15 @@ function gui(x, y, src){
     this.draw = function(){
       context.drawImage(this.sprites[0], this.X, this.Y - this.sprites[0].height/2);
       context.fillStyle = "#04ff82";
-      context.fillRect(725, 475, this.barWidth * durability/100, this.barHeight);
-      context.fillRect(725, 525, this.barWidth * fuel/100, this.barHeight);
-      context.fillRect(725, 575, this.barWidth * happiness/100, this.barHeight);
+      context.fillRect(this.X + 25, this.Y - 75, this.barWidth * durability/100, this.barHeight);
+      context.fillRect(this.X + 25, this.Y - 25, this.barWidth * fuel/100, this.barHeight);
+      context.fillRect(this.X + 25, this.Y + 25, this.barWidth * happiness/100, this.barHeight);
       context.fillStyle = "#ffffff";
-      context.fillText(durability, 795, 500);
-      context.fillText(fuel, 795, 550);
-      context.fillText(happiness, 795, 600);
-			context.drawImage(this.sprites[1], 850, 475);
-			context.drawImage(this.sprites[2], 850, 525);
-			context.drawImage(this.sprites[3], 850, 575);
+      context.fillText(durability, this.X + 95, this.Y - 50);
+      context.fillText(fuel, this.X + 95, this.Y);
+      context.fillText(happiness, this.X + 95, this.Y + 50);
+			context.drawImage(this.sprites[1], this.X + 150, this.Y - 75);
+			context.drawImage(this.sprites[2], this.X + 150, this.Y - 25);
+			context.drawImage(this.sprites[3], this.X + 150, this.Y + 25);
     }
 }
