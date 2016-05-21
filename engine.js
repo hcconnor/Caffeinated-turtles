@@ -102,11 +102,6 @@ function deselectElement(e) {
           whatDragged.y = thrust.y - (thrust.height - whatDragged.height);
           thrust.addElement(whatDragged);
         }
-        if(whatDragged.consumed == false){
-          LifeTime(theShip);
-          whatDragged.consumed = true;
-          console.log(whatDragged.consumed);
-        }
         whatDragged.setInUse();
     } else {
       whatDragged.unSetInUse();
@@ -122,7 +117,6 @@ function deselectElement(e) {
             break;
           }
         }
-        whatDragged.consumed = false;
     }
     whatDragged = null;
 }
