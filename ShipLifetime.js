@@ -44,6 +44,9 @@ function ship(x, y){
         for(let slot of this.slots){
             slot.update();
         };
+        for(let thrust of this.thruster){
+            thrust.update();
+        }
     }
 
 	this.draw = function(){
@@ -57,6 +60,9 @@ function ship(x, y){
 		for(let slot of this.slots){
 			slot.draw();
 		};
+    for(let thrust of this.thruster){
+      thrust.draw();
+    };
 
 	};
 }
@@ -93,7 +99,7 @@ function slot (x, y, element = null)
             this.sprite.setFrameRange (1,1);
         }
         this.sprite.update();
-        if(this.element != null) this.element.durability --;
+        //if(this.element != null) this.element.durability --;
         happiness--;
     }
 
@@ -147,23 +153,24 @@ var escPod = ship.prototype;
 function LifeTime(ship){
 	var i;
 	var essential = [false, false, false, false];
-	for (let i of ship.thruster){
-		if(ship.thruster[i] != null && ship.thruster[i].element.type != "thruster"){
+	for (let thrust of ship.thruster){
+		if(thrust.element != null && thrust.element.type != "thruster"){
 			lose = true;
-		} else if(ship.thruster[i] != null && ship.thruster[i].element.type == "thruster"){
+		} else if(thrust.element != null && thrust.element.type == "thruster"){
 			essential[0] = true;
-			speed += ship.thruster[i].element.durability;
+			speed += thrust.element.durability;
 		}
 	};
-	for(let i of ship.slots){
-		if(ship.slots[i] != null && ship.slots[i].element.type == "thruster"){
+	for(let slot of ship.slots){
+		if(slot.element != null && slot.element.type == "thruster"){
 			lose = true;
-		} else if(ship.slots[i] != null && ship.slots[i].element.type == "fuel"){
+		} else if(slot.element != null && slot.element.type == "fuel"){
 			essential[1] = true;
-			fuel += ship.slots[i].element.durability;
-		} else if(ship.slots[i] != null && ship.slots[i].element.type == "vanity"){
-			happiness += ship.slots[i].element.durability;
-		} else if(ship.slots[i] != null && ship.slots[i].element.type == "lifeSupport"){
+			fuel += slot.element.durability;
+		} else if(slot.element != null && slot.element.type == "vanity"){
+      console.log("HAPPY TIMES");
+			happiness += slot.element.durability;
+		} else if(slot.element != null && slot.element.type == "lifeSupport"){
 			essential[2] = true;
 	   }
 	};

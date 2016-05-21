@@ -90,16 +90,29 @@ function deselectElement(e) {
 
     //check collision
     var slot = collisionList(whatDragged, theShip.slots);
-    if (slot && slot.element == null) {
-        whatDragged.x = slot.x - (slot.width - whatDragged.width);
-        whatDragged.y = slot.y - (slot.height - whatDragged.height);
-        slot.addElement(whatDragged);
+    var thrust = collisionList(whatDragged, theShip.thruster);
+    if ((slot || thrust) && slot.element == null) {
+        if(slot){
+          whatDragged.x = slot.x - (slot.width - whatDragged.width);
+          whatDragged.y = slot.y - (slot.height - whatDragged.height);
+          slot.addElement(whatDragged);
+        } else if(thrust){
+          whatDragged.x = thrust.x - (thrust.width - whatDragged.width);
+          whatDragged.y = thrust.y - (thrust.height - whatDragged.height);
+          thrust.addElement(whatDragged);
+        }
         whatDragged.setInUse();
     } else {
       whatDragged.unSetInUse();
-        for(var i in theShip.slots){
-          if(theShip.slots[i].element == whatDragged){
-            theShip.slots[i].removeElement();
+        for(let slots in theShip.slots){
+          if(slots.element == whatDragged){
+            slots.removeElement();
+            break;
+          }
+        }
+        for(let thrust in theShip.thruster){
+          if(thrust.element == whatDragged){
+            thrust.removeElement();
             break;
           }
         }
@@ -240,10 +253,9 @@ function gui(x, y, src){
     this.draw = function(){
       context.drawImage(this.sprites[0], this.X, this.Y - this.sprites[0].height/2);
       context.fillStyle = "#04ff82";
-      context.fillRect(725, 475, this.barWidth * durability/100, this.barHeight);
-      context.fillRect(725, 525, this.barWidth * fuel/100, this.barHeight);
-      context.fillRect(725, 575, this.barWidth * happiness/100, this.barHeight);
-      console.log(happiness);
+      context.fillRect(725, 475, this.barWidth * durability/1000, this.barHeight);
+      context.fillRect(725, 525, this.barWidth * fuel/1000, this.barHeight);
+      context.fillRect(725, 575, this.barWidth * happiness/1000, this.barHeight);
       context.fillStyle = "#ffffff";
       context.fillText(durability, 795, 500);
       context.fillText(fuel, 795, 550);

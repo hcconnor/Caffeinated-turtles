@@ -2,9 +2,9 @@ var items = new Array();
 var theShip = null;
 var parts_buffer= [];
 var distance = 0;
-var fuel = 100;
-var happiness = 100;
-var durability = 100;
+var fuel = 1000;
+var happiness = 1000;
+var durability = 1000;
 var speed = 4;
 
 var lose = false;
