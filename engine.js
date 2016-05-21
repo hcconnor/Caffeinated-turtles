@@ -27,7 +27,19 @@ function player(name, pod) {
     this.escPod = pod;
 }
 
-
+// Initialize sounds ---------------------------------------------------------------------------------------//
+//Utilizes Wad.js.  Creates an object that contains sounds.  Use play() and stop() for each sound.
+function loadSound(){
+    var sounds = new Object();
+    sounds["explode"] = new Wad({source: 'sounds/explode.wav'});
+    sounds["fix"] = new Wad({source: 'fix.wav'});
+    sounds["klaxon"] = new Wad({source: 'klaxon.wav'});
+    sounds["menu_select"] = new Wad({source: 'menu_select.wav'});
+    sounds["select_item"] = new Wad({source: 'select_item.wav'}));
+    sounds["slot_in"] = new Wad({source: 'slot_in.wav'});
+    sounds["transition"] = new Wad({source: 'transition.wav'});
+    return sounds;
+}
 // Drag and Drop ----------------------------------------------------------------------//
 //add funtion with itembase
 function Element(type, url, width, height, x, y) {
