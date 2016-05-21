@@ -22,7 +22,7 @@ var currentState = "main_build"; // currently set to main build for prototype
 transition_states("main_build");
 var debris = debris = new particle_system(12);
 debris.init();
-var GUI = new gui(700, 550, "GUI/GUI.png");
+var GUI = new gui(1000, 750, "GUI/GUI.png");
 GUI.init();
 //var GUI = new gui(700, 550, durability, fuel, happiness, "GUI/GUI.png");
 

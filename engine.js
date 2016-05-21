@@ -240,8 +240,8 @@ function particle_system(num_particles) {
 }
 //GUI-------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 function gui(x, y, src){
-    this.X = x; //700
-    this.Y = y; //550
+    this.X = x; //1000
+    this.Y = y; // 750
 		this.sprites = [];
 		this.sources = [];
 		this.barWidth = 150;
@@ -261,15 +261,15 @@ function gui(x, y, src){
     this.draw = function(){
       context.drawImage(this.sprites[0], this.X, this.Y - this.sprites[0].height/2);
       context.fillStyle = "#04ff82";
-      context.fillRect(725, 475, this.barWidth * durability/100, this.barHeight);
-      context.fillRect(725, 525, this.barWidth * fuel/100, this.barHeight);
-      context.fillRect(725, 575, this.barWidth * happiness/100, this.barHeight);
+      context.fillRect(this.X + 25, this.Y - 75, this.barWidth * durability/100, this.barHeight);
+      context.fillRect(this.X + 25, this.Y - 25, this.barWidth * fuel/100, this.barHeight);
+      context.fillRect(this.X + 25, this.Y + 25, this.barWidth * happiness/100, this.barHeight);
       context.fillStyle = "#ffffff";
-      context.fillText(durability, 795, 500);
-      context.fillText(fuel, 795, 550);
-      context.fillText(happiness, 795, 600);
-			context.drawImage(this.sprites[1], 850, 475);
-			context.drawImage(this.sprites[2], 850, 525);
-			context.drawImage(this.sprites[3], 850, 575);
+      context.fillText(durability, this.X + 95, this.Y - 50);
+      context.fillText(fuel, this.X + 95, this.Y);
+      context.fillText(happiness, this.X + 95, this.Y + 50);
+			context.drawImage(this.sprites[1], this.X + 150, this.Y - 75);
+			context.drawImage(this.sprites[2], this.X + 150, this.Y - 25);
+			context.drawImage(this.sprites[3], this.X + 150, this.Y + 25);
     }
 }
