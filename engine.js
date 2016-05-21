@@ -37,6 +37,7 @@ function Element(type, url, width, height, x, y) {
     this.inUse = false;
     this.sprite = new SpriteSheet(url, this.width, this.height, 4);
     this.sprite.setFrameRange(0, 10);
+    this.consumed = false;
 
     this.setInUse = function() {
         this.inUse = true;
@@ -101,6 +102,11 @@ function deselectElement(e) {
           whatDragged.y = thrust.y - (thrust.height - whatDragged.height);
           thrust.addElement(whatDragged);
         }
+        if(whatDragged.consumed == false){
+          LifeTime(theShip);
+          whatDragged.consumed = true;
+          console.log(whatDragged.consumed);
+        }
         whatDragged.setInUse();
     } else {
       whatDragged.unSetInUse();
@@ -116,6 +122,7 @@ function deselectElement(e) {
             break;
           }
         }
+        whatDragged.consumed = false;
     }
     whatDragged = null;
 }

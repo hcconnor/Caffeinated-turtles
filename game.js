@@ -101,7 +101,6 @@ function main_build() {
         }
 				debris.update(speed);
         theShip.update();
-				LifeTime(theShip);
 				if (happiness <= 0) {
 					happiness = 0;
 					lose = true;

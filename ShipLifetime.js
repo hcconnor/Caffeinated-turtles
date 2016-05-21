@@ -153,23 +153,25 @@ var escPod = ship.prototype;
 function LifeTime(ship){
 	var essential = [false, false, false, false];
 	for (let thrust of ship.thruster){
-		if(thrust.element != null && thrust.element.type != "thruster"){
+		if(thrust.element != null && thrust.element.type.type != "thruster"){
 			lose = true;
-		} else if(thrust.element != null && thrust.element.type == "thruster"){
+		} else if(thrust.element != null && thrust.element.type.type == "thruster"){
 			essential[0] = true;
-			speed += thrust.element.durability;
+			speed += thrust.element.type.durability;
 		}
 	};
 	for(let slot of ship.slots){
-		if(slot.element != null && slot.element.type == "thruster"){
+		if(slot.element != null && slot.element.type.type == "thruster"){
 			lose = true;
-		} else if(slot.element != null && slot.element.type == "fuel"){
+		} else if(slot.element != null && slot.element.type.type == "fuel"){
 			essential[1] = true;
-			fuel += slot.element.durability;
-		} else if(slot.element != null && slot.element.type == "vanity"){
-      console.log("HAPPY TIMES");
-			happiness += slot.element.durability;
-		} else if(slot.element != null && slot.element.type == "lifeSupport"){
+			fuel += slot.element.type.durability;
+		} else if(slot.element != null && slot.element.type.type == "vanity"){
+        if(slot.element.consumed == false){
+          if(slot.element.consumed == false) happiness += slot.element.type.durability;
+          slot.element.consumed = true;
+        }
+		} else if(slot.element != null && slot.element.type.type == "lifeSupport"){
 			essential[2] = true;
 	   }
 	};
