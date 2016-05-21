@@ -31,15 +31,22 @@ function player(name, pod) {
 //Utilizes Wad.js.  Creates an object that contains sounds.  Use play() and stop() for each sound.
 function loadSound(){
     var sounds = new Object();
-    sounds["explode"] = new Wad({source: 'sounds/explode.wav'});
-    sounds["fix"] = new Wad({source: 'fix.wav'});
-    sounds["klaxon"] = new Wad({source: 'klaxon.wav'});
-    sounds["menu_select"] = new Wad({source: 'menu_select.wav'});
-    sounds["select_item"] = new Wad({source: 'select_item.wav'}));
-    sounds["slot_in"] = new Wad({source: 'slot_in.wav'});
-    sounds["transition"] = new Wad({source: 'transition.wav'});
+    sounds["explode"] = new Wad({source: 'http://people.ucsc.edu/~jamale/SOS/sounds/explode.wav'});
+    sounds["fix"] = new Wad({source: 'http://people.ucsc.edu/~jamale/SOS/sounds/fix.wav'});
+    sounds["klaxon"] = new Wad({source: 'http://people.ucsc.edu/~jamale/SOS/sounds/klaxon.wav'});
+    sounds["menu_select"] = new Wad({source: 'http://people.ucsc.edu/~jamale/SOS/sounds/menu_select.wav'});
+    sounds["select_item"] = new Wad({source: 'http://people.ucsc.edu/~jamale/SOS/sounds/select_item.wav'});
+    sounds["slot_in"] = new Wad({source: 'http://people.ucsc.edu/~jamale/SOS/sounds/slot_in.wav'});
+    sounds["transition"] = new Wad({source: 'http://people.ucsc.edu/~jamale/SOS/sounds/transition.wav'});
     return sounds;
 }
+
+//Use this to quickly play sounds
+function playSound(sound){
+  sound.play();
+  sound.stop();
+}
+
 // Drag and Drop ----------------------------------------------------------------------//
 //add funtion with itembase
 function Element(type, url, width, height, x, y) {
@@ -84,6 +91,7 @@ function selectElement(e) {
             whatDragged = items[i];
         }
     }
+    playSound(sounds["select_item"]);
     whatDragged.unSetInUse();
 }
 

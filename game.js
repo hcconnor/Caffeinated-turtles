@@ -6,6 +6,8 @@ var fuel = 100;
 var happiness = 100;
 var durability = 100;
 
+var sounds = loadSound();
+
 var playerNum = 0;
 //var players = [new player("Bob", null)];
 
