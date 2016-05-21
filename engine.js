@@ -6,8 +6,6 @@ canvas.addEventListener("mousemove", moveElement);
 canvas.addEventListener("mousedown", selectElement);
 canvas.addEventListener("mouseup", deselectElement);
 
-
-
 //Clock ------------------------------------------------------------------------------------//
 
 var time = new Date();
@@ -245,6 +243,7 @@ function gui(x, y, src){
       context.fillRect(725, 475, this.barWidth * durability/100, this.barHeight);
       context.fillRect(725, 525, this.barWidth * fuel/100, this.barHeight);
       context.fillRect(725, 575, this.barWidth * happiness/100, this.barHeight);
+      console.log(happiness);
       context.fillStyle = "#ffffff";
       context.fillText(durability, 795, 500);
       context.fillText(fuel, 795, 550);

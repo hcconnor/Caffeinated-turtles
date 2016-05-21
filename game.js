@@ -5,6 +5,9 @@ var distance = 0;
 var fuel = 100;
 var happiness = 100;
 var durability = 100;
+var speed = 4;
+
+var lose = false;
 
 var playerNum = 0;
 //var players = [new player("Bob", null)];
@@ -96,8 +99,14 @@ function main_build() {
         {
             item.update();
         }
-				debris.update(4);
+				debris.update(speed);
         theShip.update();
+				LifeTime(theShip);
+				if (happiness <= 0) {
+					happiness = 0;
+					lose = true;
+					end_game();
+				}
 	};
 	this.draw = function() {
         canvas.width = canvas.width;
@@ -131,9 +140,9 @@ function pause() {
 
 //Win, loss, end game states
 function end_game() {
+		if(lose == true) console.log("Y'ALL FUCKED UP LOL")
     this.begin = function()
     {
-
     };
 
 }

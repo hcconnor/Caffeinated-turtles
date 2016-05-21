@@ -18,11 +18,15 @@ function ship(x, y){
 
 
 	this.slots = [];
-    this.slots.push(new slot(100,150));
-    this.slots.push(new slot(100,250));
+    this.slots.push(new slot(150,350));
+    this.slots.push(new slot(300,350));
     this.slots.push(new slot(150,50));
     this.slots.push(new slot(300,100));
 	this.health = 30000;
+
+  this.thruster = [];
+    this.thruster.push(new slot(100, 150));
+    this.thruster.push(new slot(100, 250));
 
 	this.init = function(){
 		this.spritesheet.setFrameRange(1,1);
@@ -89,6 +93,8 @@ function slot (x, y, element = null)
             this.sprite.setFrameRange (1,1);
         }
         this.sprite.update();
+        if(this.element != null) this.element.durability --;
+        happiness--;
     }
 
     this.draw = function()
@@ -141,42 +147,27 @@ var escPod = ship.prototype;
 function LifeTime(ship){
 	var i;
 	var essential = [false, false, false, false];
-	$.each(ship.thruster, function(){
-		if(ship.thruster[i].type != "thruster"){
+	for (let i of ship.thruster){
+		if(ship.thruster[i] != null && ship.thruster[i].element.type != "thruster"){
 			lose = true;
-		} else if(ship.thruster[i].type == "thruster"){
+		} else if(ship.thruster[i] != null && ship.thruster[i].element.type == "thruster"){
 			essential[0] = true;
-			spd += ship.thruster[i].durability;
+			speed += ship.thruster[i].element.durability;
 		}
-	});
-	$.each(ship.slots, function(){
-		if(ship.slots[i].type == "thruster"){
+	};
+	for(let i of ship.slots){
+		if(ship.slots[i] != null && ship.slots[i].element.type == "thruster"){
 			lose = true;
-		} else if(ship.slots[i].type == "fuel"){
+		} else if(ship.slots[i] != null && ship.slots[i].element.type == "fuel"){
 			essential[1] = true;
-			Fuel += ship.slots[i].durability;
-		} else if(ship.slots[i].type == "vanity"){
-			Happy += ship.slots[i].durability;
-		} else if(ship.slots[i].type == "lifeSupport"){
+			fuel += ship.slots[i].element.durability;
+		} else if(ship.slots[i] != null && ship.slots[i].element.type == "vanity"){
+			happiness += ship.slots[i].element.durability;
+		} else if(ship.slots[i] != null && ship.slots[i].element.type == "lifeSupport"){
 			essential[2] = true;
-	}
-	for(i = 0; i< ship.slots.length; i++){
-		if(ship.misc[i].type == "thruster"){
-			lose = true;
-		} else if(ship.slots[i].type == "fuel"){
-			essential[1] = true;
-			fuel += ship.slots[i].value;
-		} else if(ship.slots[i].type == "vanity"){
-			happiness += ship.slots[i].value;
-		} else if(ship.slots[i].type == "lifeSupport"){
-			essential[2] = true;
-      life_support += ship.slots[i].value;
-		} else if(ship.slots[i].type =- "oxygen"){
-			essential[3] = true;
-		}
-	}
+	   }
+	};
 	$.each(essential, function(){
 		if(essential[i] == false) lose = true;
 	});
-});
 }
