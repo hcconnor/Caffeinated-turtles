@@ -89,7 +89,6 @@ function main_build() {
 				debris = new particle_system(12);
 				debris.init();
 				theShip = new ship(0,0);
-
     };
 
 	this.update = function() {
@@ -102,6 +101,7 @@ function main_build() {
 	};
 	this.draw = function() {
         canvas.width = canvas.width;
+				context.fillRect(0,0,canvas.width,canvas.height);
         theShip.draw();
 				GUI.draw();
         for(let item of items)

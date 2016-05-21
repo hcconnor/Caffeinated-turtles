@@ -65,6 +65,7 @@ function slot (x, y, element = null)
     this.width = 50;
     this.height = 50;
     this.element = element;
+    this.occupied = false;
 
     this.sprite = new SpriteSheet('sprites/SlotSprite.png', this.width, this.height, 4);
     this.sprite.setFrameRange(1,1);
@@ -79,7 +80,8 @@ function slot (x, y, element = null)
             }
             else
             {
-                this.sprite.setFrameRange (2,2);
+                if(this.occupied == false) this.sprite.setFrameRange (2,2);
+                else this.sprite.setFrameRange(1,1);
             }
         }
         else
@@ -97,6 +99,13 @@ function slot (x, y, element = null)
     this.addElement = function(item)
     {
         this.element = item;
+        this.occupied = true;
+    }
+
+    this.removeElement = function()
+    {
+      this.element = null;
+      this.occupied = false;
     }
 }
 
