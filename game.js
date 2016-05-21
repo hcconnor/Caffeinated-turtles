@@ -88,7 +88,7 @@ function main_build() {
         //this.theShip = new ship(0,0);
 				debris = new particle_system(12);
 				debris.init();
-				theShip = new ship(0,0);
+				theShip = new mainShip(0, 0, "sprites/BigShip.png");
     };
 
 	this.update = function() {
