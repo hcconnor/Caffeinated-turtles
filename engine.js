@@ -29,8 +29,8 @@ function player(name, pod) {
 
 // Drag and Drop ----------------------------------------------------------------------//
 //add funtion with itembase
-function Element(type, url, width, height, x, y) {
-    this.type = type;
+function Element(item, url, width, height, x, y) {
+    this.item = item;
     this.x = x;
     this.y = y;
     this.width = width;
@@ -108,18 +108,19 @@ function deselectElement(e) {
         var thrust = collisionList(whatDragged, theShip.thruster);
         whatDragged.selected = false;
         if ((slot || thrust)) {
-            if (slot && slot.element == null) {
+            if (slot && slot.element == null && slot.occupied == false) {
                 whatDragged.x = slot.x - (slot.width - whatDragged.width);
                 whatDragged.y = slot.y - (slot.height - whatDragged.height);
                 whatDragged.slot = slot;
                 slot.addElement(whatDragged);
-            } else if (thrust && thrust.element == null) {
+                whatDragged.setInUse();
+            } else if (thrust && thrust.element == null && slot.occupied == false) {
                 whatDragged.x = thrust.x - (thrust.width - whatDragged.width);
                 whatDragged.y = thrust.y - (thrust.height - whatDragged.height);
                 whatDragged.slot = thrust;
                 thrust.addElement(whatDragged);
+                whatDragged.setInUse();
             }
-            whatDragged.setInUse();
         } else {
             whatDragged.unSetInUse();
             if (whatDragged.slot != null) {
@@ -129,7 +130,7 @@ function deselectElement(e) {
         }
         whatDragged = null;
     }
-
+}
     function checkBounds(object, mouseX, mouseY) {
         if ((mouseX < (object.x + object.width)) && (mouseY < (object.y + object.height)) && (mouseX > (object.x)) && (mouseY > (object.y))) {
             return true;
@@ -213,7 +214,7 @@ function deselectElement(e) {
     //Takes in an array of arrays (2D array?) selects a weighted random array, then a random element from that.
     function randomElement(list) {
         var random = Math.random();
-        var weight = [0.4, 0.3, 0.2, 0.1];
+        var weight = [0.6, 0.2, 0.15, 0.05];
         var weight_sum = 0;
 
         for (j = 0; j < list.length; j++) {

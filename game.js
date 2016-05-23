@@ -6,7 +6,8 @@ var fuel = 1000;
 var happiness = 1000;
 var durability = 1000;
 var lose = false;
-var turnLength = 30 * 5;
+var FRAME = 30;
+var turnLength = FRAME * 5;
 var playerNum = 0;
 //var players = [new player("Bob", null)];
 
@@ -157,4 +158,4 @@ function end_game() {
 
 }
 
-setInterval(state_manager, 30);
+setInterval(state_manager, FRAME);
