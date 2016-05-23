@@ -39,6 +39,8 @@ function Element(type, url, width, height, x, y) {
     this.inUse = false;
     this.sprite = new SpriteSheet(url, this.width, this.height, 4);
     this.sprite.setFrameRange(0, 10);
+    this.slot = null;
+    this.consumed = false;
 
     this.setInUse = function() {
         this.inUse = true;
@@ -47,6 +49,7 @@ function Element(type, url, width, height, x, y) {
     this.unSetInUse = function() {
         this.inUse = false;
         this.sprite.setFrameRange(0, 10);
+        this.consumed = false;
     }
     this.update = function() {
         this.sprite.update();
@@ -98,27 +101,21 @@ function deselectElement(e) {
           if(slot && slot.element == null){
             whatDragged.x = slot.x - (slot.width - whatDragged.width);
             whatDragged.y = slot.y - (slot.height - whatDragged.height);
+            whatDragged.slot = slot;
             slot.addElement(whatDragged);
           }
           else if(thrust && thrust.element == null){
             whatDragged.x = thrust.x - (thrust.width - whatDragged.width);
             whatDragged.y = thrust.y - (thrust.height - whatDragged.height);
+            whatDragged.slot = thrust;
             thrust.addElement(whatDragged);
           }
           whatDragged.setInUse();
       }else {
         whatDragged.unSetInUse();
-        for(let i in theShip.slots){
-          if(i.element == whatDragged){
-            i.removeElement();
-            break;
-          }
-        }
-        for(let j in theShip.thruster){
-          if(j.element == whatDragged){
-            j.removeElement();
-            break;
-          }
+        if(whatDragged.slot != null) {
+          whatDragged.slot.element = null;
+          whatDragged.slot.removeElement();
         }
           }
       whatDragged = null;

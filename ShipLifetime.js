@@ -148,9 +148,10 @@ for (let slot of ship.slots) {
         lose = true;
     } else if (slot.element != null && slot.element.type.type == "fuel") {
         essential[1] = true;
-        fuel += slot.element.type.type.durability;
-    } else if (slot.element != null && slot.element.type.type == "vanity" && slot.element.inUse == true) {
-        happiness += slot.element.type.type.durability;
+        fuel += slot.element.type.durability;
+    } else if (slot.element != null && slot.element.type.type == "vanity" && slot.element.consumed == false) {
+        happiness += slot.element.type.durability;
+        slot.element.consumed = true;
     } else if (slot.element != null && slot.element.type.type == "lifeSupport") {
         essential[2] = true;
     }
