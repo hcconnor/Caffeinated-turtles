@@ -39,7 +39,7 @@ function Element(type, url, width, height, x, y) {
     this.inUse = false;
     this.sprite = new SpriteSheet(url, this.width, this.height, 4);
     this.sprite.setFrameRange(0, 10);
-
+    this.selected;
     this.setInUse = function() {
         this.inUse = true;
         this.sprite.setFrameRange(0, 0);
@@ -70,6 +70,17 @@ function selectElement(e) {
     for (var i = 0; i < items.length; i++) {
         if (checkBounds(items[i], e.clientX, e.clientY)) {
             whatDragged = items[i];
+            whatDragged.selected = true;
+            whatDragged.unSetInUse();
+            for(let slot of theShip.slots)//use let of to itteretate objects.
+            {
+                if(slot.element == whatDragged)
+                {
+                    slot.removeElement();
+                    break;
+                }
+            }
+            break;
         }
     }
     whatDragged.unSetInUse();
@@ -91,20 +102,13 @@ function deselectElement(e) {
     // }
 
     //check collision
+    whatDragged.selected = false;
     var slot = collisionList(whatDragged, theShip.slots);
     if (slot && slot.element == null) {
         whatDragged.x = slot.x - (slot.width - whatDragged.width);
         whatDragged.y = slot.y - (slot.height - whatDragged.height);
         slot.addElement(whatDragged);
         whatDragged.setInUse();
-    } else {
-      whatDragged.unSetInUse();
-        for(var i in theShip.slots){
-          if(theShip.slots[i].element == whatDragged){
-            theShip.slots[i].removeElement();
-            break;
-          }
-        }
     }
     whatDragged = null;
 }
@@ -215,7 +219,7 @@ function particle_system(num_particles) {
 
     this.update = function(speed) {
         for (var j = 0; j < items.length; j++) {
-            if (!items[j].inUse){
+            if (!items[j].inUse && !items[j].selected){
               items[j].x -= Math.random() * speed;
               if(items[j].x <= 0){
                 var splicedPart = items.splice(j, 1)[0];//extract from the array
