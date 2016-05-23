@@ -1,6 +1,6 @@
 var items = new Array();
 var theShip = null;
-var parts_buffer= [];
+var parts_buffer = [];
 var distance = 0;
 var fuel = 100;
 var happiness = 100;
@@ -22,7 +22,7 @@ var currentState = "main_build"; // currently set to main build for prototype
 transition_states("main_build");
 var debris = debris = new particle_system(12);
 debris.init();
-var GUI = new gui(700, 550, "GUI/GUI.png");
+var GUI = new gui(1000, 750, "GUI/GUI.png");
 GUI.init();
 //var GUI = new gui(700, 550, durability, fuel, happiness, "GUI/GUI.png");
 
@@ -88,7 +88,7 @@ function main_build() {
         //this.theShip = new ship(0,0);
 				debris = new particle_system(12);
 				debris.init();
-				theShip = new ship(0,0);
+				theShip = new mainShip(0, 0, "sprites/BigShip.png");
     };
 
 	this.update = function() {
