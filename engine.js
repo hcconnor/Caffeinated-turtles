@@ -91,22 +91,36 @@ function deselectElement(e) {
     // }
 
     //check collision
-    var slot = collisionList(whatDragged, theShip.slots);
-    if (slot && slot.element == null) {
-        whatDragged.x = slot.x - (slot.width - whatDragged.width);
-        whatDragged.y = slot.y - (slot.height - whatDragged.height);
-        slot.addElement(whatDragged);
-        whatDragged.setInUse();
-    } else {
-      whatDragged.unSetInUse();
-        for(var i in theShip.slots){
-          if(theShip.slots[i].element == whatDragged){
-            theShip.slots[i].removeElement();
+    if(whatDragged != null){
+      var slot = collisionList(whatDragged, theShip.slots);
+      var thrust = collisionList(whatDragged, theShip.thruster);
+      if (slot && slot.element == null) {
+          whatDragged.x = slot.x - (slot.width - whatDragged.width);
+          whatDragged.y = slot.y - (slot.height - whatDragged.height);
+          slot.addElement(whatDragged);
+          whatDragged.setInUse();
+      }else if(thrust && thrust.element == null){
+          whatDragged.x = thrust.x - (thrust.width - whatDragged.width);
+          whatDragged.y = thrust.y - (thrust.height - whatDragged.height);
+          thrust.addElement(whatDragged);
+          whatDragged.setInUse();
+      }else {
+        whatDragged.unSetInUse();
+        for(let i in theShip.slots){
+          if(i.element == whatDragged){
+            i.removeElement();
             break;
           }
         }
+        for(let j in theShip.thruster){
+          if(j.element == whatDragged){
+            j.removeElement();
+            break;
+          }
+        }
+          }
+      whatDragged = null;
     }
-    whatDragged = null;
 }
 
 function checkBounds(object, mouseX, mouseY) {
@@ -261,9 +275,9 @@ function gui(x, y, src){
     this.draw = function(){
       context.drawImage(this.sprites[0], this.X, this.Y - this.sprites[0].height/2);
       context.fillStyle = "#04ff82";
-      context.fillRect(this.X + 25, this.Y - 75, this.barWidth * durability/100, this.barHeight);
-      context.fillRect(this.X + 25, this.Y - 25, this.barWidth * fuel/100, this.barHeight);
-      context.fillRect(this.X + 25, this.Y + 25, this.barWidth * happiness/100, this.barHeight);
+      context.fillRect(this.X + 25, this.Y - 75, this.barWidth * durability/1000, this.barHeight);
+      context.fillRect(this.X + 25, this.Y - 25, this.barWidth * fuel/1000, this.barHeight);
+      context.fillRect(this.X + 25, this.Y + 25, this.barWidth * happiness/1000, this.barHeight);
       context.fillStyle = "#ffffff";
       context.fillText(durability, this.X + 95, this.Y - 50);
       context.fillText(fuel, this.X + 95, this.Y);

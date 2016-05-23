@@ -2,9 +2,10 @@ var items = new Array();
 var theShip = null;
 var parts_buffer = [];
 var distance = 0;
-var fuel = 100;
-var happiness = 100;
-var durability = 100;
+var fuel = 1000;
+var happiness = 1000;
+var durability = 1000;
+var lose = false;
 
 var playerNum = 0;
 //var players = [new player("Bob", null)];
@@ -98,6 +99,10 @@ function main_build() {
         }
 				debris.update(4);
         theShip.update();
+				if(happiness <= 0){
+					lose = true;
+					happiness = 0;
+				}
 	};
 	this.draw = function() {
         canvas.width = canvas.width;
@@ -131,6 +136,9 @@ function pause() {
 
 //Win, loss, end game states
 function end_game() {
+	if (lose == true){
+		console.log("Lose");
+	}
     this.begin = function()
     {
 
