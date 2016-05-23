@@ -17,6 +17,7 @@ var secs;
 function clock() {
     var elaspsed = time - new Date();
     secs = Math.floor(elapsed / SECOND);
+    return secs;
 }
 
 //Player ---------------------------------------------------------------------------------//
@@ -98,12 +99,12 @@ function deselectElement(e) {
         slot.addElement(whatDragged);
         whatDragged.setInUse();
     } else {
-      whatDragged.unSetInUse();
-        for(var i in theShip.slots){
-          if(theShip.slots[i].element == whatDragged){
-            theShip.slots[i].removeElement();
-            break;
-          }
+        whatDragged.unSetInUse();
+        for (var i in theShip.slots) {
+            if (theShip.slots[i].element == whatDragged) {
+                theShip.slots[i].removeElement();
+                break;
+            }
         }
     }
     whatDragged = null;
@@ -215,61 +216,60 @@ function particle_system(num_particles) {
 
     this.update = function(speed) {
         for (j = 0; j < items.length; j++) {
-            if (!items[j].inUse){
-              items[j].x -= Math.random() * speed;
-              if(items[j].x <= 0){
-                var part = items.splice(j, 1);
-                console.log(part);
-                parts_buffer.push(part);
-                if(parts_buffer.length < 50){
-                  var randomPart = randomElement(parts)
-                  items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width, canvas.height * Math.random()));
-                  console.log("NEW!");
+            if (!items[j].inUse) {
+                items[j].x -= Math.random() * speed * 5;
+                if (items[j].x <= 0) {
+                    var part = items.splice(j, 1);
+                    console.log(part);
+                    parts_buffer.push(part);
+                    if (parts_buffer.length < 50) {
+                        var randomPart = randomElement(parts);
+                        items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width, canvas.height * Math.random()));
+                        console.log("NEW!");
+                    } else {
+                        console.log(parts_buffer);
+                        items[j] = parts_buffer.slice(-1);
+                        items[j] = canvas.width;
+                        items[j] = canvas.height * Math.random();
+                        console.log("RECYCLED!");
+                    }
                 }
-                else{
-                  console.log(parts_buffer);
-                  items[j] = parts_buffer.slice(-1);
-                  items[j] = canvas.width;
-                  items[j] = canvas.height * Math.random();
-                  console.log("RECYCLED!");
-                }
-              }
             }
         }
     };
 }
 //GUI-------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-function gui(x, y, src){
+function gui(x, y, src) {
     this.X = x; //1000
     this.Y = y; // 750
-		this.sprites = [];
-		this.sources = [];
-		this.barWidth = 150;
+    this.sprites = [];
+    this.sources = [];
+    this.barWidth = 150;
     this.barHeight = 25;
-		this.sources.push("GUI/GUI.png");
-		this.sources.push("GUI/oxygen.png");
-		this.sources.push("GUI/fuel_tank.png");
-		this.sources.push("GUI/happiness.png");
+    this.sources.push("GUI/GUI.png");
+    this.sources.push("GUI/oxygen.png");
+    this.sources.push("GUI/fuel_tank.png");
+    this.sources.push("GUI/happiness.png");
 
-		this.init = function(){
-			for(i = 0; i < 4; i++){
-				this.sprites[i] = new Image();
-				this.sprites[i].src = this.sources[i];
-			}
-		}
+    this.init = function() {
+        for (i = 0; i < 4; i++) {
+            this.sprites[i] = new Image();
+            this.sprites[i].src = this.sources[i];
+        }
+    }
 
-    this.draw = function(){
-      context.drawImage(this.sprites[0], this.X, this.Y - this.sprites[0].height/2);
-      context.fillStyle = "#04ff82";
-      context.fillRect(this.X + 25, this.Y - 75, this.barWidth * durability/100, this.barHeight);
-      context.fillRect(this.X + 25, this.Y - 25, this.barWidth * fuel/100, this.barHeight);
-      context.fillRect(this.X + 25, this.Y + 25, this.barWidth * happiness/100, this.barHeight);
-      context.fillStyle = "#ffffff";
-      context.fillText(durability, this.X + 95, this.Y - 50);
-      context.fillText(fuel, this.X + 95, this.Y);
-      context.fillText(happiness, this.X + 95, this.Y + 50);
-			context.drawImage(this.sprites[1], this.X + 150, this.Y - 75);
-			context.drawImage(this.sprites[2], this.X + 150, this.Y - 25);
-			context.drawImage(this.sprites[3], this.X + 150, this.Y + 25);
+    this.draw = function() {
+        context.drawImage(this.sprites[0], this.X, this.Y - this.sprites[0].height / 2);
+        context.fillStyle = "#04ff82";
+        context.fillRect(this.X + 25, this.Y - 75, this.barWidth * durability / 100, this.barHeight);
+        context.fillRect(this.X + 25, this.Y - 25, this.barWidth * fuel / 100, this.barHeight);
+        context.fillRect(this.X + 25, this.Y + 25, this.barWidth * happiness / 100, this.barHeight);
+        context.fillStyle = "#ffffff";
+        context.fillText(durability, this.X + 95, this.Y - 50);
+        context.fillText(fuel, this.X + 95, this.Y);
+        context.fillText(happiness, this.X + 95, this.Y + 50);
+        context.drawImage(this.sprites[1], this.X + 150, this.Y - 75);
+        context.drawImage(this.sprites[2], this.X + 150, this.Y - 25);
+        context.drawImage(this.sprites[3], this.X + 150, this.Y + 25);
     }
 }
