@@ -39,6 +39,8 @@ function Element(type, url, width, height, x, y) {
     this.inUse = false;
     this.sprite = new SpriteSheet(url, this.width, this.height, 4);
     this.sprite.setFrameRange(0, 10);
+    this.slot = null;
+    this.consumed = false;
 
     this.setInUse = function() {
         this.inUse = true;
@@ -47,6 +49,7 @@ function Element(type, url, width, height, x, y) {
     this.unSetInUse = function() {
         this.inUse = false;
         this.sprite.setFrameRange(0, 10);
+        this.consumed = false;
     }
     this.update = function() {
         this.sprite.update();
@@ -91,22 +94,32 @@ function deselectElement(e) {
     // }
 
     //check collision
-    var slot = collisionList(whatDragged, theShip.slots);
-    if (slot && slot.element == null) {
-        whatDragged.x = slot.x - (slot.width - whatDragged.width);
-        whatDragged.y = slot.y - (slot.height - whatDragged.height);
-        slot.addElement(whatDragged);
-        whatDragged.setInUse();
-    } else {
-      whatDragged.unSetInUse();
-        for(var i in theShip.slots){
-          if(theShip.slots[i].element == whatDragged){
-            theShip.slots[i].removeElement();
-            break;
+    if(whatDragged != null){
+      var slot = collisionList(whatDragged, theShip.slots);
+      var thrust = collisionList(whatDragged, theShip.thruster);
+      if ((slot || thrust)) {
+          if(slot && slot.element == null){
+            whatDragged.x = slot.x - (slot.width - whatDragged.width);
+            whatDragged.y = slot.y - (slot.height - whatDragged.height);
+            whatDragged.slot = slot;
+            slot.addElement(whatDragged);
           }
+          else if(thrust && thrust.element == null){
+            whatDragged.x = thrust.x - (thrust.width - whatDragged.width);
+            whatDragged.y = thrust.y - (thrust.height - whatDragged.height);
+            whatDragged.slot = thrust;
+            thrust.addElement(whatDragged);
+          }
+          whatDragged.setInUse();
+      }else {
+        whatDragged.unSetInUse();
+        if(whatDragged.slot != null) {
+          whatDragged.slot.element = null;
+          whatDragged.slot.removeElement();
         }
+          }
+      whatDragged = null;
     }
-    whatDragged = null;
 }
 
 function checkBounds(object, mouseX, mouseY) {
@@ -261,9 +274,9 @@ function gui(x, y, src){
     this.draw = function(){
       context.drawImage(this.sprites[0], this.X, this.Y - this.sprites[0].height/2);
       context.fillStyle = "#04ff82";
-      context.fillRect(this.X + 25, this.Y - 75, this.barWidth * durability/100, this.barHeight);
-      context.fillRect(this.X + 25, this.Y - 25, this.barWidth * fuel/100, this.barHeight);
-      context.fillRect(this.X + 25, this.Y + 25, this.barWidth * happiness/100, this.barHeight);
+      context.fillRect(this.X + 25, this.Y - 75, this.barWidth * durability/1000, this.barHeight);
+      context.fillRect(this.X + 25, this.Y - 25, this.barWidth * fuel/1000, this.barHeight);
+      context.fillRect(this.X + 25, this.Y + 25, this.barWidth * happiness/1000, this.barHeight);
       context.fillStyle = "#ffffff";
       context.fillText(durability, this.X + 95, this.Y - 50);
       context.fillText(fuel, this.X + 95, this.Y);
