@@ -2,22 +2,23 @@ var canvas = document.getElementById('SOS');
 var context = canvas.getContext('2d');
 var whatDragged = null;
 
-canvas.addEventListener("mousemove", moveElement);
-canvas.addEventListener("mousedown", selectElement);
-canvas.addEventListener("mouseup", deselectElement);
+// canvas.addEventListener("mousemove", moveElement);
+// canvas.addEventListener("mousedown", selectElement);
+// canvas.addEventListener("mouseup", deselectElement);
 
 
 
-//Clock ------------------------------------------------------------------------------------//
-
-var time = new Date();
-var SECOND = 1000;
-var secs;
-
-function clock() {
-    var elaspsed = time - new Date();
-    secs = Math.floor(elapsed / SECOND);
+//Timer ------------------------------------------------------------------------------------//
+function Timer()
+{
+    this.counter = 0;
+    this.update = function()
+    {
+        this.counter++;
+    }
 }
+
+
 
 //Player ---------------------------------------------------------------------------------//
 
@@ -223,10 +224,10 @@ function particle_system(num_particles) {
               items[j].x -= Math.random() * speed;
               if(items[j].x <= 0){
                 var splicedPart = items.splice(j, 1)[0];//extract from the array
-                console.log(splicedPart);
+                //console.log(splicedPart);
                 var randomPart = randomElement(parts);
                 items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width, canvas.height * Math.random()));
-                console.log("NEW!");
+                //console.log("NEW!");
               }
             }
         }

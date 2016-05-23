@@ -5,7 +5,7 @@ var distance = 0;
 var fuel = 100;
 var happiness = 100;
 var durability = 100;
-
+var turnLength = 30 * 5;
 var playerNum = 0;
 //var players = [new player("Bob", null)];
 
@@ -18,8 +18,8 @@ states ["main_build"] = new main_build();
 states ["change_turn"] = new change_turn();
 states ["pause"] = new pause();
 states ["end_game"] = new end_game();
-var currentState = "main_build"; // currently set to main build for prototype
-transition_states("main_build");
+var currentState = "start_build"; // currently set to main build for prototype
+transition_states(currentState);
 // var debris = debris = new particle_system(12);
 // debris.init();
 var GUI = new gui(1000, 750, "GUI/GUI.png");
@@ -68,7 +68,10 @@ function player_select() {
 function start_build() {
     this.begin = function()
     {
-
+        debris = new particle_system(50);
+        debris.init();
+        theShip = new mainShip(0, 0, "sprites/BigShip.png");
+        transition_states("main_build")
     };
 	this.update = function() {
 
@@ -82,13 +85,11 @@ function start_build() {
 function main_build() {
     this.begin = function()
     {
-        // this. = [];
-        //items.push(new Element("test_item", "sprites/fire_extinguisher.png", 50, 50, 400, 400));
-        //items.push(new Element("test_item", "sprites/storage.png", 50, 50, 200, 200))
-        //this.theShip = new ship(0,0);
-		debris = new particle_system(50);
-		debris.init();
-		theShip = new mainShip(0, 0, "sprites/BigShip.png");
+        this.timer = new Timer();
+        canvas.removeEventListener("mousedown", function(){transition_states("main_build");});
+        canvas.addEventListener("mousemove", moveElement);
+        canvas.addEventListener("mousedown", selectElement);
+        canvas.addEventListener("mouseup", deselectElement);
     };
 
 	this.update = function() {
@@ -98,6 +99,11 @@ function main_build() {
         }
         debris.update(10);
         theShip.update();
+        this.timer.update();
+        if(this.timer.counter == turnLength)
+        {
+            transition_states("change_turn");
+        }
 	};
 	this.draw = function() {
         canvas.width = canvas.width;
@@ -115,9 +121,21 @@ function main_build() {
 function change_turn() {
     this.begin = function()
     {
-
+        console.log("turn changed");
+        //transition_states("main_build");
+        canvas.removeEventListener("mousemove", moveElement);
+        canvas.removeEventListener("mousedown", selectElement);
+        canvas.removeEventListener("mouseup", deselectElement);
+        canvas.addEventListener("mousedown", function(){transition_states("main_build");});
     };
+    this.draw = function()
+    {
 
+    }
+    this.update = function()
+    {
+
+    }
 }
 
 //Pause / resume, stops update (TURN THIS INTO A GLOBAL VARIABLE THAT HALTS ALL UPDATES)
