@@ -16,16 +16,6 @@ function Timer() {
     }
 }
 
-
-<<<<<<< HEAD
-function clock() {
-    var elaspsed = time - new Date();
-    secs = Math.floor(elapsed / SECOND);
-    return secs;
-}
-=======
->>>>>>> refs/remotes/origin/master
-
 //Player ---------------------------------------------------------------------------------//
 
 function player(name, pod) {
