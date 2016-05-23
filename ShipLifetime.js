@@ -63,8 +63,14 @@ function slot(x, y, element = null) {
                 console.log("light up slot!");
                 this.sprite.setFrameRange(3, 3);
             } else {
-                if (this.occupied == false) this.sprite.setFrameRange(2, 2);
-                else this.sprite.setFrameRange(1, 1);
+                if (this.occupied == false)
+                {
+                    this.sprite.setFrameRange(2, 2);
+                }
+                else
+                {
+                    this.sprite.setFrameRange(1, 1);
+                }
             }
         } else {
             this.sprite.setFrameRange(1, 1);
