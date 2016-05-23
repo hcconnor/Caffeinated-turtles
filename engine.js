@@ -94,15 +94,17 @@ function deselectElement(e) {
     if(whatDragged != null){
       var slot = collisionList(whatDragged, theShip.slots);
       var thrust = collisionList(whatDragged, theShip.thruster);
-      if (slot && slot.element == null) {
-          whatDragged.x = slot.x - (slot.width - whatDragged.width);
-          whatDragged.y = slot.y - (slot.height - whatDragged.height);
-          slot.addElement(whatDragged);
-          whatDragged.setInUse();
-      }else if(thrust && thrust.element == null){
-          whatDragged.x = thrust.x - (thrust.width - whatDragged.width);
-          whatDragged.y = thrust.y - (thrust.height - whatDragged.height);
-          thrust.addElement(whatDragged);
+      if ((slot || thrust)) {
+          if(slot && slot.element == null){
+            whatDragged.x = slot.x - (slot.width - whatDragged.width);
+            whatDragged.y = slot.y - (slot.height - whatDragged.height);
+            slot.addElement(whatDragged);
+          }
+          else if(thrust && thrust.element == null){
+            whatDragged.x = thrust.x - (thrust.width - whatDragged.width);
+            whatDragged.y = thrust.y - (thrust.height - whatDragged.height);
+            thrust.addElement(whatDragged);
+          }
           whatDragged.setInUse();
       }else {
         whatDragged.unSetInUse();
