@@ -1,10 +1,19 @@
 //contains astronaut object and pathfinding AI
-function astronaut(state, roomStart, url){
+var crew = [];
+
+function crew(numCrew){
+  for(i in range(numCrew)){
+    crew.push(new astronaut(1,roomPath[3]))
+  }
+}
+
+
+function astronaut(state, roomStart){
   this.state = state;
   this.room = roomStart;
   this.x = this.room.x;
   this.y = this.room.y;
-  this.src = url;
+  //this.src = url;
 
   this.newState = function(){
     this.state  = Math.floor(Math.random()*10);

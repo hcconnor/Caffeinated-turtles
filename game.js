@@ -71,6 +71,7 @@ function start_build() {
         debris = new particle_system(50);
         debris.init();
         theShip = new mainShip(0, 0, "sprites/BigShip.png");
+        theCrew = new crew(1);
         transition_states("main_build")
     };
     this.update = function() {
@@ -97,13 +98,21 @@ function main_build() {
         for (let item of items) {
             item.update();
         }
+
         debris.update(10);
         theShip.update();
+
+        for(let member of crew){
+          member.update();
+        }
+
         if (happiness <= 0) {
             lose = true;
             happiness = 0;
         }
+
         this.timer.update();
+
         if (this.timer.counter == turnLength) {
             transition_states("change_turn");
         }
