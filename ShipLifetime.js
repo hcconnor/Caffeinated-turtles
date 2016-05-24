@@ -63,8 +63,14 @@ function slot(x, y, element = null) {
                 console.log("light up slot!");
                 this.sprite.setFrameRange(3, 3);
             } else {
-                if (this.occupied == false) this.sprite.setFrameRange(2, 2);
-                else this.sprite.setFrameRange(1, 1);
+                if (this.occupied == false)
+                {
+                    this.sprite.setFrameRange(2, 2);
+                }
+                else
+                {
+                    this.sprite.setFrameRange(1, 1);
+                }
             }
         } else {
             this.sprite.setFrameRange(1, 1);
@@ -137,22 +143,22 @@ function LifeTime(ship) {
     var i;
     var essential = [false, false, false, false];
     for (let thruster of ship.thruster) {
-        if (thruster.element != null && thruster.element.type.type != "thruster") {
+        if (thruster.element != null && thruster.element.item.type != "thruster") {
             lose = true;
-        } else if (thruster.element != null && thruster.element.type.type == "thruster") {
+        } else if (thruster.element != null && thruster.element.item.type == "thruster") {
             essential[0] = true;
         }
     }
 for (let slot of ship.slots) {
-    if (slot.element != null && slot.element.type.type == "thruster") {
+    if (slot.element != null && slot.element.item.type == "thruster") {
         lose = true;
-    } else if (slot.element != null && slot.element.type.type == "fuel") {
+    } else if (slot.element != null && slot.element.item.type == "fuel") {
         essential[1] = true;
-        fuel += slot.element.type.durability;
-    } else if (slot.element != null && slot.element.type.type == "vanity" && slot.element.consumed == false) {
-        happiness += slot.element.type.durability;
+        fuel += slot.element.item.durability;
+    } else if (slot.element != null && slot.element.item.type == "vanity" && slot.element.consumed == false) {
+        happiness += slot.element.item.durability;
         slot.element.consumed = true;
-    } else if (slot.element != null && slot.element.type.type == "lifeSupport") {
+    } else if (slot.element != null && slot.element.item.type == "lifeSupport") {
         essential[2] = true;
     }
     for(let item of essential){
