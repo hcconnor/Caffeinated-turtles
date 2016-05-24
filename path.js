@@ -1,5 +1,3 @@
-var roomPath = [];
-
 function node(x,y,name){
   this.children = [];
   this.x = x;

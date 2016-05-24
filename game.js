@@ -11,6 +11,10 @@ var turnLength = FRAME * 5;
 var playerNum = 0;
 //var players = [new player("Bob", null)];
 
+var crew = []
+var theCrew = null;
+var roomPath = [];
+
 var states = {}; //implement cleanup of each state at beginning of new state
 // map   ["key"]  =  the thing;
 states["main_menu"] = new main_menu();
@@ -71,7 +75,8 @@ function start_build() {
         debris = new particle_system(50);
         debris.init();
         theShip = new mainShip(0, 0, "sprites/BigShip.png");
-        theCrew = new crew(1);
+        nodeTree();
+        theCrew = new initCrew(1);
         transition_states("main_build")
     };
     this.update = function() {
@@ -102,7 +107,7 @@ function main_build() {
         debris.update(10);
         theShip.update();
 
-        for(let member of crew){
+        for(let member of theCrew){
           member.update();
         }
 

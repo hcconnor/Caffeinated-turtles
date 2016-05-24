@@ -1,10 +1,9 @@
 //contains astronaut object and pathfinding AI
-var crew = [];
-
-function crew(numCrew){
-  for(i in range(numCrew)){
+function initCrew(numCrew){
+  for(i = 0; i < numCrew; i++){
     crew.push(new astronaut(1,roomPath[3]))
   }
+  return crew;
 }
 
 
@@ -25,14 +24,15 @@ function astronaut(state, roomStart){
         this.state = 1;
     }else if(this.state > 8){
       this.newRoom();
+      console.log(this.room.name);
     }else {
       //do nothing
-      console.log("idle");
+      console.log(this.room.name);
     }
   }
 
   this.newRoom = function(){
-    var temp = Math.floor(Math.random()*len(this.room.children));
+    var temp = Math.floor(Math.random()*this.room.children.length);
     this.room = this.room.children[temp];
     this.x = this.room.x;
     this.y = this.room.y;
