@@ -244,7 +244,7 @@ function deselectElement(e) {
                         var splicedPart = items.splice(j, 1)[0]; //extract from the array
                         //console.log(splicedPart);
                         var randomPart = randomElement(parts);
-                        items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width, canvas.height * Math.random()));
+                        items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width, 600 * Math.random()));
                         //console.log("NEW!");
                     }
                 }
