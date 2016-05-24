@@ -76,7 +76,7 @@ function start_build() {
         debris.init();
         theShip = new mainShip(0, 0, "sprites/BigShip.png");
         nodeTree();
-        theCrew = new initCrew(1);
+        theCrew = new initCrew(10);
         transition_states("main_build")
     };
     this.update = function() {
@@ -126,6 +126,9 @@ function main_build() {
         canvas.width = canvas.width;
         context.fillRect(0, 0, canvas.width, canvas.height);
         theShip.draw();
+        for(let member of theCrew){
+          member.draw();
+        }
         GUI.draw();
         for (let item of items) {
             item.draw();

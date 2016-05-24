@@ -97,6 +97,7 @@ function moveElement(e) {
 }
 
 function deselectElement(e) {
+  console.log("mousex:"+e.clientX+"  mousey:"+e.clientY);
     // if (whatDragged.picture.X + 100 > 820)//out of play area
     // {
     // 	items.splice(items.indexOf(whatDragged), 1); //delete element from the play elements
