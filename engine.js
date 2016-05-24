@@ -231,7 +231,7 @@ function deselectElement(e) {
         this.init = function() {
             for (i = 0; i < num_particles; i++) {
                 var randomPart = randomElement(parts); //referencing parts array in items.js
-                var dragElement = new Element(randomPart, randomPart.src, 50, 50, canvas.width, canvas.height * Math.random());
+                var dragElement = new Element(randomPart, randomPart.src, 50, 50, canvas.width, 600 * Math.random());
                 items.push(dragElement);
             }
         };
