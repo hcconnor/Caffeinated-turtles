@@ -2,10 +2,6 @@ var canvas = document.getElementById('SOS');
 var context = canvas.getContext('2d');
 var whatDragged = null;
 
-// canvas.addEventListener("mousemove", moveElement);
-// canvas.addEventListener("mousedown", selectElement);
-// canvas.addEventListener("mouseup", deselectElement);
-
 
 
 //Timer ------------------------------------------------------------------------------------//
@@ -27,9 +23,9 @@ function button(text, X, Y, width, height) {
 
     //Pass in a function then its parameter
     this.click = function(method, param) {
+        audioManager.play(audioManager.menu_select);
         method(param);
     }
-
     this.draw = function() {
         context.fillStyle = "	#D3D3D3";
         context.fillRect(this.x, this.y, this.width, this.height);
@@ -38,6 +34,7 @@ function button(text, X, Y, width, height) {
         context.fillText(this.text, this.x + this.width / 2, this.y + this.height / 2);
     };
 }
+
 
 // Drag and Drop ----------------------------------------------------------------------//
 //add funtion with itembase
@@ -103,6 +100,7 @@ function selectElement(e) {
             break;
         }
     }
+    audioManager.play(audioManager.select_item);
     whatDragged.unSetInUse();
 }
 
