@@ -10,7 +10,7 @@ var happiness = 1000;
 var durability = 1000;
 var lose = false;
 var FRAME = 30;
-var turnLength = FRAME * 5;
+var turnLength = FRAME * 30;
 var playerNum = 0;
 //var players = [new player("Bob", null)];
 
@@ -83,6 +83,7 @@ function player_select() {
                     playerNum = parseInt(Button.text);
                     for (i = 0; i < playerNum; i++) {
                         players.push(new Player(i));
+                        players[i].pod = new escPod(100, 600, "sprites/escape_pod.png");
                         console.log(players);
                     }
                     buttons = null;
@@ -156,11 +157,16 @@ function main_build() {
             transition_states("change_turn");
         }
         distance += .01 * currentSpeed;
+        checkWin();
+        checkLoss();
     };
     this.draw = function() {
         canvas.width = canvas.width;
         context.fillRect(0, 0, canvas.width, canvas.height);
         theShip.draw();
+        for(let player of players){
+          player.pod.draw();
+        }
         for (let member of theCrew) {
             member.draw();
         }

@@ -8,6 +8,7 @@ function checkLoss(){
     for(let player of players){
       if(player.pod.calcScore > highest.pod.calcScore) highest = player;
     }
+    console.log("LOSE");
     return highest;
   }
 }
