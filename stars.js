@@ -1,9 +1,12 @@
 //work please?
+var colour = ["aqua","yellow","red"];
+
 function star() {
     this.x = Math.random() * canvas.width;
-    this.y = Math.random() * canvas.height;
+    this.y = Math.random() * 600;
     this.radius =  Math.random() * 5;
     this.speed =  Math.random() * 0.9;
+    this.colour = colour[Math.floor(Math.random()*colour.length)];
 }
 
 function starSystem(numparticleStar) {
@@ -24,7 +27,7 @@ function starSystem(numparticleStar) {
         this.particleStar[i].x -= this.particleStar[i].radius * 0.5;
       } else {
         this.particleStar[i].x = canvas.width;
-        this.particleStar[i].y = Math.random() * canvas.height;
+        this.particleStar[i].y = Math.random() * 600;
       }
     }
   }
@@ -38,7 +41,7 @@ function starSystem(numparticleStar) {
       i -= 1;
       par = this.particleStar[i];
 
-      context.fillStyle = "orange";
+      context.fillStyle = this.particleStar[i].colour;
       context.beginPath();
       context.arc(par.x, par.y, par.radius, Math.PI * 2, false);
       context.stroke();
