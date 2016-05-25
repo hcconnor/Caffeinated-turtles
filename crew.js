@@ -21,17 +21,15 @@ function astronaut(state, roomStart, url){
     if(this.moving == false){
       this.state  = Math.floor(Math.random()*10);
 
-      if(this.state == 0){
+      if(this.state > 8){
         if(happiness < 300){
-          this.speed = 5;
+          this.speed  = 5;
           this.panic();
-          //panic
-          //console.log("AAHHH");
-        }else
-          this.state = 1;
-      }else if(this.state > 8){
-        if(happiness >= 300) this.speed = 1;
-        this.newRoom();
+        }
+        else if(happiness >= 300){
+          this.speed = 1;
+          this.newRoom();
+        }
       }else {
         //do nothing
         //console.log(this.room.name);
