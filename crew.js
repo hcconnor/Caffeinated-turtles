@@ -1,7 +1,7 @@
 //contains astronaut object and pathfinding AI
 function initCrew(numCrew){
   for(i = 0; i < numCrew; i++){
-    crew.push(new astronaut(1,roomPath[3],"GUI/Happiness.png"))
+    crew.push(new astronaut(1,roomPath[Math.floor(Math.random()*roomPath.length)],"Sprites/player1_strip11.png"))
   }
   return crew;
 }
@@ -14,8 +14,8 @@ function astronaut(state, roomStart, url){
   this.y = this.room.y;
   this.moving = false;
   this.speed = 1;
-  this.sprite = new Image();
-  this.sprite.src = url;
+  this.sprite = new SpriteSheet(url, 50, 50, 4);
+  this.sprite.setFrameRange(1,1);
 
   this.newState = function(){
     if(this.moving == false){
@@ -29,10 +29,10 @@ function astronaut(state, roomStart, url){
           this.state = 1;
       }else if(this.state > 8){
         this.newRoom();
-        console.log(this.room.name);
       }else {
         //do nothing
-        //console.log(this.room.name);
+        console.log(this.room.name);
+        this.sprite.setFrameRange(1,1);
       }
     }else{
       this.move();
@@ -47,17 +47,23 @@ function astronaut(state, roomStart, url){
   this.move = function(){
     if(this.x == this.room.x && this.y == this.room.y) this.moving = false;
     //console.log("moving");
-    if(this.x < this.room.x) this.x += this.speed;
-    else if(this.x > this.room.x) this.x -= this.speed;
-
+    if(this.x < this.room.x) {
+      this.x += this.speed;
+      this.sprite.setFrameRange(2,2);
+    }
+    else if(this.x > this.room.x){
+       this.x -= this.speed;
+       this.sprite.setFrameRange(7,7);
+     }
     if(this.y < this.room.y) this.y += this.speed;
     else if(this.y > this.room.y) this.y -= this.speed;
   }
 
   this.update = function(){
+    this.sprite.update();
     this.newState();
   }
   this.draw = function(){
-    context.drawImage(this.sprite,this.x-25,this.y-25,50,50);
+    this.sprite.draw(this.x-50, this.y-50);
   }
 }
