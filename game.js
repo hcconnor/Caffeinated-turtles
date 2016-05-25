@@ -14,6 +14,8 @@ var turnLength = FRAME * 5;
 var playerNum = 0;
 //var players = [new player("Bob", null)];
 
+var sadRate = 1;
+
 var players = [];
 var playerNum = 0;
 var currentPlayer = null;

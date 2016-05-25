@@ -119,8 +119,7 @@ function mainShip(x, y, src) {
         for (let thrust of this.thruster){
             thrust.update();
         }
-        LifeTime(this);
-        happiness--;
+        happiness -= sadRate;
     };
 }
 
@@ -157,8 +156,9 @@ for (let slot of ship.slots) {
         essential[1] = true;
         fuel += slot.element.item.durability;
     } else if (slot.element != null && slot.element.item.type == "vanity" && slot.element.consumed == false) {
-        happiness += slot.element.item.durability;
+        sadRate -= 0.4;
         slot.element.consumed = true;
+        if(happiness > 1000) happiness = 1000;
     } else if (slot.element != null && slot.element.item.type == "lifeSupport") {
         essential[2] = true;
     }
