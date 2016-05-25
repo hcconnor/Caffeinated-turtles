@@ -91,6 +91,7 @@ function slot(x, y, element = null) {
     this.removeElement = function() {
         this.element = null;
         this.occupied = false;
+        console.log("REMOVED!")
     }
 }
 
