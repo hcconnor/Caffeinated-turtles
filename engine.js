@@ -143,6 +143,7 @@ function deselectElement(e) {
             }
         }
         whatDragged = null;
+        LifeTime(theShip);
     }
 }
 
