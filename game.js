@@ -30,7 +30,7 @@ var currentState = "start_build"; // currently set to main build for prototype
 transition_states(currentState);
 // var debris = debris = new particle_system(12);
 // debris.init();
-var GUI = new gui(1000, 750, "GUI/GUI.png");
+var GUI = new gui(1050, 760, "GUI/GUI.png");
 GUI.init();
 //var GUI = new gui(700, 550, durability, fuel, happiness, "GUI/GUI.png");
 
@@ -145,6 +145,8 @@ function main_build() {
 //Players turn transition
 function change_turn() {
     this.begin = function() {
+        this.banner = new Image();
+        this.banner.src = "GUI/NewPlayer.png";
         console.log("turn changed");
         //transition_states("main_build");
         canvas.removeEventListener("mousemove", moveElement);
@@ -155,7 +157,7 @@ function change_turn() {
         });
     };
     this.draw = function() {
-
+        context.drawImage(this.banner,600,250,700,200);
     }
     this.update = function() {
 
