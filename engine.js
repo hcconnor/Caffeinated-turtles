@@ -264,6 +264,13 @@ function deselectElement(e) {
         this.sources.push("GUI/fuel_tank.png");
         this.sources.push("GUI/happiness.png");
 
+        this.panelEscape = new Image();
+        this.panelEscape.src = "GUI/LowerPanel.png";
+        this.panelScreen1 = new Image();
+        this.panelScreen1.src = "GUI/Screen.png";
+        this.panelScreen2 = new Image();
+        this.panelScreen2.src = "GUI/Screen.png";
+
         this.init = function() {
             for (i = 0; i < 4; i++) {
                 this.sprites[i] = new Image();
@@ -272,6 +279,10 @@ function deselectElement(e) {
         }
 
         this.draw = function() {
+            context.drawImage(this.panelEscape, 0,640,695,260);
+            context.drawImage(this.panelScreen1, 695,640,305,260);
+            context.drawImage(this.panelScreen2, 1000,640,305,260);
+
             context.drawImage(this.sprites[0], this.X, this.Y - this.sprites[0].height / 2);
             context.fillStyle = "#04ff82";
             context.fillRect(this.X + 25, this.Y - 75, this.barWidth * durability / 1000, this.barHeight);
