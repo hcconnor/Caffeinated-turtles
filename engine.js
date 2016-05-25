@@ -49,17 +49,17 @@ function Element(item, url, width, height, x, y) {
     this.height = height;
     this.inUse = false;
     this.sprite = new SpriteSheet(url, this.width, this.height, 4);
-    this.sprite.setFrameRange(0, 10);
+    this.sprite.setFrameRange(1, 10);
     this.slot = null;
     this.consumed = false;
     this.selected;
     this.setInUse = function() {
         this.inUse = true;
-        this.sprite.setFrameRange(0, 0);
+        this.sprite.setFrameRange(1, 1);
     }
     this.unSetInUse = function() {
         this.inUse = false;
-        this.sprite.setFrameRange(0, 10);
+        this.sprite.setFrameRange(1, 10);
         this.consumed = false;
     }
     this.update = function() {
