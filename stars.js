@@ -1,57 +1,42 @@
 //work please?
-$(function STARS() {
-  "use strict";
-  //var canvas = document.getElementById("canvas");
-  //var context = canvas.getContext("2d");
+function star() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.radius =  Math.random() * 5;
+    this.speed =  Math.random() * 0.9;
+}
 
-  var time = Date.now();
-  var deltaTime = 0;
-  var fps = 90;
-
-  var particles = [];
-
-  function particle() {
-    var that = {
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      radius: Math.random() * 5,
-      speed: Math.random() * 0.9
-    };
-
-    return that;
+function starSystem(numparticleStar) {
+  this.particleStar = [];
+  var i = numparticleStar;
+  while (i) {
+    this.particleStar.push(new star());
+    //console.log(this.particleStar[0]);
+    i -= 1;
   }
 
-  function particleSystem(numParticles) {
-    var i = numParticles;
-    while (i) {
-      particles.push(particle());
-      i -= 1;
-    }
-  }
-  particleSystem(100);
-
-  function update() {
-    var i = particles.length;
+  this.update = function() {
+    var i = this.particleStar.length;
     while (i) {
       i -= 1;
-
-      if (particles[i].x > 0) {
-        particles[i].x -= particles[i].radius * 0.5;
+      //console.log(this.particleStar[0]);
+      if (this.particleStar[i].x > 0) {
+        this.particleStar[i].x -= this.particleStar[i].radius * 0.5;
       } else {
-        particles[i].x = canvas.width;
-        particles[i].y = Math.random() * canvas.height;
+        this.particleStar[i].x = canvas.width;
+        this.particleStar[i].y = Math.random() * canvas.height;
       }
     }
   }
 
-  function draw() {
-    context.clearRect(0, 0, canvas.width, canvas.height);
+  this.draw = function() {
+    //context.clearRect(0, 0, canvas.width, canvas.height);
 
-    var i = particles.length;
+    var i = this.particleStar.length;
     var par = undefined;
     while (i) {
       i -= 1;
-      par = particles[i];
+      par = this.particleStar[i];
 
       context.fillStyle = "orange";
       context.beginPath();
@@ -60,27 +45,4 @@ $(function STARS() {
       context.fill();
     }
   }
-
-  function gameLoop() {
-    var now = Date.now();
-
-    deltaTime += now - time;
-    time = now;
-
-    // cap deltaTime to one second to prevent freezing
-    if (deltaTime > 1000) {
-        deltaTime = 1000;
-    }
-
-    while (deltaTime > 1000 / fps) {
-      update();
-
-      deltaTime -= 1000 / fps;
-    }
-
-    draw();
-
-    window.requestAnimationFrame(gameLoop);
-  }
-  gameLoop();
-}());
+}

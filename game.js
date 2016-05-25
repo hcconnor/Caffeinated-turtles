@@ -15,6 +15,8 @@ var crew = []
 var theCrew = null;
 var roomPath = [];
 
+var theStarSystem = null;
+
 var states = {}; //implement cleanup of each state at beginning of new state
 // map   ["key"]  =  the thing;
 states["main_menu"] = new main_menu();
@@ -78,6 +80,7 @@ function start_build() {
         nodeTree();
         theCrew = new initCrew(10);
         transition_states("main_build")
+        theStarSystem = new starSystem(100);
     };
     this.update = function() {
 
@@ -100,6 +103,8 @@ function main_build() {
     };
 
     this.update = function() {
+        theStarSystem.update();
+
         for (let item of items) {
             item.update();
         }
@@ -125,6 +130,7 @@ function main_build() {
     this.draw = function() {
         canvas.width = canvas.width;
         context.fillRect(0, 0, canvas.width, canvas.height);
+        theStarSystem.draw();
         theShip.draw();
         for(let member of theCrew){
           member.draw();
