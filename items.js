@@ -1,12 +1,26 @@
-var low = 50;
-var mid = 100;
-var high = 200;
+var tier1 = [];
+tier1.push(new Item("vanity","Ice Cream Machine",100, "sprites/ice_cream_machine.png"));
+tier1.push(new Item("propulsion","Fire Extinguisher",100, "sprites/fire_extinguisher.png", 10));
+tier1.push(new Item("life_support", "Oxygen Tank", 100, "sprites/oxygen.png"));
+tier1.push(new Item("life_support", "Refridgerator", 100, "sprites/fridge.png"));
 
-rocketThruster = new thruster("propulsion","Standard Thruster",100, "sprites/Thruster.png");
-rocketThruster.efficiency = 10;
+var tier2 = [];
+tier2.push(new Item("life_support","Supply Crate",100, "sprites/Storage.png"));
+tier2.push(new Item("fuel","Rocket Fuel Tank", 100, "sprites/Thruster.png"));
+tier2.push(new Item("propulsion","Standard Thruster",100, "sprites/Thruster.png", 10));
+tier2.push(new Item("vanity", "Box of Kittens", 100, "sprites/cat_box_strip.png"));
 
-supplyCrate = new Item("system","Supply Crate",100, "sprites/Storage.png");
+var tier3 = [];
+tier3.push(new Item("life_support","Supply Crate",100, "sprites/Storage.png"));
+tier3.push(new Item("fuel","Rocket Fuel Tank",100, "sprites/Thruster.png"));
+tier3.push(new Item("propulsion","Standard Thruster",100, "sprites/Thruster.png", 10));
 
-fuelTank = new Item("fuel","Rocket Fuel Tank",100, "sprites/Thruster.png");
+var tier4 = [];
+tier4.push(new Item("propulsion","alien_drive",100, "sprites/alien_drive.png", 10));
+tier4.push(new Item("vanity", "alien_artifact", 100, "sprites/tessaract.png"))
 
-iceCream = new Item("vanity","Ice Cream Machine",100, "sprites/IceCreamMachine.png");
+var parts = []
+parts.push(tier1);
+parts.push(tier2);
+parts.push(tier3);
+parts.push(tier4);
