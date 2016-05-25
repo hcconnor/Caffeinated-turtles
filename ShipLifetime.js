@@ -11,6 +11,7 @@ function ship(x, y, src) {
     this.picture.Y = y;
 
     this.slots = [];
+    this.thruster = [];
     this.health = 30000;
 
     this.init = function() {
@@ -39,6 +40,9 @@ function ship(x, y, src) {
         for (let slot of this.slots) {
             slot.draw();
         };
+        for (let thrust of this.thruster){
+            thrust.draw();
+        }
     };
 }
 
@@ -59,8 +63,14 @@ function slot(x, y, element = null) {
                 console.log("light up slot!");
                 this.sprite.setFrameRange(3, 3);
             } else {
-                if (this.occupied == false) this.sprite.setFrameRange(2, 2);
-                else this.sprite.setFrameRange(1, 1);
+                if (this.occupied == false)
+                {
+                    this.sprite.setFrameRange(2, 2);
+                }
+                else
+                {
+                    this.sprite.setFrameRange(1, 1);
+                }
             }
         } else {
             this.sprite.setFrameRange(1, 1);
@@ -87,10 +97,13 @@ function slot(x, y, element = null) {
 
 function mainShip(x, y, src) {
     ship.call(this, x, y, src)
-    this.slots.push(new slot(100, 150));
-    this.slots.push(new slot(100, 250));
+    this.slots.push(new slot(150, 350));
+    this.slots.push(new slot(300, 350));
     this.slots.push(new slot(150, 50));
     this.slots.push(new slot(300, 100));
+
+    this.thruster.push(new slot(100, 250));
+    this.thruster.push(new slot(100, 150));
     this.update = function() {
         //durability--;
         if (durability >= 20000) { //Ship is deteriorating
@@ -103,6 +116,11 @@ function mainShip(x, y, src) {
         for (let slot of this.slots) {
             slot.update();
         }
+        for (let thrust of this.thruster){
+            thrust.update();
+        }
+        LifeTime(this);
+        happiness--;
     };
 }
 
@@ -126,38 +144,23 @@ function LifeTime(ship) {
     var i;
     var essential = [false, false, false, false];
     for (let thruster of ship.thruster) {
-        if (thruster.type != "thruster") {
+        if (thruster.element != null && thruster.element.item.type != "thruster") {
             lose = true;
-        } else if (thruster.type == "thruster") {
+        } else if (thruster.element != null && thruster.element.item.type == "thruster") {
             essential[0] = true;
-            spd += thruster.efficiency;
         }
     }
 for (let slot of ship.slots) {
-    if (slot.type == "thruster") {
+    if (slot.element != null && slot.element.item.type == "thruster") {
         lose = true;
-    } else if (slot.type == "fuel") {
+    } else if (slot.element != null && slot.element.item.type == "fuel") {
         essential[1] = true;
-        fuel += slot.durability;
-    } else if (slot.type == "vanity") {
-        Happy += ship.slots[i].durability;
-    } else if (slot.type == "lifeSupport") {
+        fuel += slot.element.item.durability;
+    } else if (slot.element != null && slot.element.item.type == "vanity" && slot.element.consumed == false) {
+        happiness += slot.element.item.durability;
+        slot.element.consumed = true;
+    } else if (slot.element != null && slot.element.item.type == "lifeSupport") {
         essential[2] = true;
-    }
-    for (i = 0; i < ship.slots.length; i++) {
-        if (ship.misc[i].type == "thruster") {
-            lose = true;
-        } else if (ship.slots[i].type == "fuel") {
-            essential[1] = true;
-            fuel += ship.slots[i].value;
-        } else if (ship.slots[i].type == "vanity") {
-            happiness += ship.slots[i].value;
-        } else if (ship.slots[i].type == "lifeSupport") {
-            essential[2] = true;
-            life_support += ship.slots[i].value;
-        } else if (ship.slots[i].type = -"oxygen") {
-            essential[3] = true;
-        }
     }
     for(let item of essential){
         if (essential[i] == false) lose = true;

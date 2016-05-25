@@ -2,29 +2,36 @@ var canvas = document.getElementById('SOS');
 var context = canvas.getContext('2d');
 var whatDragged = null;
 
-canvas.addEventListener("mousemove", moveElement);
-canvas.addEventListener("mousedown", selectElement);
-canvas.addEventListener("mouseup", deselectElement);
 
 
-
-//Clock ------------------------------------------------------------------------------------//
-
-var time = new Date();
-var SECOND = 1000;
-var secs;
-
-function clock() {
-    var elaspsed = time - new Date();
-    secs = Math.floor(elapsed / SECOND);
+//Timer ------------------------------------------------------------------------------------//
+function Timer() {
+    this.counter = 0;
+    this.update = function() {
+        this.counter++;
+    }
 }
 
-//Player ---------------------------------------------------------------------------------//
+// Buttons ----------------------------------------------------------------------------------//
+//Takes in text x, y, width and height.  Use this.click to evoke a function in event handler function.
+function button(text, X, Y, width, height) {
+    this.text = text;
+    this.width = width;
+    this.height = height;
+    this.x = X - this.width / 2;
+    this.y = Y - this.height / 2;
 
-function player(name, pod) {
-    this.score = 0;
-    this.name = name;
-    this.escPod = pod;
+    //Pass in a function then its parameter
+    this.click = function(method, param) {
+        method(param);
+    }
+    this.draw = function() {
+        context.fillStyle = "	#D3D3D3";
+        context.fillRect(this.x, this.y, this.width, this.height);
+        context.font = "30px Arial";
+        context.fillStyle = "#000000";
+        context.fillText(this.text, this.x + this.width / 2, this.y + this.height / 2);
+    };
 }
 
 // Initialize sounds ---------------------------------------------------------------------------------------//
@@ -45,12 +52,11 @@ function loadSound(){
 function playSound(sound){
   sound.play();
   sound.stop();
-}
 
 // Drag and Drop ----------------------------------------------------------------------//
 //add funtion with itembase
-function Element(type, url, width, height, x, y) {
-    this.type = type;
+function Element(item, url, width, height, x, y) {
+    this.item = item;
     this.x = x;
     this.y = y;
     this.width = width;
@@ -58,7 +64,9 @@ function Element(type, url, width, height, x, y) {
     this.inUse = false;
     this.sprite = new SpriteSheet(url, this.width, this.height, 4);
     this.sprite.setFrameRange(0, 10);
-
+    this.slot = null;
+    this.consumed = false;
+    this.selected;
     this.setInUse = function() {
         this.inUse = true;
         this.sprite.setFrameRange(0, 0);
@@ -66,6 +74,7 @@ function Element(type, url, width, height, x, y) {
     this.unSetInUse = function() {
         this.inUse = false;
         this.sprite.setFrameRange(0, 10);
+        this.consumed = false;
     }
     this.update = function() {
         this.sprite.update();
@@ -89,6 +98,16 @@ function selectElement(e) {
     for (var i = 0; i < items.length; i++) {
         if (checkBounds(items[i], e.clientX, e.clientY)) {
             whatDragged = items[i];
+            whatDragged.selected = true;
+            whatDragged.unSetInUse();
+            for (let slot of theShip.slots) //use let of to itteretate objects.
+            {
+                if (slot.element == whatDragged) {
+                    slot.removeElement();
+                    break;
+                }
+            }
+            break;
         }
     }
     playSound(sounds["select_item"]);
@@ -105,28 +124,34 @@ function moveElement(e) {
 }
 
 function deselectElement(e) {
-    // if (whatDragged.picture.X + 100 > 820)//out of play area
-    // {
-    // 	items.splice(items.indexOf(whatDragged), 1); //delete element from the play elements
-    // }
-
     //check collision
-    var slot = collisionList(whatDragged, theShip.slots);
-    if (slot && slot.element == null) {
-        whatDragged.x = slot.x - (slot.width - whatDragged.width);
-        whatDragged.y = slot.y - (slot.height - whatDragged.height);
-        slot.addElement(whatDragged);
-        whatDragged.setInUse();
-    } else {
-      whatDragged.unSetInUse();
-        for(var i in theShip.slots){
-          if(theShip.slots[i].element == whatDragged){
-            theShip.slots[i].removeElement();
-            break;
-          }
+    if (whatDragged != null) {
+        var slot = collisionList(whatDragged, theShip.slots);
+        var thrust = collisionList(whatDragged, theShip.thruster);
+        whatDragged.selected = false;
+        if ((slot || thrust)) {
+            if (slot && slot.element == null && slot.occupied == false) {
+                whatDragged.x = slot.x - (slot.width - whatDragged.width);
+                whatDragged.y = slot.y - (slot.height - whatDragged.height);
+                whatDragged.slot = slot;
+                slot.addElement(whatDragged);
+                whatDragged.setInUse();
+            } else if (thrust && thrust.element == null && thrust.occupied == false) {
+                whatDragged.x = thrust.x - (thrust.width - whatDragged.width);
+                whatDragged.y = thrust.y - (thrust.height - whatDragged.height);
+                whatDragged.slot = thrust;
+                thrust.addElement(whatDragged);
+                whatDragged.setInUse();
+            }
+        } else {
+            whatDragged.unSetInUse();
+            if (whatDragged.slot != null) {
+                whatDragged.slot.element = null;
+                whatDragged.slot.removeElement();
+            }
         }
+        whatDragged = null;
     }
-    whatDragged = null;
 }
 
 function checkBounds(object, mouseX, mouseY) {
@@ -212,7 +237,7 @@ function SpriteSheet(url, frameWidth, frameHeight, frameSpeed) {
 //Takes in an array of arrays (2D array?) selects a weighted random array, then a random element from that.
 function randomElement(list) {
     var random = Math.random();
-    var weight = [0.4, 0.3, 0.2, 0.1];
+    var weight = [0.6, 0.2, 0.15, 0.05];
     var weight_sum = 0;
 
     for (j = 0; j < list.length; j++) {
@@ -228,68 +253,69 @@ function particle_system(num_particles) {
     this.init = function() {
         for (i = 0; i < num_particles; i++) {
             var randomPart = randomElement(parts); //referencing parts array in items.js
-            var dragElement = new Element(randomPart, randomPart.src, 50, 50, canvas.width, canvas.height * Math.random());
+            var dragElement = new Element(randomPart, randomPart.src, 50, 50, canvas.width, 600 * Math.random());
             items.push(dragElement);
         }
     };
 
     this.update = function(speed) {
-        for (j = 0; j < items.length; j++) {
-            if (!items[j].inUse){
-              items[j].x -= Math.random() * speed;
-              if(items[j].x <= 0){
-                var part = items.splice(j, 1);
-                console.log(part);
-                parts_buffer.push(part);
-                if(parts_buffer.length < 50){
-                  var randomPart = randomElement(parts)
-                  items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width, canvas.height * Math.random()));
-                  console.log("NEW!");
+        for (var j = 0; j < items.length; j++) {
+            if (!items[j].inUse && !items[j].selected) {
+                items[j].x -= Math.random() * speed;
+                if (items[j].x <= 0) {
+                    var splicedPart = items.splice(j, 1)[0]; //extract from the array
+                    //console.log(splicedPart);
+                    var randomPart = randomElement(parts);
+                    items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width, 600 * Math.random()));
+                    //console.log("NEW!");
                 }
-                else{
-                  console.log(parts_buffer);
-                  items[j] = parts_buffer.slice(-1);
-                  items[j] = canvas.width;
-                  items[j] = canvas.height * Math.random();
-                  console.log("RECYCLED!");
-                }
-              }
             }
         }
     };
 }
 //GUI-------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-function gui(x, y, src){
+function gui(x, y, src) {
     this.X = x; //1000
     this.Y = y; // 750
-		this.sprites = [];
-		this.sources = [];
-		this.barWidth = 150;
+    this.sprites = [];
+    this.sources = [];
+    this.barWidth = 150;
     this.barHeight = 25;
-		this.sources.push("GUI/GUI.png");
-		this.sources.push("GUI/oxygen.png");
-		this.sources.push("GUI/fuel_tank.png");
-		this.sources.push("GUI/happiness.png");
+    this.sources.push("GUI/GUI.png");
+    this.sources.push("GUI/oxygen.png");
+    this.sources.push("GUI/fuel_tank.png");
+    this.sources.push("GUI/happiness.png");
 
-		this.init = function(){
-			for(i = 0; i < 4; i++){
-				this.sprites[i] = new Image();
-				this.sprites[i].src = this.sources[i];
-			}
-		}
+    this.panelEscape = new Image();
+    this.panelEscape.src = "GUI/LowerPanel.png";
+    this.panelScreen1 = new Image();
+    this.panelScreen1.src = "GUI/Screen.png";
+    this.panelScreen2 = new Image();
+    this.panelScreen2.src = "GUI/Screen.png";
 
-    this.draw = function(){
-      context.drawImage(this.sprites[0], this.X, this.Y - this.sprites[0].height/2);
-      context.fillStyle = "#04ff82";
-      context.fillRect(this.X + 25, this.Y - 75, this.barWidth * durability/100, this.barHeight);
-      context.fillRect(this.X + 25, this.Y - 25, this.barWidth * fuel/100, this.barHeight);
-      context.fillRect(this.X + 25, this.Y + 25, this.barWidth * happiness/100, this.barHeight);
-      context.fillStyle = "#ffffff";
-      context.fillText(durability, this.X + 95, this.Y - 50);
-      context.fillText(fuel, this.X + 95, this.Y);
-      context.fillText(happiness, this.X + 95, this.Y + 50);
-			context.drawImage(this.sprites[1], this.X + 150, this.Y - 75);
-			context.drawImage(this.sprites[2], this.X + 150, this.Y - 25);
-			context.drawImage(this.sprites[3], this.X + 150, this.Y + 25);
-    }
+    this.init = function() {
+        for (i = 0; i < 4; i++) {
+            this.sprites[i] = new Image();
+            this.sprites[i].src = this.sources[i];
+        }
+    };
+
+    this.draw = function() {
+        context.drawImage(this.panelEscape, 0, 640, 695, 260);
+        context.drawImage(this.panelScreen1, 695, 640, 305, 260);
+        context.drawImage(this.panelScreen2, 1000, 640, 305, 260);
+
+        //context.drawImage(this.sprites[0], this.X, this.Y - this.sprites[0].height / 2);
+        context.fillStyle = "#04ff82";
+        context.fillRect(this.X + 25, this.Y - 75, this.barWidth * durability / 1000, this.barHeight);
+        context.fillRect(this.X + 25, this.Y - 25, this.barWidth * fuel / 1000, this.barHeight);
+        context.fillRect(this.X + 25, this.Y + 25, this.barWidth * happiness / 1000, this.barHeight);
+        context.fillStyle = "#ffffff";
+        context.fillText(durability, this.X + 95, this.Y - 50);
+        context.fillText(fuel, this.X + 95, this.Y);
+        context.fillText(happiness, this.X + 95, this.Y + 50);
+        context.drawImage(this.sprites[1], this.X + 150, this.Y - 75);
+        context.drawImage(this.sprites[2], this.X + 150, this.Y - 25);
+        context.drawImage(this.sprites[3], this.X + 150, this.Y + 25);
+    };
 }
