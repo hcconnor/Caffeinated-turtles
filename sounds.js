@@ -1,6 +1,6 @@
 var soundFX = function(){
   this.panic = new Audio("sounds/panic.mp3");
-  this.menuSelect = new Audio("sounds/menu_select.mp3")
+  this.menu_select = new Audio("sounds/menu_select.mp3")
   this.explode = new Audio('sounds/explode.wav');
   this.fix = new Audio('sounds/fix.wav');
   this.klaxon = new Audio('sounds/klaxon.wav');

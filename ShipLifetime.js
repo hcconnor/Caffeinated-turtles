@@ -106,13 +106,13 @@ function mainShip(x, y, src) {
     this.thruster.push(new slot(100, 250));
     this.thruster.push(new slot(100, 150));
     this.update = function() {
-        //durability--;
-        if (durability >= 20000) { //Ship is deteriorating
-            this.spritesheet.setFrameRange(1, 1); //change this
-        } else if (durability >= 10000) {
-            this.spritesheet.setFrameRange(1, 1); //change this
-        } else if (durability >= 5000) {
-            this.spritesheet.setFrameRange(1, 1); //change this
+        durability--;
+        if (durability >= 1000) { //Ship is deteriorating
+            //this.spritesheet.setFrameRange(1, 1); //change this
+        } else if (durability >= 500) {
+            //this.spritesheet.setFrameRange(1, 1); //change this
+        } else if (durability >= 200) {
+            //this.spritesheet.setFrameRange(1, 1); //change this
         }
         for (let slot of this.slots) {
             slot.update();

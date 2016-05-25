@@ -23,6 +23,7 @@ function button(text, X, Y, width, height) {
 
     //Pass in a function then its parameter
     this.click = function(method, param) {
+        audioManager.play(audioManager.menu_select);
         method(param);
     }
     this.draw = function() {
