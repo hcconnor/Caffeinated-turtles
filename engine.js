@@ -32,8 +32,8 @@ function button(text, X, Y, width, height) {
     this.text = text;
     this.width = width;
     this.height = height;
-    this.x = X - this.width/2;
-    this.y = Y - this.height/2;
+    this.x = X - this.width / 2;
+    this.y = Y - this.height / 2;
 
     this.click = function(changeState, state) {
         changeState(state);
@@ -253,37 +253,63 @@ function particle_system(num_particles) {
     };
 
     this.update = function(speed) {
-        for (var j = 0; j < items.length; j++) {
-            if (!items[j].inUse && !items[j].selected) {
-                items[j].x -= Math.random() * speed;
-                if (items[j].x <= 0) {
-                    var splicedPart = items.splice(j, 1)[0]; //extract from the array
-                    //console.log(splicedPart);
-                    var randomPart = randomElement(parts);
-                    items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width, 600 * Math.random()));
-                    //console.log("NEW!");
+            for (var j = 0; j < items.length; j++) {
+                if (!items[j].inUse && !items[j].selected) {
+                    items[j].x -= Math.random() * speed;
+                    if (items[j].x <= 0) {
+                        var splicedPart = items.splice(j, 1)[0]; //extract from the array
+                        //console.log(splicedPart);
+                        var randomPart = randomElement(parts);
+                        items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width, 600 * Math.random()));
+                        //console.log("NEW!");
+                    }
                 }
+            };
+        }
+        //GUI-------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+    function gui(x, y, src) {
+        this.X = x; //1000
+        this.Y = y; // 750
+        this.sprites = [];
+        this.sources = [];
+        this.barWidth = 150;
+        this.barHeight = 25;
+        this.sources.push("GUI/GUI.png");
+        this.sources.push("GUI/oxygen.png");
+        this.sources.push("GUI/fuel_tank.png");
+        this.sources.push("GUI/happiness.png");
+
+        this.panelEscape = new Image();
+        this.panelEscape.src = "GUI/LowerPanel.png";
+        this.panelScreen1 = new Image();
+        this.panelScreen1.src = "GUI/Screen.png";
+        this.panelScreen2 = new Image();
+        this.panelScreen2.src = "GUI/Screen.png";
+
+        this.init = function() {
+            for (i = 0; i < 4; i++) {
+                this.sprites[i] = new Image();
+                this.sprites[i].src = this.sources[i];
             }
         }
-    };
-}
-//GUI-------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-function gui(x, y, src) {
-    this.X = x; //1000
-    this.Y = y; // 750
-    this.sprites = [];
-    this.sources = [];
-    this.barWidth = 150;
-    this.barHeight = 25;
-    this.sources.push("GUI/GUI.png");
-    this.sources.push("GUI/oxygen.png");
-    this.sources.push("GUI/fuel_tank.png");
-    this.sources.push("GUI/happiness.png");
 
-    this.init = function() {
-        for (i = 0; i < 4; i++) {
-            this.sprites[i] = new Image();
-            this.sprites[i].src = this.sources[i];
+        this.draw = function() {
+            context.drawImage(this.panelEscape, 0, 640, 695, 260);
+            context.drawImage(this.panelScreen1, 695, 640, 305, 260);
+            context.drawImage(this.panelScreen2, 1000, 640, 305, 260);
+
+            context.drawImage(this.sprites[0], this.X, this.Y - this.sprites[0].height / 2);
+            context.fillStyle = "#04ff82";
+            context.fillRect(this.X + 25, this.Y - 75, this.barWidth * durability / 1000, this.barHeight);
+            context.fillRect(this.X + 25, this.Y - 25, this.barWidth * fuel / 1000, this.barHeight);
+            context.fillRect(this.X + 25, this.Y + 25, this.barWidth * happiness / 1000, this.barHeight);
+            context.fillStyle = "#ffffff";
+            context.fillText(durability, this.X + 95, this.Y - 50);
+            context.fillText(fuel, this.X + 95, this.Y);
+            context.fillText(happiness, this.X + 95, this.Y + 50);
+            context.drawImage(this.sprites[1], this.X + 150, this.Y - 75);
+            context.drawImage(this.sprites[2], this.X + 150, this.Y - 25);
+            context.drawImage(this.sprites[3], this.X + 150, this.Y + 25);
         }
     }
 
