@@ -22,14 +22,15 @@ function astronaut(state, roomStart, url){
       this.state  = Math.floor(Math.random()*10);
 
       if(this.state == 0){
-        if(happiness < 100){
-          this.speed = 4;
+        if(happiness < 300){
+          this.speed = 5;
+          this.panic();
           //panic
           //console.log("AAHHH");
         }else
           this.state = 1;
       }else if(this.state > 8){
-        if(happiness >= 100) this.speed = 1;
+        if(happiness >= 300) this.speed = 1;
         this.newRoom();
       }else {
         //do nothing
@@ -46,8 +47,21 @@ function astronaut(state, roomStart, url){
     this.room = this.room.children[temp];
   }
 
+  this.panic = function(){
+    this.moving = true;
+    var temp = Math.floor(Math.random()*roomPath.length);
+    this.room = roomPath[temp];
+  }
+
+  this.panicCheck = function(){
+    if(happiness < 300){
+      if(Math.abs(this.x - this.room.x) < 5 && Math.abs(this.y - this.room.y) < 5) this.moving = false;
+    }
+  }
+
   this.move = function(){
     if(this.x == this.room.x && this.y == this.room.y) this.moving = false;
+    this.panicCheck();
     //console.log("moving");
     if(this.x < this.room.x) {
       this.x += this.speed;
