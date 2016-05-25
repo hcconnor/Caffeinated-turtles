@@ -83,7 +83,7 @@ function slot(x, y, element = null) {
     }
 
     this.addElement = function(item) {
-        playSound(sounds["slot_in"]);
+        audioManager.play(audioManager.slot_in);
         this.element = item;
         this.occupied = true;
     }

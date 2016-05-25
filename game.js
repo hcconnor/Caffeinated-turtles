@@ -1,6 +1,5 @@
 var items = new Array();
 var buttons = [];
-var sounds = loadSound();
 
 var theShip = null;
 var parts_buffer = [];

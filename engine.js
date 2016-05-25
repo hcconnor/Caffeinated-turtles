@@ -34,25 +34,6 @@ function button(text, X, Y, width, height) {
     };
 }
 
-// Initialize sounds ---------------------------------------------------------------------------------------//
-//Utilizes Wad.js.  Creates an object that contains sounds.  Use play() and stop() for each sound.
-function loadSound(){
-    var sounds = new Object();
-    sounds["explode"] = new Audio('sounds/explode.wav');
-    sounds["fix"] = new Audio('sounds/fix.wav');
-    sounds["klaxon"] = new Audio('sounds/klaxon.wav');
-    sounds["menu_select"] = new Audio('sounds/menu_select.mp3');
-    sounds["select_item"] = new Audio('sounds/select_item.wav');
-    sounds["slot_in"] = new Audio('sounds/slot_in.wav');
-    sounds["transition"] = new Audio('sounds/transition.wav');
-    return sounds;
-}
-
-//Use this to quickly play sounds
-function playSound(sound){
-  sound.play();
-  sound.s();
-}
 
 // Drag and Drop ----------------------------------------------------------------------//
 //add funtion with itembase
@@ -118,7 +99,7 @@ function selectElement(e) {
             break;
         }
     }
-    playSound(sounds["select_item"]);
+    audioManager.play(audioManager.select_item);
     whatDragged.unSetInUse();
 }
 
