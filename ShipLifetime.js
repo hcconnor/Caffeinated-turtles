@@ -141,6 +141,7 @@ function escPod(x, y, src) {
 //requires global variables happiness and Fuel. Subject to change though based on ship element.
 function LifeTime(ship) {
     var i;
+    var van = 0;
     var essential = [false, false, false, false];
     for (let thruster of ship.thruster) {
         if (thruster.element != null && thruster.element.item.type != "thruster") {
@@ -149,21 +150,22 @@ function LifeTime(ship) {
             essential[0] = true;
         }
     }
-for (let slot of ship.slots) {
-    if (slot.element != null && slot.element.item.type == "thruster") {
-        lose = true;
-    } else if (slot.element != null && slot.element.item.type == "fuel") {
-        essential[1] = true;
-        fuel += slot.element.item.durability;
-    } else if (slot.element != null && slot.element.item.type == "vanity" && slot.element.consumed == false) {
-        sadRate -= 0.4;
-        slot.element.consumed = true;
-        if(happiness > 1000) happiness = 1000;
-    } else if (slot.element != null && slot.element.item.type == "lifeSupport") {
-        essential[2] = true;
-    }
-    for(let item of essential){
-        if (essential[i] == false) lose = true;
-    }
-}
+  for (let slot of ship.slots) {
+      if (slot.element != null && slot.element.item.type == "thruster") {
+          lose = true;
+      } else if (slot.element != null && slot.element.item.type == "fuel") {
+          essential[1] = true;
+          fuel += slot.element.item.durability;
+      } else if (slot.element != null && slot.element.item.type == "vanity") {
+          van++;
+          slot.element.consumed = true;
+      } else if (slot.element != null && slot.element.item.type == "lifeSupport") {
+          essential[2] = true;
+      }
+      for(let item of essential){
+          if (essential[i] == false) lose = true;
+      }
+  }
+  sadRate = 1-(van*0.4);
+  console.log(sadRate);
 }
