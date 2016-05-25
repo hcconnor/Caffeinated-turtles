@@ -10,7 +10,7 @@ var happiness = 1000;
 var durability = 1000;
 var lose = false;
 var FRAME = 30;
-var turnLength = FRAME * 5;
+var turnLength = FRAME * 30;
 var playerNum = 0;
 //var players = [new player("Bob", null)];
 
@@ -167,9 +167,11 @@ function main_build() {
             member.update();
         }
 
-        if (happiness <= 0) {
+        if (happiness < 0) {
             lose = true;
             happiness = 0;
+        } else if(happiness > 1000){
+          happiness = 1000;
         }
 
         this.timer.update();
