@@ -11,6 +11,12 @@ var turnLength = FRAME * 5;
 var playerNum = 0;
 //var players = [new player("Bob", null)];
 
+var crew = []
+var theCrew = null;
+var roomPath = [];
+
+var theStarSystem = null;
+
 var states = {}; //implement cleanup of each state at beginning of new state
 // map   ["key"]  =  the thing;
 states["main_menu"] = new main_menu();
@@ -24,7 +30,7 @@ var currentState = "start_build"; // currently set to main build for prototype
 transition_states(currentState);
 // var debris = debris = new particle_system(12);
 // debris.init();
-var GUI = new gui(1000, 750, "GUI/GUI.png");
+var GUI = new gui(1050, 760, "GUI/GUI.png");
 GUI.init();
 //var GUI = new gui(700, 550, durability, fuel, happiness, "GUI/GUI.png");
 
@@ -71,7 +77,10 @@ function start_build() {
         debris = new particle_system(50);
         debris.init();
         theShip = new mainShip(0, 0, "sprites/BigShip.png");
+        nodeTree();
+        theCrew = new initCrew(10);
         transition_states("main_build")
+        theStarSystem = new starSystem(100);
     };
     this.update = function() {
 
@@ -94,16 +103,26 @@ function main_build() {
     };
 
     this.update = function() {
+        theStarSystem.update();
+
         for (let item of items) {
             item.update();
         }
+
         debris.update(10);
         theShip.update();
+
+        for(let member of theCrew){
+          member.update();
+        }
+
         if (happiness <= 0) {
             lose = true;
             happiness = 0;
         }
+
         this.timer.update();
+
         if (this.timer.counter == turnLength) {
             transition_states("change_turn");
         }
@@ -111,7 +130,11 @@ function main_build() {
     this.draw = function() {
         canvas.width = canvas.width;
         context.fillRect(0, 0, canvas.width, canvas.height);
+        theStarSystem.draw();
         theShip.draw();
+        for(let member of theCrew){
+          member.draw();
+        }
         GUI.draw();
         for (let item of items) {
             item.draw();
@@ -122,6 +145,8 @@ function main_build() {
 //Players turn transition
 function change_turn() {
     this.begin = function() {
+        this.banner = new Image();
+        this.banner.src = "GUI/NewPlayer.png";
         console.log("turn changed");
         //transition_states("main_build");
         canvas.removeEventListener("mousemove", moveElement);
@@ -132,7 +157,7 @@ function change_turn() {
         });
     };
     this.draw = function() {
-
+        context.drawImage(this.banner,600,250,700,200);
     }
     this.update = function() {
 

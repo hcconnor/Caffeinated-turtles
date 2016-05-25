@@ -97,6 +97,7 @@ function moveElement(e) {
 }
 
 function deselectElement(e) {
+  console.log("mousex:"+e.clientX+"  mousey:"+e.clientY);
     // if (whatDragged.picture.X + 100 > 820)//out of play area
     // {
     // 	items.splice(items.indexOf(whatDragged), 1); //delete element from the play elements
@@ -114,7 +115,7 @@ function deselectElement(e) {
                 whatDragged.slot = slot;
                 slot.addElement(whatDragged);
                 whatDragged.setInUse();
-            } else if (thrust && thrust.element == null && slot.occupied == false) {
+            } else if (thrust && thrust.element == null && thrust.occupied == false) {
                 whatDragged.x = thrust.x - (thrust.width - whatDragged.width);
                 whatDragged.y = thrust.y - (thrust.height - whatDragged.height);
                 whatDragged.slot = thrust;
@@ -230,7 +231,7 @@ function deselectElement(e) {
         this.init = function() {
             for (i = 0; i < num_particles; i++) {
                 var randomPart = randomElement(parts); //referencing parts array in items.js
-                var dragElement = new Element(randomPart, randomPart.src, 50, 50, canvas.width, canvas.height * Math.random());
+                var dragElement = new Element(randomPart, randomPart.src, 50, 50, canvas.width, 600 * Math.random());
                 items.push(dragElement);
             }
         };
@@ -243,7 +244,7 @@ function deselectElement(e) {
                         var splicedPart = items.splice(j, 1)[0]; //extract from the array
                         //console.log(splicedPart);
                         var randomPart = randomElement(parts);
-                        items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width, canvas.height * Math.random()));
+                        items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width, 600 * Math.random()));
                         //console.log("NEW!");
                     }
                 }
@@ -263,6 +264,13 @@ function deselectElement(e) {
         this.sources.push("GUI/fuel_tank.png");
         this.sources.push("GUI/happiness.png");
 
+        this.panelEscape = new Image();
+        this.panelEscape.src = "GUI/LowerPanel.png";
+        this.panelScreen1 = new Image();
+        this.panelScreen1.src = "GUI/Screen.png";
+        this.panelScreen2 = new Image();
+        this.panelScreen2.src = "GUI/Screen.png";
+
         this.init = function() {
             for (i = 0; i < 4; i++) {
                 this.sprites[i] = new Image();
@@ -271,6 +279,10 @@ function deselectElement(e) {
         }
 
         this.draw = function() {
+            context.drawImage(this.panelEscape, 0,640,695,260);
+            context.drawImage(this.panelScreen1, 695,640,305,260);
+            context.drawImage(this.panelScreen2, 1000,640,305,260);
+
             context.drawImage(this.sprites[0], this.X, this.Y - this.sprites[0].height / 2);
             context.fillStyle = "#04ff82";
             context.fillRect(this.X + 25, this.Y - 75, this.barWidth * durability / 1000, this.barHeight);
