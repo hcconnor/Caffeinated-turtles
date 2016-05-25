@@ -10,7 +10,7 @@ var happiness = 1000;
 var durability = 1000;
 var lose = false;
 var FRAME = 30;
-var turnLength = FRAME * 30;
+var turnLength = FRAME * 5;
 var playerNum = 0;
 //var players = [new player("Bob", null)];
 
@@ -45,7 +45,8 @@ GUI.init();
 function Player(Name) {
     this.win = false;
     this.name = Name;
-    this.Pod = null;
+    this.escPod = null;
+    this.nextPlayer = 0;
 }
 
 //Game States -------------------------------------------------------------------------------------------------------//
@@ -86,10 +87,11 @@ function player_select() {
                     playerNum = parseInt(Button.text);
                     for (i = 0; i < playerNum; i++) {
                         players.push(new Player(i));
-                        players[i].pod = new escPod(100, 600, "sprites/escape_pod.png");
+                        players[i].escPod = new escPod(100, 600, "sprites/escape_pod.png");
+                        players[i].nextPlayer = i+1;
                         console.log(players);
                     }
-                    buttons = null;
+                    canvas.removeEventListener("mousedown", button_select);
                     Button.click(transition_states, "start_build");
                 }
             }
@@ -109,14 +111,16 @@ function player_select() {
 //Player 1 starts building for a set amount of time
 function start_build() {
     this.begin = function() {
+        buttons = null;
         debris = new particle_system(50);
         debris.init();
         theShip = new mainShip(0, 0, "sprites/BigShip.png");
+        currentPlayer = players[0];
+        console.log("start_build");
         nodeTree();
         theCrew = new initCrew(10);
-        transition_states("main_build");
-        canvas.removeEventListener("mousedown", button_select);
         theStarSystem = new starSystem(100);
+        transition_states("main_build");
     };
     this.update = function() {
         distance += .01 * currentSpeed;
@@ -170,14 +174,12 @@ function main_build() {
         canvas.width = canvas.width;
         context.fillRect(0, 0, canvas.width, canvas.height);
         theStarSystem.draw();
+        GUI.draw();
         theShip.draw();
-        for (let player of players) {
-            player.pod.draw();
-        }
+        currentPlayer.escPod.draw();
         for (let member of theCrew) {
             member.draw();
         }
-        GUI.draw();
         for (let item of items) {
             item.draw();
         }
@@ -190,7 +192,10 @@ function change_turn() {
         this.banner = new Image();
         this.banner.src = "GUI/NewPlayer.png";
         console.log("turn changed");
-        //transition_states("main_build");
+        if(currentPlayer.nextPlayer >= playerNum){
+          currentPlayer = players[0];
+        }else currentPlayer = players[currentPlayer.nextPlayer];
+        console.log(currentPlayer);
         canvas.removeEventListener("mousemove", moveElement);
         canvas.removeEventListener("mousedown", selectElement);
         canvas.removeEventListener("mouseup", deselectElement);

@@ -16,18 +16,8 @@ function Timer() {
     }
 }
 
-
-
-//Player ---------------------------------------------------------------------------------//
-
-function player(name, pod) {
-    this.score = 0;
-    this.name = name;
-    this.escPod = pod;
-}
-
 // Buttons ----------------------------------------------------------------------------------//
-//Takes in text x, y, width and height.  Use this.click to change states in event handler function.
+//Takes in text x, y, width and height.  Use this.click to evoke a function in event handler function.
 function button(text, X, Y, width, height) {
     this.text = text;
     this.width = width;
@@ -35,8 +25,9 @@ function button(text, X, Y, width, height) {
     this.x = X - this.width / 2;
     this.y = Y - this.height / 2;
 
-    this.click = function(changeState, state) {
-        changeState(state);
+    //Pass in a function then its parameter
+    this.click = function(method, param) {
+        method(param);
     }
 
     this.draw = function() {
@@ -299,7 +290,7 @@ function gui(x, y, src) {
         context.drawImage(this.panelScreen1, 695, 640, 305, 260);
         context.drawImage(this.panelScreen2, 1000, 640, 305, 260);
 
-        context.drawImage(this.sprites[0], this.X, this.Y - this.sprites[0].height / 2);
+        //context.drawImage(this.sprites[0], this.X, this.Y - this.sprites[0].height / 2);
         context.fillStyle = "#04ff82";
         context.fillRect(this.X + 25, this.Y - 75, this.barWidth * durability / 1000, this.barHeight);
         context.fillRect(this.X + 25, this.Y - 25, this.barWidth * fuel / 1000, this.barHeight);
