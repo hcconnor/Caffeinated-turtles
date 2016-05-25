@@ -93,6 +93,13 @@ function selectElement(e) {
                     break;
                 }
             }
+            for (let thrust of theShip.thruster) //use let of to itteretate objects.
+            {
+                if (thrust.element == whatDragged) {
+                    thrust.removeElement();
+                    break;
+                }
+            }
             break;
         }
     }
@@ -132,7 +139,7 @@ function deselectElement(e) {
             whatDragged.unSetInUse();
             if (whatDragged.slot != null) {
                 whatDragged.slot.element = null;
-                whatDragged.slot.removeElement();
+                //whatDragged.slot.removeElement();
             }
         }
         whatDragged = null;
@@ -184,7 +191,7 @@ function SpriteSheet(url, frameWidth, frameHeight, frameSpeed) {
     var currentFrame = 1;
     var counter = 0;
     this.startFrame = 1;
-    this.endFrame = 1;
+    this.endFrame = 10;
     var animationL = this.endFrame - this.startFrame;
     image.src = url;
 
@@ -202,9 +209,9 @@ function SpriteSheet(url, frameWidth, frameHeight, frameSpeed) {
     this.update = function() {
         if (counter == (frameSpeed - 1)) {
             if (currentFrame == this.endFrame) {
-                currentFrame -= animationL;
+                currentFrame = this.startFrame;
             } else {
-                currentFrame = (currentFrame + 1) % this.endFrame;
+                currentFrame = (currentFrame + 1);
             }
         }
 
@@ -215,6 +222,7 @@ function SpriteSheet(url, frameWidth, frameHeight, frameSpeed) {
         var row = Math.floor(currentFrame / numFrames);
         var col = Math.floor(currentFrame % numFrames);
         context.drawImage(image, col * frameWidth, row * frameHeight, frameWidth, frameHeight, x, y, frameWidth, frameHeight);
+
     };
 
 }
