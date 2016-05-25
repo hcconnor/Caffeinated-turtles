@@ -87,7 +87,7 @@ function player_select() {
                     playerNum = parseInt(Button.text);
                     for (i = 0; i < playerNum; i++) {
                         players.push(new Player(i));
-                        players[i].escPod = new escPod(100, 600, "sprites/escape_pod.png");
+                        players[i].escPod = new escPod(10, 600, "sprites/escape_pod.png");
                         players[i].nextPlayer = i+1;
                         console.log(players);
                     }

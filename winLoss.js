@@ -6,7 +6,7 @@ function checkLoss(){
   if(happiness <= 0 || durability <= 0 || fuel <= 0){
     var highest = players[0];
     for(let player of players){
-      if(player.pod.calcScore > highest.pod.calcScore) highest = player;
+      if(player.escPod.calcScore > highest.escPod.calcScore) highest = player;
     }
     console.log("LOSE");
     return highest;
