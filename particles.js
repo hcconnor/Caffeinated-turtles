@@ -9,7 +9,7 @@ function item(x, y){
 		this.pic.height = 100;
 		this.pic.width =  100;
 		this.pic.src = "sprites/Thruster.png";
-	
+
 	var items = new Array();
 	items.push("sprites/Thruster.png");
 	items.push("sprites/Storage.png");
@@ -18,11 +18,11 @@ function item(x, y){
 
 	function randomize(items) {
 		item.X = canvas.width;
-		item.Y = Math.random() * canvas.height;
+		item.Y = Math.random() * 600;
 		item.s = 0.4 + Math.random() * 0.5; //speed
-		
+
 }
-	
+
 }
 
 function animation() {

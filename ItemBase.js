@@ -23,7 +23,7 @@ function Item(type, name, durability, src){
 	};
 	this.src = src;
 }
-
+//Thruster Prototype
 function thruster(type, name, durability, src, efficiency){
 	Item.call(this, type, name, durability, src);
 	this.efficiency = efficiency;
