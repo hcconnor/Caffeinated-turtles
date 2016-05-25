@@ -3,6 +3,7 @@ tier1.push(new Item("vanity","Ice Cream Machine",100, "sprites/ice_cream_machine
 tier1.push(new Item("propulsion","Fire Extinguisher",100, "sprites/fire_extinguisher.png", 10));
 tier1.push(new Item("life_support", "Oxygen Tank", 100, "sprites/oxygen.png"));
 tier1.push(new Item("life_support", "Refridgerator", 100, "sprites/fridge.png"));
+tier1.push(new Item("fuel", "Car Battery", 100, "sprites/car_battery.png"));
 
 var tier2 = [];
 tier2.push(new Item("life_support","Supply Crate",100, "sprites/Storage.png"));
