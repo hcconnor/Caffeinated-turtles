@@ -16,16 +16,28 @@ function Timer() {
     }
 }
 
+// Buttons ----------------------------------------------------------------------------------//
+//Takes in text x, y, width and height.  Use this.click to evoke a function in event handler function.
+function button(text, X, Y, width, height) {
+    this.text = text;
+    this.width = width;
+    this.height = height;
+    this.x = X - this.width / 2;
+    this.y = Y - this.height / 2;
 
+    //Pass in a function then its parameter
+    this.click = function(method, param) {
+        method(param);
+    }
 
-//Player ---------------------------------------------------------------------------------//
-
-function player(name, pod) {
-    this.score = 0;
-    this.name = name;
-    this.escPod = pod;
+    this.draw = function() {
+        context.fillStyle = "	#D3D3D3";
+        context.fillRect(this.x, this.y, this.width, this.height);
+        context.font = "30px Arial";
+        context.fillStyle = "#000000";
+        context.fillText(this.text, this.x + this.width / 2, this.y + this.height / 2);
+    };
 }
-
 
 // Drag and Drop ----------------------------------------------------------------------//
 //add funtion with itembase
@@ -37,17 +49,17 @@ function Element(item, url, width, height, x, y) {
     this.height = height;
     this.inUse = false;
     this.sprite = new SpriteSheet(url, this.width, this.height, 4);
-    this.sprite.setFrameRange(0, 10);
+    this.sprite.setFrameRange(1, 10);
     this.slot = null;
     this.consumed = false;
     this.selected;
     this.setInUse = function() {
         this.inUse = true;
-        this.sprite.setFrameRange(0, 0);
+        this.sprite.setFrameRange(1, 1);
     }
     this.unSetInUse = function() {
         this.inUse = false;
-        this.sprite.setFrameRange(0, 10);
+        this.sprite.setFrameRange(1, 10);
         this.consumed = false;
     }
     this.update = function() {
@@ -97,12 +109,6 @@ function moveElement(e) {
 }
 
 function deselectElement(e) {
-  console.log("mousex:"+e.clientX+"  mousey:"+e.clientY);
-    // if (whatDragged.picture.X + 100 > 820)//out of play area
-    // {
-    // 	items.splice(items.indexOf(whatDragged), 1); //delete element from the play elements
-    // }
-
     //check collision
     if (whatDragged != null) {
         var slot = collisionList(whatDragged, theShip.slots);
@@ -132,168 +138,169 @@ function deselectElement(e) {
         whatDragged = null;
     }
 }
-    function checkBounds(object, mouseX, mouseY) {
-        if ((mouseX < (object.x + object.width)) && (mouseY < (object.y + object.height)) && (mouseX > (object.x)) && (mouseY > (object.y))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
-
-
-
-    function collisionList(object, array) {
-        for (var i = 0; i < array.length; i++) {
-            if (doesCollide(object, array[i])) {
-                return array[i];
-            }
-        }
+function checkBounds(object, mouseX, mouseY) {
+    if ((mouseX < (object.x + object.width)) && (mouseY < (object.y + object.height)) && (mouseX > (object.x)) && (mouseY > (object.y))) {
+        return true;
+    } else {
         return false;
     }
+}
 
-    function doesCollide(obj1, obj2) {
-        sX = obj1.x;
-        sW = obj1.width;
-        sY = obj1.y;
-        sH = obj1.height;
-        oX = obj2.x;
-        oY = obj2.y;
-        oW = obj2.width;
-        oH = obj2.height;
 
-        if (sX < oX + oW && sX + sW > oX && sY < oY + oH && sH + sY > oY) {
-            return true;
+
+
+function collisionList(object, array) {
+    for (var i = 0; i < array.length; i++) {
+        if (doesCollide(object, array[i])) {
+            return array[i];
         }
-        return false;
     }
+    return false;
+}
 
-    // Sprite sheet code (don't use frame 0) ----------------------------------------------------------------------------------//
+function doesCollide(obj1, obj2) {
+    sX = obj1.x;
+    sW = obj1.width;
+    sY = obj1.y;
+    sH = obj1.height;
+    oX = obj2.x;
+    oY = obj2.y;
+    oW = obj2.width;
+    oH = obj2.height;
 
-    function SpriteSheet(url, frameWidth, frameHeight, frameSpeed) {
-        var image = new Image();
-        var numFrames;
+    if (sX < oX + oW && sX + sW > oX && sY < oY + oH && sH + sY > oY) {
+        return true;
+    }
+    return false;
+}
 
-        var currentFrame = 1;
-        var counter = 0;
-        this.startFrame = 1;
-        this.endFrame = 1;
-        var animationL = this.endFrame - this.startFrame;
-        image.src = url;
+// Sprite sheet code (don't use frame 0) ----------------------------------------------------------------------------------//
 
-        image.onload = function() {
-            numFrames = Math.floor(image.width / frameWidth);
-        };
+function SpriteSheet(url, frameWidth, frameHeight, frameSpeed) {
+    var image = new Image();
+    var numFrames;
 
-        this.setFrameRange = function(start, finish) {
-            this.startFrame = start;
-            this.endFrame = finish;
-            currentFrame = this.startFrame;
-            animationL = this.endFrame - this.startFrame;
-        };
+    var currentFrame = 1;
+    var counter = 0;
+    this.startFrame = 1;
+    this.endFrame = 1;
+    var animationL = this.endFrame - this.startFrame;
+    image.src = url;
 
-        this.update = function() {
-            if (counter == (frameSpeed - 1)) {
-                if (currentFrame == this.endFrame) {
-                    currentFrame -= animationL;
-                } else {
-                    currentFrame = (currentFrame + 1) % this.endFrame;
+    image.onload = function() {
+        numFrames = Math.floor(image.width / frameWidth);
+    };
+
+    this.setFrameRange = function(start, finish) {
+        this.startFrame = start;
+        this.endFrame = finish;
+        currentFrame = this.startFrame;
+        animationL = this.endFrame - this.startFrame;
+    };
+
+    this.update = function() {
+        if (counter == (frameSpeed - 1)) {
+            if (currentFrame == this.endFrame) {
+                currentFrame -= animationL;
+            } else {
+                currentFrame = (currentFrame + 1) % this.endFrame;
+            }
+        }
+
+        counter = (counter + 1) % frameSpeed;
+    };
+
+    this.draw = function(x, y) {
+        var row = Math.floor(currentFrame / numFrames);
+        var col = Math.floor(currentFrame % numFrames);
+        context.drawImage(image, col * frameWidth, row * frameHeight, frameWidth, frameHeight, x, y, frameWidth, frameHeight);
+    };
+
+}
+//Element generator -------------------------------------------------------------------------------------------------------------//
+//Takes in an array of arrays (2D array?) selects a weighted random array, then a random element from that.
+function randomElement(list) {
+    var random = Math.random();
+    var weight = [0.6, 0.2, 0.15, 0.05];
+    var weight_sum = 0;
+
+    for (j = 0; j < list.length; j++) {
+        weight_sum += weight[j];
+        weight_sum = +weight_sum.toFixed(2);
+        if (random <= weight_sum) return list[j][Math.floor(Math.random() * list[j].length)];
+    }
+}
+
+//Particle System ---------------------------------------------------------------------------------------------------------------//
+//Takes in numnber of particles and array of all world objects.
+function particle_system(num_particles) {
+    this.init = function() {
+        for (i = 0; i < num_particles; i++) {
+            var randomPart = randomElement(parts); //referencing parts array in items.js
+            var dragElement = new Element(randomPart, randomPart.src, 50, 50, canvas.width, 600 * Math.random());
+            items.push(dragElement);
+        }
+    };
+
+    this.update = function(speed) {
+        for (var j = 0; j < items.length; j++) {
+            if (!items[j].inUse && !items[j].selected) {
+                items[j].x -= Math.random() * speed;
+                if (items[j].x <= 0) {
+                    var splicedPart = items.splice(j, 1)[0]; //extract from the array
+                    //console.log(splicedPart);
+                    var randomPart = randomElement(parts);
+                    items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width, 600 * Math.random()));
+                    //console.log("NEW!");
                 }
             }
-
-            counter = (counter + 1) % frameSpeed;
-        };
-
-        this.draw = function(x, y) {
-            var row = Math.floor(currentFrame / numFrames);
-            var col = Math.floor(currentFrame % numFrames);
-            context.drawImage(image, col * frameWidth, row * frameHeight, frameWidth, frameHeight, x, y, frameWidth, frameHeight);
-        };
-
-    }
-    //Element generator -------------------------------------------------------------------------------------------------------------//
-    //Takes in an array of arrays (2D array?) selects a weighted random array, then a random element from that.
-    function randomElement(list) {
-        var random = Math.random();
-        var weight = [0.6, 0.2, 0.15, 0.05];
-        var weight_sum = 0;
-
-        for (j = 0; j < list.length; j++) {
-            weight_sum += weight[j];
-            weight_sum = +weight_sum.toFixed(2);
-            if (random <= weight_sum) return list[j][Math.floor(Math.random() * list[j].length)];
         }
-    }
+    };
+}
+//GUI-------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+function gui(x, y, src) {
+    this.X = x; //1000
+    this.Y = y; // 750
+    this.sprites = [];
+    this.sources = [];
+    this.barWidth = 150;
+    this.barHeight = 25;
+    this.sources.push("GUI/GUI.png");
+    this.sources.push("GUI/oxygen.png");
+    this.sources.push("GUI/fuel_tank.png");
+    this.sources.push("GUI/happiness.png");
 
-    //Particle System ---------------------------------------------------------------------------------------------------------------//
-    //Takes in numnber of particles and array of all world objects.
-    function particle_system(num_particles) {
-        this.init = function() {
-            for (i = 0; i < num_particles; i++) {
-                var randomPart = randomElement(parts); //referencing parts array in items.js
-                var dragElement = new Element(randomPart, randomPart.src, 50, 50, canvas.width, 600 * Math.random());
-                items.push(dragElement);
-            }
-        };
+    this.panelEscape = new Image();
+    this.panelEscape.src = "GUI/LowerPanel.png";
+    this.panelScreen1 = new Image();
+    this.panelScreen1.src = "GUI/Screen.png";
+    this.panelScreen2 = new Image();
+    this.panelScreen2.src = "GUI/Screen.png";
 
-        this.update = function(speed) {
-            for (var j = 0; j < items.length; j++) {
-                if (!items[j].inUse && !items[j].selected) {
-                    items[j].x -= Math.random() * speed;
-                    if (items[j].x <= 0) {
-                        var splicedPart = items.splice(j, 1)[0]; //extract from the array
-                        //console.log(splicedPart);
-                        var randomPart = randomElement(parts);
-                        items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width, 600 * Math.random()));
-                        //console.log("NEW!");
-                    }
-                }
-            }
-        };
-    }
-    //GUI-------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-    function gui(x, y, src) {
-        this.X = x; //1000
-        this.Y = y; // 750
-        this.sprites = [];
-        this.sources = [];
-        this.barWidth = 150;
-        this.barHeight = 25;
-        this.sources.push("GUI/GUI.png");
-        this.sources.push("GUI/oxygen.png");
-        this.sources.push("GUI/fuel_tank.png");
-        this.sources.push("GUI/happiness.png");
-
-        this.panelEscape = new Image();
-        this.panelEscape.src = "GUI/LowerPanel.png";
-        this.panelScreen1 = new Image();
-        this.panelScreen1.src = "GUI/Screen.png";
-        this.panelScreen2 = new Image();
-        this.panelScreen2.src = "GUI/Screen.png";
-
-        this.init = function() {
-            for (i = 0; i < 4; i++) {
-                this.sprites[i] = new Image();
-                this.sprites[i].src = this.sources[i];
-            }
+    this.init = function() {
+        for (i = 0; i < 4; i++) {
+            this.sprites[i] = new Image();
+            this.sprites[i].src = this.sources[i];
         }
+    };
 
-        this.draw = function() {
-            context.drawImage(this.panelEscape, 0,640,695,260);
-            context.drawImage(this.panelScreen1, 695,640,305,260);
-            context.drawImage(this.panelScreen2, 1000,640,305,260);
+    this.draw = function() {
+        context.drawImage(this.panelEscape, 0, 640, 695, 260);
+        context.drawImage(this.panelScreen1, 695, 640, 305, 260);
+        context.drawImage(this.panelScreen2, 1000, 640, 305, 260);
 
-            context.drawImage(this.sprites[0], this.X, this.Y - this.sprites[0].height / 2);
-            context.fillStyle = "#04ff82";
-            context.fillRect(this.X + 25, this.Y - 75, this.barWidth * durability / 1000, this.barHeight);
-            context.fillRect(this.X + 25, this.Y - 25, this.barWidth * fuel / 1000, this.barHeight);
-            context.fillRect(this.X + 25, this.Y + 25, this.barWidth * happiness / 1000, this.barHeight);
-            context.fillStyle = "#ffffff";
-            context.fillText(durability, this.X + 95, this.Y - 50);
-            context.fillText(fuel, this.X + 95, this.Y);
-            context.fillText(happiness, this.X + 95, this.Y + 50);
-            context.drawImage(this.sprites[1], this.X + 150, this.Y - 75);
-            context.drawImage(this.sprites[2], this.X + 150, this.Y - 25);
-            context.drawImage(this.sprites[3], this.X + 150, this.Y + 25);
-        }
-    }
+        //context.drawImage(this.sprites[0], this.X, this.Y - this.sprites[0].height / 2);
+        context.fillStyle = "#04ff82";
+        context.fillRect(this.X + 25, this.Y - 75, this.barWidth * durability / 1000, this.barHeight);
+        context.fillRect(this.X + 25, this.Y - 25, this.barWidth * fuel / 1000, this.barHeight);
+        context.fillRect(this.X + 25, this.Y + 25, this.barWidth * happiness / 1000, this.barHeight);
+        context.fillStyle = "#ffffff";
+        context.fillText(durability, this.X + 95, this.Y - 50);
+        context.fillText(fuel, this.X + 95, this.Y);
+        context.fillText(happiness, this.X + 95, this.Y + 50);
+        context.drawImage(this.sprites[1], this.X + 150, this.Y - 75);
+        context.drawImage(this.sprites[2], this.X + 150, this.Y - 25);
+        context.drawImage(this.sprites[3], this.X + 150, this.Y + 25);
+    };
+}
