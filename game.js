@@ -24,6 +24,8 @@ var roomPath = [];
 
 var theStarSystem = null;
 
+var audioManager = null;
+
 var states = {}; //implement cleanup of each state at beginning of new state
 // map   ["key"]  =  the thing;
 states["main_menu"] = new main_menu();
@@ -120,6 +122,7 @@ function start_build() {
         nodeTree();
         theCrew = new initCrew(10);
         theStarSystem = new starSystem(100);
+        audioManager = new soundFX();
         transition_states("main_build");
     };
     this.update = function() {
@@ -144,6 +147,12 @@ function main_build() {
 
     this.update = function() {
         theStarSystem.update();
+
+        if(happiness < 300){
+          audioManager.play(audioManager.panic);
+        } else if(happiness >= 300){
+          audioManager.stop(audioManager.panic);
+        }
 
         for (let item of items) {
             item.update();
