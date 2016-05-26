@@ -1,3 +1,4 @@
+//DONT BEAUTIFY
 var tier1 = [];
 tier1.push(new Item("vanity","Ice Cream Machine",100, "sprites/ice_cream_machine.png"));
 tier1.push(new thruster("propulsion","Fire Extinguisher",100, "sprites/fire_extinguisher.png", 1));
@@ -28,7 +29,8 @@ parts.push(tier4);
 
 
 var itemDesc = {
-    "Ice Cream Machine": ["wow199031", "hjnawdaw"],
+         "example line": ["aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa"],
+    "Ice Cream Machine": ["aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa"],
     "Fire Extinguisher": ["Short and ", "sweet."],
           "Oxygen Tank": ["It's quite", "heavy."],
         "Refridgerator": ["Still has ", "lefovers", "in it."],
