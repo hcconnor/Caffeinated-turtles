@@ -116,11 +116,11 @@ function mainShip(x, y, src) {
     this.slots.push(new slot(300, 350));
     this.slots.push(new slot(150, 50));
     this.slots.push(new slot(300, 100));
+    var active = 0;
 
     this.thruster.push(new slot(100, 250, true));
     this.thruster.push(new slot(100, 150, true));
     this.update = function() {
-        durability--;
         if (durability >= 1000) { //Ship is deteriorating
             //this.spritesheet.setFrameRange(1, 1); //change this
         } else if (durability >= 500) {
@@ -134,11 +134,18 @@ function mainShip(x, y, src) {
         for (let thrust of this.thruster){
             thrust.update();
         }
+        sadRate = 1 - statManager.calcSad()*0.4;
+        energyCons = statManager.calcConsumption();
+        fuel = statManager.calcFuel();
+        if(fuel < 0) fuel = 0;
         happiness -= sadRate;
-        fuel -= energyCons;
-        if(fuel <= 0){
-          fuel = 0;
-          currentSpeed = 0;
+        currentSpeed = statManager.calcSpeed();
+        if(statManager.fuelTanks.length > 0 && statManager.rocketThrusters.length > 0){
+          if(statManager.fuelTanks[statManager.fuelTanks.length-1].durab < 0) {
+            statManager.fuelTanks.pop();
+          }else {
+            statManager.fuelTanks[statManager.fuelTanks.length-1].durab -= energyCons;
+          }fuel = statManager.calcFuel();
         }
     };
 }
@@ -161,40 +168,23 @@ function escPod(x, y, src) {
 
 //requires global variables happiness and Fuel. Subject to change though based on ship element.
 function LifeTime(ship) {
-    var i;
-    var van = 0;
-    var energy = 0;
-    var tanks = 0;
-    spdbst = 0;
-    var essential = [false, false, false, false];
+  statManager.clean();
     for (let thruster of ship.thruster) {
         if (thruster.element != null && thruster.element.item.type != "propulsion") {
             lose = true;
         } else if (thruster.element != null && thruster.element.item.type == "propulsion") {
-            essential[0] = true;
-            spdbst++;
-            energy += thruster.element.item.efficiency;
+            statManager.rocketThrusters.push(thruster.element);
         }
     }
   for (let slot of ship.slots) {
       if (slot.element != null && slot.element.item.type == "propulsion") {
           lose = true;
       } else if (slot.element != null && slot.element.item.type == "fuel") {
-          essential[1] = true;
-          tanks += slot.element.item.durability;
+          statManager.fuelTanks.push(slot.element);
       } else if (slot.element != null && slot.element.item.type == "vanity") {
-          van++;
-          slot.element.consumed = true;
+          statManager.happyThings.push(slot.element);
       } else if (slot.element != null && slot.element.item.type == "lifeSupport") {
-          essential[2] = true;
-      }
-      for(let item of essential){
-          if (essential[i] == false) lose = true;
+          statManager.shipSystem.push(slot.element);
       }
   }
-  fuel = tanks;
-  energyCons = energy;
-  currentSpeed = spdbst*5;
-  sadRate = 1-(van*0.4);
-  console.log(currentSpeed);
 }
