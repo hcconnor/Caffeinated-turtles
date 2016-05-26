@@ -4,8 +4,6 @@
 function ship(x, y, src) {
     this.numSlots = 4;
     this.picture = new Image();
-    this.picture.height = 450;
-    this.picture.width = 750;
     this.picture.src = src;
     this.picture.X = x;
     this.picture.Y = y;
@@ -98,6 +96,8 @@ function slot(x, y, element = null) {
 
 function mainShip(x, y, src) {
     ship.call(this, x, y, src)
+    this.picture.height = 450;
+    this.picture.width = 750;
     this.slots.push(new slot(150, 350));
     this.slots.push(new slot(300, 350));
     this.slots.push(new slot(150, 50));
@@ -128,7 +128,8 @@ function mainShip(x, y, src) {
 function escPod(x, y, src) {
     ship.call(this, x, y, src);
     this.value = 0;
-
+    this.picture.height = 250;
+    this.picture.width = 350;
     this.calcScore = function() {
         for (let item of this.slots){
             this.value += element.value;
@@ -143,16 +144,18 @@ function escPod(x, y, src) {
 function LifeTime(ship) {
     var i;
     var van = 0;
+    spdbst = 0;
     var essential = [false, false, false, false];
     for (let thruster of ship.thruster) {
-        if (thruster.element != null && thruster.element.item.type != "thruster") {
+        if (thruster.element != null && thruster.element.item.type != "propulsion") {
             lose = true;
-        } else if (thruster.element != null && thruster.element.item.type == "thruster") {
+        } else if (thruster.element != null && thruster.element.item.type == "propulsion") {
             essential[0] = true;
+            spdbst++;
         }
     }
   for (let slot of ship.slots) {
-      if (slot.element != null && slot.element.item.type == "thruster") {
+      if (slot.element != null && slot.element.item.type == "propulsion") {
           lose = true;
       } else if (slot.element != null && slot.element.item.type == "fuel") {
           essential[1] = true;
@@ -167,6 +170,7 @@ function LifeTime(ship) {
           if (essential[i] == false) lose = true;
       }
   }
+  currentSpeed = spdbst*5;
   sadRate = 1-(van*0.4);
-  console.log(sadRate);
+  console.log(currentSpeed);
 }

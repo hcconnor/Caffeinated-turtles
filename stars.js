@@ -5,7 +5,7 @@ function star() {
     this.x = Math.random() * canvas.width;
     this.y = Math.random() * 600;
     this.radius =  Math.random() * 5;
-    this.speed =  Math.random() * 0.9;
+    this.speed =  Math.random() * currentSpeed;
     this.colour = colour[Math.floor(Math.random()*colour.length)];
 }
 
@@ -24,7 +24,7 @@ function starSystem(numparticleStar) {
       i -= 1;
       //console.log(this.particleStar[0]);
       if (this.particleStar[i].x > 0) {
-        this.particleStar[i].x -= this.particleStar[i].radius * 0.5;
+        this.particleStar[i].x -= (this.particleStar[i].radius * currentSpeed);
       } else {
         this.particleStar[i].x = canvas.width;
         this.particleStar[i].y = Math.random() * 600;
