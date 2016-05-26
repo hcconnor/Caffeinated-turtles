@@ -121,6 +121,11 @@ function mainShip(x, y, src) {
             thrust.update();
         }
         happiness -= sadRate;
+        fuel -= energyCons;
+        if(fuel <= 0){
+          fuel = 0;
+          currentSpeed = 0;
+        }
     };
 }
 
@@ -144,6 +149,8 @@ function escPod(x, y, src) {
 function LifeTime(ship) {
     var i;
     var van = 0;
+    var energy = 0;
+    var tanks = 0;
     spdbst = 0;
     var essential = [false, false, false, false];
     for (let thruster of ship.thruster) {
@@ -152,6 +159,7 @@ function LifeTime(ship) {
         } else if (thruster.element != null && thruster.element.item.type == "propulsion") {
             essential[0] = true;
             spdbst++;
+            energy += thruster.element.item.efficiency;
         }
     }
   for (let slot of ship.slots) {
@@ -159,7 +167,7 @@ function LifeTime(ship) {
           lose = true;
       } else if (slot.element != null && slot.element.item.type == "fuel") {
           essential[1] = true;
-          fuel += slot.element.item.durability;
+          tanks++;
       } else if (slot.element != null && slot.element.item.type == "vanity") {
           van++;
           slot.element.consumed = true;
@@ -170,6 +178,8 @@ function LifeTime(ship) {
           if (essential[i] == false) lose = true;
       }
   }
+  fuel = tanks*200;
+  energyCons = energy;
   currentSpeed = spdbst*5;
   sadRate = 1-(van*0.4);
   console.log(currentSpeed);

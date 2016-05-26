@@ -5,7 +5,7 @@ var theShip = null;
 var parts_buffer = [];
 var distance = 0;
 var currentSpeed = 0;
-var fuel = 1000;
+var fuel = 0;
 var happiness = 1000;
 var durability = 1000;
 var lose = false;
@@ -15,6 +15,8 @@ var playerNum = 0;
 //var players = [new player("Bob", null)];
 
 var sadRate = 1;
+
+var energyCons = 0;
 
 var players = [];
 var playerNum = 0;
@@ -159,12 +161,17 @@ function main_build() {
         if(currentSpeed > 0) audioManager.play(audioManager.engine);
         else if (currentSpeed == 0) audioManager.stop(audioManager.engine);
 
+        if(fuel < 200){
+
+        }
+        else if (fuel >= 200) ;
+        
+        debris.update(10+currentSpeed);
+        theShip.update();
+
         for (let item of items) {
             item.update();
         }
-
-        debris.update(10+currentSpeed);
-        theShip.update();
 
         for (let member of theCrew) {
             member.update();
