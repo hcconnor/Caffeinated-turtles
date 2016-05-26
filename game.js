@@ -176,6 +176,13 @@ function main_build() {
           happiness = 1000;
         }
 
+        if(durability < 0){
+          lose = true;
+          durability = 0;
+        } else if(durability > 1000){
+          durability = 1000;
+        }
+
         this.timer.update();
 
         if (this.timer.counter == turnLength) {
