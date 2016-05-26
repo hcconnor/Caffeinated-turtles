@@ -128,7 +128,7 @@ function deselectElement(e) {
                 whatDragged.slot = slot;
                 slot.addElement(whatDragged);
                 whatDragged.setInUse();
-            } else if (thrust && thrust.element == null && thrust.occupied == false) {
+            } else if (thrust && thrust.element == null && thrust.occupied == false && whatDragged.item.type == "propulsion") {
                 whatDragged.x = thrust.x - (thrust.width - whatDragged.width);
                 whatDragged.y = thrust.y - (thrust.height - whatDragged.height);
                 whatDragged.slot = thrust;
