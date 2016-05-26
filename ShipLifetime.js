@@ -44,10 +44,11 @@ function ship(x, y, src) {
     };
 }
 
-function slot(x, y, element = null) {
+function slot(x, y, isThruster = false, element = null) {
     this.picture = new Image();
     this.x = x;
     this.y = y;
+    this.isThruster = isThruster;
     this.width = 50;
     this.height = 50;
     this.element = element;
@@ -63,7 +64,20 @@ function slot(x, y, element = null) {
             } else {
                 if (this.occupied == false)
                 {
-                    this.sprite.setFrameRange(2, 2);
+                    if (whatDragged.item.type == "propulsion")
+                    {
+                        if(this.isThruster)
+                        {
+                            this.sprite.setFrameRange(2, 2);
+                        }
+                    }
+                    else
+                    {
+                        if(!this.isThruster)
+                        {
+                            this.sprite.setFrameRange(2, 2);
+                        }
+                    }
                 }
                 else
                 {
@@ -104,8 +118,8 @@ function mainShip(x, y, src) {
     this.slots.push(new slot(300, 100));
     var active = 0;
 
-    this.thruster.push(new slot(100, 250));
-    this.thruster.push(new slot(100, 150));
+    this.thruster.push(new slot(100, 250, true));
+    this.thruster.push(new slot(100, 150, true));
     this.update = function() {
         if (durability >= 1000) { //Ship is deteriorating
             //this.spritesheet.setFrameRange(1, 1); //change this

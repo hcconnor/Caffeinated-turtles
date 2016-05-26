@@ -1,0 +1,9 @@
+@font-face {
+    font-family: curved-pixel;
+    src:url(fonts/rounded_pixel-7.ttf);
+}
+body {
+    font-family: curved-pixel;
+    color: white;
+    font-size: 50px;
+}
