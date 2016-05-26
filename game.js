@@ -167,7 +167,7 @@ function main_build() {
         else if (durability >= 200 && !mute) audioManager.stop(audioManager.klaxon);
 
         if(currentSpeed > 0 && !mute) audioManager.play(audioManager.engine);
-        else if (currentSpeed == 0 && !mute) audioManager.stop(audioManager.engine);
+        if (currentSpeed == 0 || mute) audioManager.stop(audioManager.engine);
 
         for (let item of items) {
             item.update();
@@ -256,10 +256,10 @@ function pause() {
       function button_select(e) {
           for (let Button of buttons) {
               if (checkBounds(Button, e.clientX, e.clientY)) {
-                console.log("beep");
+                console.log("beep")
                 if(Button.text == "Resume"){
                   canvas.removeEventListener("mousedown", button_select);
-                  console.log("boop");
+                  console.log(lastState);
                   Button.click(transition_states, lastState);
                 }
                 if(Button.text == "Main Menu"){} //Button.click(transition_states, "main_menu");
