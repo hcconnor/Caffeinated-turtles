@@ -7,7 +7,7 @@ tier1.push(new Item("fuel", "Car Battery", 100, "sprites/car_battery.png"));
 
 var tier2 = [];
 tier2.push(new Item("life_support","Supply Crate",100, "sprites/Storage.png"));
-tier2.push(new Item("fuel","Rocket Fuel Tank", 100, "GUI/fuel_tank.png"));
+tier2.push(new Item("fuel","Rocket Fuel Tank", 100, "sprites/rocket_fuel.png"));
 tier2.push(new thruster("propulsion","Standard Thruster",100, "sprites/Thruster.png", 10));
 tier2.push(new Item("vanity", "Box of Kittens", 100, "sprites/cat_box_strip.png"));
 
