@@ -167,7 +167,7 @@ function LifeTime(ship) {
           lose = true;
       } else if (slot.element != null && slot.element.item.type == "fuel") {
           essential[1] = true;
-          tanks++;
+          tanks += slot.element.item.durability;
       } else if (slot.element != null && slot.element.item.type == "vanity") {
           van++;
           slot.element.consumed = true;
@@ -178,7 +178,7 @@ function LifeTime(ship) {
           if (essential[i] == false) lose = true;
       }
   }
-  fuel = tanks*200;
+  fuel = tanks;
   energyCons = energy;
   currentSpeed = spdbst*5;
   sadRate = 1-(van*0.4);

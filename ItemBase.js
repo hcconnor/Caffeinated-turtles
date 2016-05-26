@@ -10,7 +10,9 @@ function Item(type, name, durability, src){
 	this.src = src;
 
 	this.updateDurab = function(){
-		this.durability --;
+		if(this.durability > 0){
+			this.durability --;
+		}
 		if(this.durability == (this.maxDurability - this.maxDurability/4)){
 			this.damageLevel = 1;
 		} else if(this.durability == this.maxDurability/2){
@@ -21,7 +23,6 @@ function Item(type, name, durability, src){
 			this.damageLevel = 4;
 		}
 	};
-	this.src = src;
 }
 //Thruster Prototype
 function thruster(type, name, durability, src, efficiency){
