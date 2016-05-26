@@ -156,7 +156,8 @@ function main_build() {
         if (durability < 200) audioManager.play(audioManager.klaxon);
         else if (durability >= 200) audioManager.stop(audioManager.klaxon);
 
-
+        if(currentSpeed > 0) audioManager.play(audioManager.engine);
+        else if (currentSpeed == 0) audioManager.stop(audioManager.engine);
 
         for (let item of items) {
             item.update();
