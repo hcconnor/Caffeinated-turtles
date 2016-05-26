@@ -4,8 +4,6 @@
 function ship(x, y, src) {
     this.numSlots = 4;
     this.picture = new Image();
-    this.picture.height = 450;
-    this.picture.width = 750;
     this.picture.src = src;
     this.picture.X = x;
     this.picture.Y = y;
@@ -98,6 +96,8 @@ function slot(x, y, element = null) {
 
 function mainShip(x, y, src) {
     ship.call(this, x, y, src)
+    this.picture.height = 450;
+    this.picture.width = 750;
     this.slots.push(new slot(150, 350));
     this.slots.push(new slot(300, 350));
     this.slots.push(new slot(150, 50));
@@ -128,7 +128,8 @@ function mainShip(x, y, src) {
 function escPod(x, y, src) {
     ship.call(this, x, y, src);
     this.value = 0;
-
+    this.picture.height = 250;
+    this.picture.width = 350;
     this.calcScore = function() {
         for (let item of this.slots){
             this.value += element.value;
