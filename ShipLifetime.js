@@ -56,9 +56,6 @@ function slot(x, y, element = null) {
     this.sprite = new SpriteSheet('sprites/SlotSprite.png', this.width, this.height, 4);
     this.sprite.setFrameRange(1, 1);
     this.update = function() {
-      if(this.element != null){
-        this.element.item.updateDurab();
-      }
         if (whatDragged != null) {
             if (doesCollide(this, whatDragged)) {
                 console.log("light up slot!");
