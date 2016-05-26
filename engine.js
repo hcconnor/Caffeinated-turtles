@@ -48,12 +48,11 @@ function Element(item, url, width, height, x, y) {
     this.sprite = new SpriteSheet(url, this.width, this.height, 4);
     this.sprite.setFrameRange(1, 10);
     this.slot = null;
-    this.consumed = false;
+    this.durab = this.item.durability;
     this.selected;
     this.setInUse = function() {
         this.inUse = true;
         this.sprite.setFrameRange(1, 1);
-        this.item.updateDurab();
     }
     this.unSetInUse = function() {
         this.inUse = false;
