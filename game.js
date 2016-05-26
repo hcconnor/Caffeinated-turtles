@@ -4,15 +4,18 @@ var buttons = [];
 var theShip = null;
 var parts_buffer = [];
 var distance = 0;
-var currentSpeed;
-var fuel = 1000;
+var currentSpeed = 0;
+var fuel = 0;
 var happiness = 1000;
 var durability = 1000;
 var lose = false;
 var FRAME = 30;
-var turnLength = FRAME * 5;
+var turnLength = FRAME * 30;
 var playerNum = 0;
-//var players = [new player("Bob", null)];
+
+var sadRate = 1;
+
+var energyCons = 0;
 
 var players = [];
 var playerNum = 0;
@@ -24,7 +27,8 @@ var roomPath = [];
 
 var theStarSystem = null;
 
-var audioManager = null;
+var audioManager = new soundFX();
+var mute = false;
 
 var states = {}; //implement cleanup of each state at beginning of new state
 // map   ["key"]  =  the thing;
@@ -36,12 +40,12 @@ states["change_turn"] = new change_turn();
 states["pause"] = new pause();
 states["end_game"] = new end_game();
 var currentState = "player_select"; // currently set to main build for prototype
+var lastState = null;
 transition_states(currentState);
-// var debris = debris = new particle_system(12);
-// debris.init();
+
 var GUI = new gui(1050, 760, "GUI/GUI.png");
 GUI.init();
-//var GUI = new gui(700, 550, durability, fuel, happiness, "GUI/GUI.png");
+
 
 //Player Object -------------------------------------------------------------------------------------------------------//
 function Player(Name) {
@@ -56,6 +60,8 @@ function Player(Name) {
 //call this to change to next state
 function transition_states(nextState) {
     //perform cleanup here
+		if(!mute) audioManager.play(audioManager.transition);
+    lastState = currentState;
     currentState = nextState;
     states[currentState].begin();
 }
@@ -63,6 +69,17 @@ function transition_states(nextState) {
 function state_manager() {
     states[currentState].update();
     states[currentState].draw();
+}
+
+//Use this function to set up a new game
+function init_game(){
+  debris = new particle_system(50);
+  debris.init();
+  theShip = new mainShip(0, 0, "sprites/BigShip.png");
+  currentPlayer = players[0];
+  nodeTree();
+  theCrew = new initCrew(10);
+  theStarSystem = new starSystem(100);
 }
 
 //On load, starts with main menu
@@ -89,8 +106,8 @@ function player_select() {
                     playerNum = parseInt(Button.text);
                     for (i = 0; i < playerNum; i++) {
                         players.push(new Player(i));
-                        players[i].escPod = new escPod(10, 600, "sprites/escape_pod.png");
-                        players[i].nextPlayer = i+1;
+                        players[i].escPod = new escPod(50, 650, "sprites/escape_pod.png");
+                        players[i].nextPlayer = i + 1;
                         console.log(players);
                     }
                     canvas.removeEventListener("mousedown", button_select);
@@ -110,19 +127,16 @@ function player_select() {
     };
 }
 
-//Player 1 starts building for a set amount of time
+//Player 1 starts building for a set amount of time <---------------------------------START THIS SOMETIME SOON
 function start_build() {
     this.begin = function() {
         buttons = null;
-        debris = new particle_system(50);
-        debris.init();
-        theShip = new mainShip(0, 0, "sprites/BigShip.png");
-        currentPlayer = players[0];
+        init_game(); // <------------------------ Move this somewhere else in the future
         console.log("start_build");
-        nodeTree();
-        theCrew = new initCrew(10);
-        theStarSystem = new starSystem(100);
-        audioManager = new soundFX();
+        document.addEventListener("keydown", pauseKey);
+        function pauseKey(e){
+          if(e.keyCode == 80 && currentState != "pause") transition_states("pause");
+        }
         transition_states("main_build");
     };
     this.update = function() {
@@ -148,26 +162,43 @@ function main_build() {
     this.update = function() {
         theStarSystem.update();
 
-        if(happiness < 300){
-          audioManager.play(audioManager.panic);
-        } else if(happiness >= 300){
-          audioManager.stop(audioManager.panic);
+        if (happiness < 300  && !mute)audioManager.play(audioManager.panic);
+        else if (happiness >= 300 && !mute) audioManager.stop(audioManager.panic);
+
+        if (durability < 200 && !mute) audioManager.play(audioManager.klaxon);
+        else if (durability >= 200 && !mute) audioManager.stop(audioManager.klaxon);
+
+        if(currentSpeed > 0 && !mute) audioManager.play(audioManager.engine);
+        if (currentSpeed == 0 || mute) audioManager.stop(audioManager.engine);
+
+        if(fuel < 200){
+
         }
+        else if (fuel >= 200) ;
+        
+        debris.update(10+currentSpeed);
+        theShip.update();
 
         for (let item of items) {
             item.update();
         }
 
-        debris.update(10);
-        theShip.update();
-
         for (let member of theCrew) {
             member.update();
         }
 
-        if (happiness <= 0) {
+        if (happiness < 0) {
             lose = true;
             happiness = 0;
+        } else if(happiness > 1000){
+          happiness = 1000;
+        }
+
+        if(durability < 0){
+          lose = true;
+          durability = 0;
+        } else if(durability > 1000){
+          durability = 1000;
         }
 
         this.timer.update();
@@ -192,6 +223,7 @@ function main_build() {
         for (let item of items) {
             item.draw();
         }
+        //context.fillRect(0,0 canvas.width, canvas.height);
     };
 }
 
@@ -201,9 +233,9 @@ function change_turn() {
         this.banner = new Image();
         this.banner.src = "GUI/NewPlayer.png";
         console.log("turn changed");
-        if(currentPlayer.nextPlayer >= playerNum){
-          currentPlayer = players[0];
-        }else currentPlayer = players[currentPlayer.nextPlayer];
+        if (currentPlayer.nextPlayer >= playerNum) {
+            currentPlayer = players[0];
+        } else currentPlayer = players[currentPlayer.nextPlayer];
         console.log(currentPlayer);
         canvas.removeEventListener("mousemove", moveElement);
         canvas.removeEventListener("mousedown", selectElement);
@@ -222,10 +254,38 @@ function change_turn() {
 
 //Pause / resume, stops update (TURN THIS INTO A GLOBAL VARIABLE THAT HALTS ALL UPDATES)
 function pause() {
-    this.begin = function() {
+    this.begin = function(){
+      canvas.removeEventListener("mousemove", moveElement);
+      canvas.removeEventListener("mousedown", selectElement);
+      canvas.removeEventListener("mouseup", deselectElement);
+      canvas.addEventListener("mousedown", button_select);
+      buttons = [new button("Resume", canvas.width/3, canvas.height/2, 200, 100), new button("Main Menu", 2 * canvas.width/3, canvas.height/2, 200, 100), new button("Mute", canvas.width/2, 2 * canvas.height/3, 100, 100)];
+      function button_select(e) {
+          for (let Button of buttons) {
+              if (checkBounds(Button, e.clientX, e.clientY)) {
+                console.log("beep")
+                if(Button.text == "Resume"){
+                  canvas.removeEventListener("mousedown", button_select);
+                  console.log(lastState);
+                  Button.click(transition_states, lastState);
+                }
+                if(Button.text == "Main Menu"){} //Button.click(transition_states, "main_menu");
+                if(Button.text == "Mute") mute = !mute;
+              }
+          }
+      }
+    };
+    this.draw = function(){
+      context.globalAlpha = 0.2;
+      context.fillStyle = "black";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      for(let Button of buttons){
+        Button.draw();
+      }
+    };
+    this.update = function(){
 
     };
-
 }
 
 //Win, loss, end game states

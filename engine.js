@@ -2,10 +2,6 @@ var canvas = document.getElementById('SOS');
 var context = canvas.getContext('2d');
 var whatDragged = null;
 
-// canvas.addEventListener("mousemove", moveElement);
-// canvas.addEventListener("mousedown", selectElement);
-// canvas.addEventListener("mouseup", deselectElement);
-
 
 
 //Timer ------------------------------------------------------------------------------------//
@@ -27,9 +23,9 @@ function button(text, X, Y, width, height) {
 
     //Pass in a function then its parameter
     this.click = function(method, param) {
+        if(!mute) audioManager.play(audioManager.menu_select);
         method(param);
     }
-
     this.draw = function() {
         context.fillStyle = "	#D3D3D3";
         context.fillRect(this.x, this.y, this.width, this.height);
@@ -38,6 +34,7 @@ function button(text, X, Y, width, height) {
         context.fillText(this.text, this.x + this.width / 2, this.y + this.height / 2);
     };
 }
+
 
 // Drag and Drop ----------------------------------------------------------------------//
 //add funtion with itembase
@@ -56,6 +53,7 @@ function Element(item, url, width, height, x, y) {
     this.setInUse = function() {
         this.inUse = true;
         this.sprite.setFrameRange(1, 1);
+        this.item.updateDurab();
     }
     this.unSetInUse = function() {
         this.inUse = false;
@@ -103,6 +101,7 @@ function selectElement(e) {
             break;
         }
     }
+    if(!mute) audioManager.play(audioManager.select_item);
     whatDragged.unSetInUse();
 }
 
@@ -143,6 +142,7 @@ function deselectElement(e) {
             }
         }
         whatDragged = null;
+        LifeTime(theShip);
     }
 }
 

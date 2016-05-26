@@ -4,8 +4,6 @@
 function ship(x, y, src) {
     this.numSlots = 4;
     this.picture = new Image();
-    this.picture.height = 450;
-    this.picture.width = 750;
     this.picture.src = src;
     this.picture.X = x;
     this.picture.Y = y;
@@ -97,6 +95,7 @@ function slot(x, y, isThruster = false, element = null) {
     }
 
     this.addElement = function(item) {
+        if(!mute) audioManager.play(audioManager.slot_in);
         this.element = item;
         this.occupied = true;
     }
@@ -111,6 +110,8 @@ function slot(x, y, isThruster = false, element = null) {
 
 function mainShip(x, y, src) {
     ship.call(this, x, y, src)
+    this.picture.height = 450;
+    this.picture.width = 750;
     this.slots.push(new slot(150, 350));
     this.slots.push(new slot(300, 350));
     this.slots.push(new slot(150, 50));
@@ -119,13 +120,13 @@ function mainShip(x, y, src) {
     this.thruster.push(new slot(100, 250, true));
     this.thruster.push(new slot(100, 150, true));
     this.update = function() {
-        //durability--;
-        if (durability >= 20000) { //Ship is deteriorating
-            this.spritesheet.setFrameRange(1, 1); //change this
-        } else if (durability >= 10000) {
-            this.spritesheet.setFrameRange(1, 1); //change this
-        } else if (durability >= 5000) {
-            this.spritesheet.setFrameRange(1, 1); //change this
+        durability--;
+        if (durability >= 1000) { //Ship is deteriorating
+            //this.spritesheet.setFrameRange(1, 1); //change this
+        } else if (durability >= 500) {
+            //this.spritesheet.setFrameRange(1, 1); //change this
+        } else if (durability >= 200) {
+            //this.spritesheet.setFrameRange(1, 1); //change this
         }
         for (let slot of this.slots) {
             slot.update();
@@ -133,8 +134,12 @@ function mainShip(x, y, src) {
         for (let thrust of this.thruster){
             thrust.update();
         }
-        LifeTime(this);
-        happiness--;
+        happiness -= sadRate;
+        fuel -= energyCons;
+        if(fuel <= 0){
+          fuel = 0;
+          currentSpeed = 0;
+        }
     };
 }
 
@@ -142,7 +147,8 @@ function mainShip(x, y, src) {
 function escPod(x, y, src) {
     ship.call(this, x, y, src);
     this.value = 0;
-
+    this.picture.height = 250;
+    this.picture.width = 350;
     this.calcScore = function() {
         for (let item of this.slots){
             this.value += element.value;
@@ -156,28 +162,39 @@ function escPod(x, y, src) {
 //requires global variables happiness and Fuel. Subject to change though based on ship element.
 function LifeTime(ship) {
     var i;
+    var van = 0;
+    var energy = 0;
+    var tanks = 0;
+    spdbst = 0;
     var essential = [false, false, false, false];
     for (let thruster of ship.thruster) {
-        if (thruster.element != null && thruster.element.item.type != "thruster") {
+        if (thruster.element != null && thruster.element.item.type != "propulsion") {
             lose = true;
-        } else if (thruster.element != null && thruster.element.item.type == "thruster") {
+        } else if (thruster.element != null && thruster.element.item.type == "propulsion") {
             essential[0] = true;
+            spdbst++;
+            energy += thruster.element.item.efficiency;
         }
     }
-for (let slot of ship.slots) {
-    if (slot.element != null && slot.element.item.type == "thruster") {
-        lose = true;
-    } else if (slot.element != null && slot.element.item.type == "fuel") {
-        essential[1] = true;
-        fuel += slot.element.item.durability;
-    } else if (slot.element != null && slot.element.item.type == "vanity" && slot.element.consumed == false) {
-        happiness += slot.element.item.durability;
-        slot.element.consumed = true;
-    } else if (slot.element != null && slot.element.item.type == "lifeSupport") {
-        essential[2] = true;
-    }
-    for(let item of essential){
-        if (essential[i] == false) lose = true;
-    }
-}
+  for (let slot of ship.slots) {
+      if (slot.element != null && slot.element.item.type == "propulsion") {
+          lose = true;
+      } else if (slot.element != null && slot.element.item.type == "fuel") {
+          essential[1] = true;
+          tanks += slot.element.item.durability;
+      } else if (slot.element != null && slot.element.item.type == "vanity") {
+          van++;
+          slot.element.consumed = true;
+      } else if (slot.element != null && slot.element.item.type == "lifeSupport") {
+          essential[2] = true;
+      }
+      for(let item of essential){
+          if (essential[i] == false) lose = true;
+      }
+  }
+  fuel = tanks;
+  energyCons = energy;
+  currentSpeed = spdbst*5;
+  sadRate = 1-(van*0.4);
+  console.log(currentSpeed);
 }
