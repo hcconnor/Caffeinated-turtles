@@ -53,6 +53,7 @@ function Element(item, url, width, height, x, y) {
     this.setInUse = function() {
         this.inUse = true;
         this.sprite.setFrameRange(1, 1);
+        this.item.updateDurab();
     }
     this.unSetInUse = function() {
         this.inUse = false;
