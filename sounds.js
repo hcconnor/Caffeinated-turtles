@@ -7,6 +7,7 @@ var soundFX = function(){
   this.select_item = new Audio('sounds/select_item.wav');
   this.slot_in = new Audio('sounds/slot_in.wav');
   this.transition = new Audio('sounds/transition.wav');
+  this.engine = new Audio("sounds/engine.wav");
 
   this.play = function(sound){
     sound.play();
