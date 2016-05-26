@@ -12,3 +12,17 @@ function checkLoss(){
     return highest;
   }
 }
+
+function single_victory(player){
+  this.sprite = new Image();
+  this.sprite.src = "";
+  
+}
+
+function group_victory(){
+
+}
+
+function defeat(){
+
+}
