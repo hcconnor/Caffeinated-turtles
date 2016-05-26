@@ -143,12 +143,14 @@ function escPod(x, y, src) {
 function LifeTime(ship) {
     var i;
     var van = 0;
+    spdbst = 0;
     var essential = [false, false, false, false];
     for (let thruster of ship.thruster) {
         if (thruster.element != null && thruster.element.item.type != "thruster") {
             lose = true;
         } else if (thruster.element != null && thruster.element.item.type == "thruster") {
             essential[0] = true;
+            spdbst++;
         }
     }
   for (let slot of ship.slots) {
@@ -167,6 +169,7 @@ function LifeTime(ship) {
           if (essential[i] == false) lose = true;
       }
   }
+  currentSpeed = spdbst*5;
   sadRate = 1-(van*0.4);
   console.log(sadRate);
 }

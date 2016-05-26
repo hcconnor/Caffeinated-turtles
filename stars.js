@@ -19,6 +19,8 @@ function starSystem(numparticleStar) {
   }
 
   this.update = function() {
+    var temp = this.speed;
+    this.speed = temp + currentSpeed;
     var i = this.particleStar.length;
     while (i) {
       i -= 1;
