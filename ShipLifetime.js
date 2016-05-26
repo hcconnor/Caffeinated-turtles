@@ -146,15 +146,15 @@ function LifeTime(ship) {
     spdbst = 0;
     var essential = [false, false, false, false];
     for (let thruster of ship.thruster) {
-        if (thruster.element != null && thruster.element.item.type != "thruster") {
+        if (thruster.element != null && thruster.element.item.type != "propulsion") {
             lose = true;
-        } else if (thruster.element != null && thruster.element.item.type == "thruster") {
+        } else if (thruster.element != null && thruster.element.item.type == "propulsion") {
             essential[0] = true;
             spdbst++;
         }
     }
   for (let slot of ship.slots) {
-      if (slot.element != null && slot.element.item.type == "thruster") {
+      if (slot.element != null && slot.element.item.type == "propulsion") {
           lose = true;
       } else if (slot.element != null && slot.element.item.type == "fuel") {
           essential[1] = true;
@@ -171,5 +171,5 @@ function LifeTime(ship) {
   }
   currentSpeed = spdbst*5;
   sadRate = 1-(van*0.4);
-  console.log(sadRate);
+  console.log(currentSpeed);
 }

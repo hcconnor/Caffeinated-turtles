@@ -4,7 +4,7 @@ var buttons = [];
 var theShip = null;
 var parts_buffer = [];
 var distance = 0;
-var currentSpeed;
+var currentSpeed = 0;
 var fuel = 1000;
 var happiness = 1000;
 var durability = 1000;
@@ -162,7 +162,7 @@ function main_build() {
             item.update();
         }
 
-        debris.update(10);
+        debris.update(10+currentSpeed);
         theShip.update();
 
         for (let member of theCrew) {
