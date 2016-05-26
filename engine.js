@@ -310,5 +310,15 @@ function gui(x, y, src) {
         context.drawImage(this.sprites[1], this.X + 150, this.Y - 75);
         context.drawImage(this.sprites[2], this.X + 150, this.Y - 25);
         context.drawImage(this.sprites[3], this.X + 150, this.Y + 25);
+        if (whatDragged != null)
+        {
+            context.font = "bold 50px curved-pixel";
+            for(var i = 0; i < itemDesc[whatDragged.item.name].length; i++)
+            {
+                line = itemDesc[whatDragged.item.name][i];
+                context.fillText(line, this.X - 300 , (this.Y - 50) + i*40)
+            }
+
+        }
     };
 }

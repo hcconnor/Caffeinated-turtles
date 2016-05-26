@@ -25,3 +25,9 @@ parts.push(tier1);
 parts.push(tier2);
 parts.push(tier3);
 parts.push(tier4);
+
+
+var itemDesc = {
+    "Ice Cream Machine": ["wow199031", "hjnawdaw"],
+    "Fire Extinguisher": ["wowow"]
+};
