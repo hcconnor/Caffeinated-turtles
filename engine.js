@@ -23,7 +23,7 @@ function button(text, X, Y, width, height) {
 
     //Pass in a function then its parameter
     this.click = function(method, param) {
-        audioManager.play(audioManager.menu_select);
+        if(!mute) audioManager.play(audioManager.menu_select);
         method(param);
     }
     this.draw = function() {
@@ -101,7 +101,7 @@ function selectElement(e) {
             break;
         }
     }
-    audioManager.play(audioManager.select_item);
+    if(!mute) audioManager.play(audioManager.select_item);
     whatDragged.unSetInUse();
 }
 
