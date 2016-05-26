@@ -4,15 +4,17 @@ var buttons = [];
 var theShip = null;
 var parts_buffer = [];
 var distance = 0;
-var currentSpeed;
+var currentSpeed = 0;
 var fuel = 1000;
 var happiness = 1000;
 var durability = 1000;
 var lose = false;
 var FRAME = 30;
-var turnLength = FRAME * 5;
+var turnLength = FRAME * 30;
 var playerNum = 0;
 //var players = [new player("Bob", null)];
+
+var sadRate = 1;
 
 var players = [];
 var playerNum = 0;
@@ -24,7 +26,7 @@ var roomPath = [];
 
 var theStarSystem = null;
 
-var audioManager = null;
+var audioManager = new soundFX();
 
 var states = {}; //implement cleanup of each state at beginning of new state
 // map   ["key"]  =  the thing;
@@ -56,6 +58,7 @@ function Player(Name) {
 //call this to change to next state
 function transition_states(nextState) {
     //perform cleanup here
+		audioManager.play(audioManager.transition);
     currentState = nextState;
     states[currentState].begin();
 }
@@ -89,8 +92,8 @@ function player_select() {
                     playerNum = parseInt(Button.text);
                     for (i = 0; i < playerNum; i++) {
                         players.push(new Player(i));
-                        players[i].escPod = new escPod(10, 600, "sprites/escape_pod.png");
-                        players[i].nextPlayer = i+1;
+                        players[i].escPod = new escPod(50, 650, "sprites/escape_pod.png");
+                        players[i].nextPlayer = i + 1;
                         console.log(players);
                     }
                     canvas.removeEventListener("mousedown", button_select);
@@ -122,7 +125,6 @@ function start_build() {
         nodeTree();
         theCrew = new initCrew(10);
         theStarSystem = new starSystem(100);
-        audioManager = new soundFX();
         transition_states("main_build");
     };
     this.update = function() {
@@ -148,26 +150,38 @@ function main_build() {
     this.update = function() {
         theStarSystem.update();
 
-        if(happiness < 300){
-          audioManager.play(audioManager.panic);
-        } else if(happiness >= 300){
-          audioManager.stop(audioManager.panic);
-        }
+        if (happiness < 300)audioManager.play(audioManager.panic);
+        else if (happiness >= 300) audioManager.stop(audioManager.panic);
+
+        if (durability < 200) audioManager.play(audioManager.klaxon);
+        else if (durability >= 200) audioManager.stop(audioManager.klaxon);
+
+        if(currentSpeed > 0) audioManager.play(audioManager.engine);
+        else if (currentSpeed == 0) audioManager.stop(audioManager.engine);
 
         for (let item of items) {
             item.update();
         }
 
-        debris.update(10);
+        debris.update(10+currentSpeed);
         theShip.update();
 
         for (let member of theCrew) {
             member.update();
         }
 
-        if (happiness <= 0) {
+        if (happiness < 0) {
             lose = true;
             happiness = 0;
+        } else if(happiness > 1000){
+          happiness = 1000;
+        }
+
+        if(durability < 0){
+          lose = true;
+          durability = 0;
+        } else if(durability > 1000){
+          durability = 1000;
         }
 
         this.timer.update();
@@ -192,6 +206,7 @@ function main_build() {
         for (let item of items) {
             item.draw();
         }
+        //context.fillRect(0,0 canvas.width, canvas.height);
     };
 }
 
@@ -201,9 +216,9 @@ function change_turn() {
         this.banner = new Image();
         this.banner.src = "GUI/NewPlayer.png";
         console.log("turn changed");
-        if(currentPlayer.nextPlayer >= playerNum){
-          currentPlayer = players[0];
-        }else currentPlayer = players[currentPlayer.nextPlayer];
+        if (currentPlayer.nextPlayer >= playerNum) {
+            currentPlayer = players[0];
+        } else currentPlayer = players[currentPlayer.nextPlayer];
         console.log(currentPlayer);
         canvas.removeEventListener("mousemove", moveElement);
         canvas.removeEventListener("mousedown", selectElement);

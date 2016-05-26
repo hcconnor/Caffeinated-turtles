@@ -54,7 +54,7 @@ function astronaut(state, roomStart, url){
   this.panicCheck = function(){
     if(happiness < 300){
       if(Math.abs(this.x - this.room.x) < 5 && Math.abs(this.y - this.room.y) < 5) this.moving = false;
-    }
+    } else if(happiness >= 300) this.speed = 1;
   }
 
   this.move = function(){
