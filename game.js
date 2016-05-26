@@ -26,7 +26,7 @@ var roomPath = [];
 
 var theStarSystem = null;
 
-var audioManager = null;
+var audioManager = new soundFX();
 
 var states = {}; //implement cleanup of each state at beginning of new state
 // map   ["key"]  =  the thing;
@@ -58,6 +58,7 @@ function Player(Name) {
 //call this to change to next state
 function transition_states(nextState) {
     //perform cleanup here
+		audioManager.play(audioManager.transition);
     currentState = nextState;
     states[currentState].begin();
 }
@@ -92,7 +93,7 @@ function player_select() {
                     for (i = 0; i < playerNum; i++) {
                         players.push(new Player(i));
                         players[i].escPod = new escPod(10, 600, "sprites/escape_pod.png");
-                        players[i].nextPlayer = i+1;
+                        players[i].nextPlayer = i + 1;
                         console.log(players);
                     }
                     canvas.removeEventListener("mousedown", button_select);
@@ -124,7 +125,6 @@ function start_build() {
         nodeTree();
         theCrew = new initCrew(10);
         theStarSystem = new starSystem(100);
-        audioManager = new soundFX();
         transition_states("main_build");
     };
     this.update = function() {
@@ -150,11 +150,13 @@ function main_build() {
     this.update = function() {
         theStarSystem.update();
 
-        if(happiness < 300){
-          audioManager.play(audioManager.panic);
-        } else if(happiness >= 300){
-          audioManager.stop(audioManager.panic);
-        }
+        if (happiness < 300)audioManager.play(audioManager.panic);
+        else if (happiness >= 300) audioManager.stop(audioManager.panic);
+
+        if (durability < 200) audioManager.play(audioManager.klaxon);
+        else if (durability >= 200) audioManager.stop(audioManager.klaxon);
+
+
 
         for (let item of items) {
             item.update();
@@ -205,9 +207,9 @@ function change_turn() {
         this.banner = new Image();
         this.banner.src = "GUI/NewPlayer.png";
         console.log("turn changed");
-        if(currentPlayer.nextPlayer >= playerNum){
-          currentPlayer = players[0];
-        }else currentPlayer = players[currentPlayer.nextPlayer];
+        if (currentPlayer.nextPlayer >= playerNum) {
+            currentPlayer = players[0];
+        } else currentPlayer = players[currentPlayer.nextPlayer];
         console.log(currentPlayer);
         canvas.removeEventListener("mousemove", moveElement);
         canvas.removeEventListener("mousedown", selectElement);
