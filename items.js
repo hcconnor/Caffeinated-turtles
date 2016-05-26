@@ -29,5 +29,14 @@ parts.push(tier4);
 
 var itemDesc = {
     "Ice Cream Machine": ["wow199031", "hjnawdaw"],
-    "Fire Extinguisher": ["wowow"]
+    "Fire Extinguisher": ["Short and ", "sweet."],
+          "Oxygen Tank": ["It's quite", "heavy."],
+        "Refridgerator": ["Still has ", "lefovers", "in it."],
+          "Car Battery": ["Once belonged", "to a unique", "DeLorean."],
+         "Supply Crate": ["Everything an", "astronaut", "needs."],
+     "Rocket Fuel Tank": [""],
+    "Standard Thruster": [""],
+       "Box of Kittens": [""],
+          "alien_drive": [""],
+       "alien_artifact": [""]
 };
