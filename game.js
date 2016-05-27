@@ -167,10 +167,10 @@ function main_build() {
         theShip.update();
 
         if (happiness < 300 && !mute) audioManager.play(audioManager.panic);
-        else if (happiness >= 300 && !mute) audioManager.stop(audioManager.panic);
+        else if (happiness >= 300 || mute) audioManager.stop(audioManager.panic);
 
         if (durability < 200 && !mute) audioManager.play(audioManager.klaxon);
-        else if (durability >= 200 && !mute) audioManager.stop(audioManager.klaxon);
+        else if (durability >= 200 || mute) audioManager.stop(audioManager.klaxon);
 
         if (currentSpeed > 0 && !mute) audioManager.play(audioManager.engine);
         if (currentSpeed == 0 || mute) audioManager.stop(audioManager.engine);
@@ -184,14 +184,14 @@ function main_build() {
         }
 
         if (happiness < 0) {
-            lose = true;
+            checkLoss();
             happiness = 0;
         } else if (happiness > 1000) {
             happiness = 1000;
         }
 
         if (durability < 0) {
-            lose = true;
+            checkLoss();
             durability = 0;
         } else if (durability > 1000) {
             durability = 1000;
@@ -204,7 +204,7 @@ function main_build() {
         }
         distance += .01 * currentSpeed;
         checkWin();
-        checkLoss();
+
     };
     this.draw = function() {
         canvas.width = canvas.width;
@@ -292,6 +292,13 @@ function end_game() {
         canvas.removeEventListener("mousedown", selectElement);
         canvas.removeEventListener("mouseup", deselectElement);
         canvas.addEventListener("mousedown", button_select);
+        /*for(let sound in audioManager){
+          console.log(sound);
+          if(audioManager.hasOwnProperty(sound)){
+            audioManager.stop(sound);
+          }
+        }*/
+
         buttons = [new button("Main Menu", canvas.width / 2, canvas.height - 100, 200, 100)];
         this.winType = null;
         if(checkWin()) this.winType = new group_victory();
@@ -316,6 +323,9 @@ function end_game() {
     this.draw = function() {
         canvas.width = canvas.width;
         this.winType.draw();
+        for(let Button of buttons){
+          Button.draw();
+        }
     };
 }
 

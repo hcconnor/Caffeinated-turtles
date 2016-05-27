@@ -11,19 +11,24 @@ function checkWin(){
   return allWin;
 }
 
+function highScore(){
+  var highest = players[0];
+  for(let player of players){
+    if(player.escPod.calcScore() > highest.escPod.calcScore()) highest = player;
+  }
+  if(highest.escPod.calcScore() >= 0){
+    console.log("1 WIN");
+    highest.win = true;
+  }
+  return highest.escPod.calcScore();
+}
+
 function checkLoss(){
-  if(happiness <= 0 || durability <= 0 || fuel <= 0 || lose){
-    var highest = players[0];
-    for(let player of players){
-      if(player.escPod.calcScore() > highest.escPod.calcScore()) highest = player;
-    }
-    console.log("LOSE");
+  if(happiness <= 0 || durability <= 0 || fuel <= 0){
     if(currentState != "end_game") transition_states("end_game");
-    if(heighest.escPod.calcScore() >= 0){
-      highest.win = true;
-      return heighest;
-    }
+    if(highScore() >= 0) return true;
     else{
+      console.log("LOSE");
       return false;
     }
   }
