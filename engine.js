@@ -48,12 +48,11 @@ function Element(item, url, width, height, x, y) {
     this.sprite = new SpriteSheet(url, this.width, this.height, 4);
     this.sprite.setFrameRange(1, 10);
     this.slot = null;
-    this.consumed = false;
+    this.durab = this.item.durability;
     this.selected;
     this.setInUse = function() {
         this.inUse = true;
         this.sprite.setFrameRange(1, 1);
-        this.item.updateDurab();
     }
     this.unSetInUse = function() {
         this.inUse = false;
@@ -127,7 +126,7 @@ function deselectElement(e) {
                 whatDragged.slot = slot;
                 slot.addElement(whatDragged);
                 whatDragged.setInUse();
-            } else if (thrust && thrust.element == null && thrust.occupied == false) {
+            } else if (thrust && thrust.element == null && thrust.occupied == false && whatDragged.item.type == "propulsion") {
                 whatDragged.x = thrust.x - (thrust.width - whatDragged.width);
                 whatDragged.y = thrust.y - (thrust.height - whatDragged.height);
                 whatDragged.slot = thrust;
@@ -310,5 +309,15 @@ function gui(x, y, src) {
         context.drawImage(this.sprites[1], this.X + 150, this.Y - 75);
         context.drawImage(this.sprites[2], this.X + 150, this.Y - 25);
         context.drawImage(this.sprites[3], this.X + 150, this.Y + 25);
+        if (whatDragged != null)
+        {
+            context.font = "bold 40px curved-pixel";
+            for(var i = 0; i < itemDesc[whatDragged.item.name].length; i++)
+            {
+                line = itemDesc[whatDragged.item.name][i];
+                context.fillText(line, this.X - 300 , (this.Y - 50) + i*30)
+            }
+
+        }
     };
 }

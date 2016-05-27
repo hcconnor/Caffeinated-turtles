@@ -29,6 +29,7 @@ var theStarSystem = null;
 
 var audioManager = new soundFX();
 var mute = false;
+var statManager = new status();
 
 var states = {}; //implement cleanup of each state at beginning of new state
 // map   ["key"]  =  the thing;
@@ -161,6 +162,8 @@ function main_build() {
 
     this.update = function() {
         theStarSystem.update();
+        debris.update(10+currentSpeed);
+        theShip.update();
 
         if (happiness < 300  && !mute)audioManager.play(audioManager.panic);
         else if (happiness >= 300 && !mute) audioManager.stop(audioManager.panic);
@@ -170,14 +173,6 @@ function main_build() {
 
         if(currentSpeed > 0 && !mute) audioManager.play(audioManager.engine);
         if (currentSpeed == 0 || mute) audioManager.stop(audioManager.engine);
-
-        if(fuel < 200){
-
-        }
-        else if (fuel >= 200) ;
-        
-        debris.update(10+currentSpeed);
-        theShip.update();
 
         for (let item of items) {
             item.update();
