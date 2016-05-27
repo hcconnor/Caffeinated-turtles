@@ -29,7 +29,7 @@ function button(text, X, Y, width, height) {
     this.draw = function() {
         context.fillStyle = "	#D3D3D3";
         context.fillRect(this.x, this.y, this.width, this.height);
-        context.font = "30px Arial";
+        context.font = "30px curved-pixel";
         context.fillStyle = "#000000";
         context.fillText(this.text, this.x + this.width / 2, this.y + this.height / 2);
     };
