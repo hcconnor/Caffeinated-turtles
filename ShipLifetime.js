@@ -58,8 +58,13 @@ function slot(x, y, isThruster = false, element = null) {
     this.sprite.setFrameRange(1, 1);
     this.update = function() {
         if (whatDragged != null) {
-            if (doesCollide(this, whatDragged)) {
-                console.log("light up slot!");
+            if (doesCollide(this, whatDragged) && whatDragged.item.type == "propulsion" && this.isThruster && !this.occupied) {
+                console.log("light up Thruster slot!");
+                this.sprite.setFrameRange(3, 3);
+            }
+            else if (doesCollide(this, whatDragged) && whatDragged.item.type != "propulsion"&& !this.isThruster && !this.occupied)
+            {
+                console.log("light up normal slot!");
                 this.sprite.setFrameRange(3, 3);
             } else {
                 if (this.occupied == false)
@@ -156,11 +161,20 @@ function escPod(x, y, src) {
     this.value = 0;
     this.picture.height = 250;
     this.picture.width = 350;
+
+    this.slots.push(new slot(this.X + 100, this.Y + 100));
+    this.slots.push(new slot(this.X + 100, this.Y + 150));
+    this.slots.push(new slot(this.X + 150, this.Y + 100));
+    this.slots.push(new slot(this.X + 150, this.Y + 150));
+
+    this.thruster.push(new slot(0, this.Y + this.height/3, true));
+    this.thruster.push(new slot(0, this.Y + 2 * this.height/3, true));
+
     this.calcScore = function() {
         for (let item of this.slots){
-            this.value += element.value;
+            this.value += item.value;
         }
-        for (let thruster of this.thrusters) {
+        for (let thruster of this.thruster) {
             this.value += thruster.value;
         }
     };
