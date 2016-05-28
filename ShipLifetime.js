@@ -58,8 +58,13 @@ function slot(x, y, isThruster = false, element = null) {
     this.sprite.setFrameRange(1, 1);
     this.update = function() {
         if (whatDragged != null) {
-            if (doesCollide(this, whatDragged)) {
-                console.log("light up slot!");
+            if (doesCollide(this, whatDragged) && whatDragged.item.type == "propulsion" && this.isThruster && !this.occupied) {
+                console.log("light up Thruster slot!");
+                this.sprite.setFrameRange(3, 3);
+            }
+            else if (doesCollide(this, whatDragged) && whatDragged.item.type != "propulsion"&& !this.isThruster && !this.occupied)
+            {
+                console.log("light up normal slot!");
                 this.sprite.setFrameRange(3, 3);
             } else {
                 if (this.occupied == false)
