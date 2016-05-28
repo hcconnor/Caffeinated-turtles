@@ -6,6 +6,9 @@ tier1.push(new Item("life_support", "Oxygen Tank", 100, "sprites/oxygen.png"));
 tier1.push(new Item("life_support", "Refridgerator", 100, "sprites/fridge.png"));
 tier1.push(new Item("fuel", "Car Battery", 200, "sprites/car_battery.png"));
 
+//consumable [adding to item base]
+tier1.push(new Item("consumable", "speed_boost", 0, "sprites/alien_drive.png" ));
+
 var tier2 = [];
 tier2.push(new Item("life_support","Supply Crate",100, "sprites/Storage.png"));
 tier2.push(new Item("fuel","Rocket Fuel Tank", 300, "sprites/rocket_fuel.png"));
@@ -27,7 +30,7 @@ parts.push(tier2);
 parts.push(tier3);
 parts.push(tier4);
 
-
+//item description [],
 var itemDesc = {
          "example line": ["aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa"],
     "Ice Cream Machine": ["aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa"],
@@ -40,5 +43,7 @@ var itemDesc = {
     "Standard Thruster": [""],
        "Box of Kittens": [""],
           "alien_drive": [""],
-       "alien_artifact": [""]
+       "alien_artifact": [""],
+       "speed_boost": [""]
+
 };
