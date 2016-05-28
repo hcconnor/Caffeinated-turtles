@@ -29,7 +29,7 @@ function button(text, X, Y, width, height) {
     this.draw = function() {
         context.fillStyle = "	#D3D3D3";
         context.fillRect(this.x, this.y, this.width, this.height);
-        context.font = "30px Arial";
+        context.font = "30px curved-pixel";
         context.fillStyle = "#000000";
         context.fillText(this.text, this.x + this.width / 2, this.y + this.height / 2);
     };
@@ -120,7 +120,7 @@ function deselectElement(e) {
         var thrust = collisionList(whatDragged, theShip.thruster);
         whatDragged.selected = false;
         if ((slot || thrust)) {
-            if (slot && slot.element == null && slot.occupied == false) {
+            if (slot && slot.element == null && slot.occupied == false && whatDragged.item.type != "propulsion") {
                 whatDragged.x = slot.x - (slot.width - whatDragged.width);
                 whatDragged.y = slot.y - (slot.height - whatDragged.height);
                 whatDragged.slot = slot;
