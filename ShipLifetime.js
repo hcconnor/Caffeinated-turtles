@@ -161,11 +161,20 @@ function escPod(x, y, src) {
     this.value = 0;
     this.picture.height = 250;
     this.picture.width = 350;
+
+    this.slots.push(new slot(this.X + 100, this.Y + 100));
+    this.slots.push(new slot(this.X + 100, this.Y + 150));
+    this.slots.push(new slot(this.X + 150, this.Y + 100));
+    this.slots.push(new slot(this.X + 150, this.Y + 150));
+
+    this.thruster.push(new slot(0, this.Y + this.height/3, true));
+    this.thruster.push(new slot(0, this.Y + 2 * this.height/3, true));
+
     this.calcScore = function() {
         for (let item of this.slots){
-            this.value += element.value;
+            this.value += item.value;
         }
-        for (let thruster of this.thrusters) {
+        for (let thruster of this.thruster) {
             this.value += thruster.value;
         }
     };
