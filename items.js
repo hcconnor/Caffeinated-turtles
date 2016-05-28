@@ -30,7 +30,7 @@ parts.push(tier4);
 
 var itemDesc = {
          "example line": ["aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa"],
-    "Ice Cream Machine": ["aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa","aaaaaaaaaaaa"],
+    "Ice Cream Machine": ["Ice Cream"   ,"Machine:"     ,""            ,"Yummy ice"   ,"cream! Feed","the crew."],
     "Fire Extinguisher": ["Short and ", "sweet."],
           "Oxygen Tank": ["It's quite", "heavy."],
         "Refridgerator": ["Still has ", "lefovers", "in it."],
