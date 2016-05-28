@@ -144,7 +144,7 @@ function mainShip(x, y, src) {
         fuel = statManager.calcFuel();
         if(fuel < 0) fuel = 0;
         happiness -= sadRate;
-        currentSpeed = statManager.calcSpeed();
+        statManager.calcSpeed();
         if(statManager.fuelTanks.length > 0 && statManager.rocketThrusters.length > 0){
           if(statManager.fuelTanks[statManager.fuelTanks.length-1].durab < 0) {
             statManager.fuelTanks.pop();
