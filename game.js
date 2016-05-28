@@ -298,8 +298,8 @@ function banner(x,y,width,height,src){
   this.image.src = src;
 
   this.update = function(){
-  var threshold = 10;
-    if(Math.abs(canvas.width-this.width-this.x) < 10);
+  var threshold = 30;
+    if(canvas.width-this.width-this.x > canvas.width - this.width + threshold);
     else if(this.x > canvas.width-this.width) this.x -= threshold;
   };
 
