@@ -40,7 +40,7 @@ states["main_build"] = new main_build();
 states["change_turn"] = new change_turn();
 states["pause"] = new pause();
 states["end_game"] = new end_game();
-var currentState = "player_select"; // currently set to main build for prototype
+var currentState = "main_menu"; // currently set to main build for prototype
 var lastState = null;
 transition_states(currentState);
 
@@ -85,17 +85,47 @@ function init_game(){
 
 //On load, starts with main menu
 function main_menu() {
+    this.begin = function(){
+    canvas.removeEventListener("mousemove", moveElement);
+    canvas.removeEventListener("mousedown", selectElement);
+    canvas.removeEventListener("mouseup", deselectElement);
+    canvas.addEventListener("mousedown", button_select);
+    buttons = [new button("Begin", canvas.width/2, canvas.height /2 + 200, 200, 100)];
+    function button_select(e) {
+        for (let Button of buttons) {
+            if (checkBounds(Button, e.clientX, e.clientY)) {
+                 console.log("beep")
+                 if(Button.text == "Begin"){
+                     canvas.removeEventListener("mousedown", button_select);
+                     Button.click(transition_states, "player_select");
+                    }
+                }
+            }
+        }
+    };
     this.update = function() {
 
     };
     this.draw = function() {
-
+        canvas.width = canvas.width;
+        context.fillStyle = "black";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.fillStyle = "white";
+        context.font = "100px curved-pixel";
+        context.fillText("S.O.S.", canvas.width/2 - 100,canvas.height/2);
+        for(let Button of buttons){
+          Button.draw();
+      }
     };
 }
 
 //"PLAY" option on main menu switches to player select state, brings up options for number of players
 function player_select() {
     this.begin = function() {
+        canvas.removeEventListener("mousemove", moveElement);
+        canvas.removeEventListener("mousedown", selectElement);
+        canvas.removeEventListener("mouseup", deselectElement);
+
         buttons = [new button("2", canvas.width / 2, canvas.height / 3, 100, 100), new button("3", canvas.width / 3, 2 * canvas.height / 3, 100, 100),
             new button("4", 2 * canvas.width / 3, 2 * canvas.height / 3, 100, 100)
         ];
@@ -122,6 +152,7 @@ function player_select() {
 
     };
     this.draw = function() {
+        canvas.width = canvas.width;
         for (let Button of buttons) {
             Button.draw();
         }
@@ -264,7 +295,9 @@ function pause() {
                   console.log(lastState);
                   Button.click(transition_states, lastState);
                 }
-                if(Button.text == "Main Menu"){} //Button.click(transition_states, "main_menu");
+                if(Button.text == "Main Menu"){
+                    Button.click(transition_states, "main_menu");
+                }
                 if(Button.text == "Mute") mute = !mute;
               }
           }
@@ -291,6 +324,10 @@ function end_game() {
     this.begin = function() {
 
     };
+
+}
+
+function game_over(){
 
 }
 
