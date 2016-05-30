@@ -108,7 +108,6 @@ function player_select() {
                     for (i = 0; i < playerNum; i++) {
                         players.push(new Player(i));
                         players[i].escPod = new escPod(50, 650, "sprites/escape_pod.png");
-                        //console.log(players[i].escPod.picture.X);
                         players[i].nextPlayer = i + 1;
                         console.log(players);
                     }
@@ -166,8 +165,6 @@ function main_build() {
         theStarSystem.update();
         debris.update(10 + currentSpeed);
         theShip.update();
-        console.log(theShip.X);
-        currentPlayer.escPod.update();
 
         if (happiness < 300 && !mute) audioManager.play(audioManager.panic);
         else if (happiness >= 300 || mute) audioManager.stop(audioManager.panic);
