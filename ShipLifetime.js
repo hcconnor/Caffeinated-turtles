@@ -157,18 +157,18 @@ function mainShip(x, y, src) {
 
 
 function escPod(x, y, src) {
-    ship.call(this, x, y, src);
+    ship.call(this, x, y, src); // x = 50, y = 650
     this.value = 0;
     this.picture.height = 250;
     this.picture.width = 350;
 
-    this.slots.push(new slot(this.X + 100, this.Y + 100));
-    this.slots.push(new slot(this.X + 100, this.Y + 150));
-    this.slots.push(new slot(this.X + 150, this.Y + 100));
-    this.slots.push(new slot(this.X + 150, this.Y + 150));
+    this.slots.push(new slot(100, 700));
+    this.slots.push(new slot(100, 800));
+    this.slots.push(new slot(200, 700));
+    this.slots.push(new slot(200, 800));
 
-    this.thruster.push(new slot(0, this.Y + this.height/3, true));
-    this.thruster.push(new slot(0, this.Y + 2 * this.height/3, true));
+    this.thruster.push(new slot(25, 700, true));
+    this.thruster.push(new slot(25, 800, true));
 
     this.calcScore = function() {
         for (let item of this.slots){
