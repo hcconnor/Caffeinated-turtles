@@ -59,6 +59,10 @@ function Player(Name) {
 //Game States -------------------------------------------------------------------------------------------------------//
 
 //call this to change to next state
+function callTransion_to_main_build()
+{
+    transition_states("main_build");
+}
 function transition_states(nextState) {
     //perform cleanup here
 		if(!mute) audioManager.play(audioManager.transition);
@@ -183,9 +187,7 @@ function start_build() {
 function main_build() {
     this.begin = function() {
         this.timer = new Timer();
-        canvas.removeEventListener("mousedown", function() {
-            transition_states("main_build");
-        });
+        canvas.removeEventListener("mousedown", callTransion_to_main_build);
         canvas.addEventListener("mousemove", moveElement);
         canvas.addEventListener("mousedown", selectElement);
         canvas.addEventListener("mouseup", deselectElement);
@@ -266,9 +268,7 @@ function change_turn() {
         canvas.removeEventListener("mousemove", moveElement);
         canvas.removeEventListener("mousedown", selectElement);
         canvas.removeEventListener("mouseup", deselectElement);
-        canvas.addEventListener("mousedown", function() {
-            transition_states("main_build");
-        });
+        canvas.addEventListener("mousedown", callTransion_to_main_build());
     };
     this.draw = function() {
         context.drawImage(this.banner, 600, 250, 700, 200);
