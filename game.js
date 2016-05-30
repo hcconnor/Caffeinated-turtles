@@ -112,7 +112,6 @@ function player_select() {
                         players.push(new Player(i));
                         players[i].escPod = new escPod(50, 650, "sprites/escape_pod.png");
                         players[i].nextPlayer = i + 1;
-                        console.log(players);
                     }
                     canvas.removeEventListener("mousedown", button_select);
                     Button.click(transition_states, "start_build");
