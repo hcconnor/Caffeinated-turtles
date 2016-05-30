@@ -139,7 +139,7 @@ function mainShip(x, y, src) {
         for (let thrust of this.thruster){
             thrust.update();
         }
-        sadRate = 1 - statManager.calcSad()*0.4;
+        sadRate = 0.5 - 0.3*statManager.calcSad();
         energyCons = statManager.calcConsumption();
         fuel = statManager.calcFuel();
         if(fuel < 0) fuel = 0;
