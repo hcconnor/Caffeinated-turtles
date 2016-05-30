@@ -38,7 +38,7 @@ var states = {}; //implement cleanup of each state at beginning of new state
 // map   ["key"]  =  the thing;
 states["main_menu"] = new main_menu();
 states["player_select"] = new player_select();
-states["start_build"] = new start_build();
+states["tutorial"] = new tutorial();
 states["main_build"] = new main_build();
 states["change_turn"] = new change_turn();
 states["pause"] = new pause();
@@ -66,6 +66,11 @@ function callTransion_to_main_build()
 {
     transition_states("main_build");
 }
+
+function pauseKey(e) {
+    if (e.keyCode == 80 && currentState != "pause") transition_states("pause");
+}
+
 function transition_states(nextState) {
     //perform cleanup here
     if (!mute) audioManager.play(audioManager.transition);
@@ -81,13 +86,15 @@ function state_manager() {
 
 //Use this function to set up a new game
 function init_game() {
-    debris = new particle_system(50);
+    document.addEventListener("keydown", pauseKey);
+    debris = new particle_system(40);
     debris.init();
     theShip = new mainShip(0, 0, "sprites/BigShip.png");
     currentPlayer = players[0];
     nodeTree();
     theCrew = new initCrew(10);
     theStarSystem = new starSystem(100);
+    transition_states("tutorial");
 }
 
 //On load, starts with main menu
@@ -139,9 +146,9 @@ function player_select() {
         canvas.addEventListener("mousedown", button_select);
 
         function button_select(e) {
-            for (let Button of buttons) {
-                if (checkBounds(Button, e.clientX, e.clientY)) {
-                    playerNum = parseInt(Button.text);
+            for (let button of buttons) {
+                if (checkBounds(button, e.clientX, e.clientY)) {
+                    playerNum = parseInt(button.text);
                     for (i = 0; i < playerNum; i++) {
                         players.push(new Player(i));
                         players[i].escPod = new escPod(50, 650, "sprites/escape_pod.png");
@@ -149,7 +156,7 @@ function player_select() {
                         console.log(players);
                     }
                     canvas.removeEventListener("mousedown", button_select);
-                    Button.click(transition_states, "start_build");
+                    button.click(init_game);
                 }
             }
         }
@@ -167,30 +174,47 @@ function player_select() {
 }
 
 //Player 1 starts building for a set amount of time <---------------------------------START THIS SOMETIME SOON
-function start_build() {
+function tutorial() {
     this.begin = function() {
-        buttons = null;
-        init_game(); // <------------------------ Move this somewhere else in the future
+        //buttons =
+        canvas.addEventListener("mousemove", moveElement);
+        canvas.addEventListener("mousedown", selectElement);
+        canvas.addEventListener("mouseup", deselectElement);
+        this.timer = new Timer(30 * 10);
         console.log("start_build");
-        document.addEventListener("keydown", pauseKey);
-
-        function pauseKey(e) {
-            if (e.keyCode == 80 && currentState != "pause") transition_states("pause");
-        }
-        transition_states("main_build");
+        items.push(new Element(parts[0][0], parts[0][0].src, 50, 50,0, 0));
+        //transition_states("main_build");
     };
     this.update = function() {
-        distance += .01 * currentSpeed;
+        theShip.update();
+        for (let item of items) {
+            item.update();
+        }
+        this.timer.update();
+        if (this.timer.done) {
+            transition_states("main_build");
+        }
     };
     this.draw = function() {
-
+        canvas.width = canvas.width;
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        GUI.draw();
+        theShip.draw();
+        currentPlayer.escPod.draw();
+        for (let member of theCrew) {
+            member.draw();
+        }
+        for (let item of items) {
+            item.draw();
+        }
+        this.timer.draw();
     };
 }
 
 //Rounds for each player
 function main_build() {
     this.begin = function() {
-        this.timer = new Timer();
+        this.timer = new Timer(turnLength);
         canvas.removeEventListener("mousedown", callTransion_to_main_build);
         canvas.addEventListener("mousemove", moveElement);
         canvas.addEventListener("mousedown", selectElement);
@@ -235,10 +259,11 @@ function main_build() {
 
         this.timer.update();
 
-        if (this.timer.counter == turnLength) {
+        if (this.timer.done) {
             transition_states("change_turn");
         }
         distance += .01 * currentSpeed;
+        console.log(distance);
         checkWin();
 
     };
@@ -255,6 +280,7 @@ function main_build() {
         for (let item of items) {
             item.draw();
         }
+        this.timer.draw();
         //context.fillRect(0,0 canvas.width, canvas.height);
     };
 }
