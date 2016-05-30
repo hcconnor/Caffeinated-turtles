@@ -29,7 +29,7 @@ function button(text, X, Y, width, height) {
     this.draw = function() {
         context.fillStyle = "	#D3D3D3";
         context.fillRect(this.x, this.y, this.width, this.height);
-        context.font = "30px Arial";
+        context.font = "30px curved-pixel";
         context.fillStyle = "#000000";
         context.fillText(this.text, this.x + this.width / 2, this.y + this.height / 2);
     };
@@ -132,7 +132,20 @@ function deselectElement(e) {
                 whatDragged.slot = thrust;
                 thrust.addElement(whatDragged);
                 whatDragged.setInUse();
-            }
+            } else if (slot && slot.element.item.type == whatDragged.item.type){
+                var index = items.indexOf(whatDragged);
+                slot.element.durab += whatDragged.durab;
+                console.log(slot.element.durability);
+                var splicedPart = items.splice(index, 1)[0];
+                var randomPart = randomElement(parts);
+                items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width, 600 * Math.random()));
+            } else if (thrust && thrust.element.item.type == whatDragged.item.type){
+                var index = items.indexOf(whatDragged);
+                thrust.element.durab += whatDragged.durab;
+                var splicedPart = items.splice(index, 1)[0];
+                var randomPart = randomElement(parts);
+                items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width, 600 * Math.random()));
+              }
         } else {
             whatDragged.unSetInUse();
             if (whatDragged.slot != null) {
