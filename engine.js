@@ -24,8 +24,8 @@ function Timer(length) {
         {
             context.fillStyle = "red";
         }
-        context.font = "bold 100px curved-pixel";
-        context.fillText(Math.floor((this.counter) / 30), 100,100);
+        context.font = "100px clock";
+        context.fillText(Math.floor((this.counter) / 30), 10,100);
     }
 }
 
