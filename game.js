@@ -13,6 +13,9 @@ var FRAME = 30;
 var turnLength = FRAME * 30;
 var playerNum = 0;
 
+var changeBanner = null;
+var decceleration = 0.1;
+
 var sadRate = 1;
 
 var energyCons = 0;
@@ -226,8 +229,9 @@ function main_build() {
 //Players turn transition
 function change_turn() {
     this.begin = function() {
-        this.banner = new Image();
-        this.banner.src = "GUI/NewPlayer.png";
+
+        changeBanner = new banner(canvas.width, 250, 700, 200,"GUI/NewPlayer.png");
+
         console.log("turn changed");
         if (currentPlayer.nextPlayer >= playerNum) {
             currentPlayer = players[0];
@@ -241,10 +245,10 @@ function change_turn() {
         });
     };
     this.draw = function() {
-        context.drawImage(this.banner, 600, 250, 700, 200);
+      changeBanner.draw();
     }
     this.update = function() {
-
+      changeBanner.update();
     }
 }
 
@@ -283,6 +287,25 @@ function pause() {
     this.update = function() {
 
     };
+}
+
+function banner(x,y,width,height,src){
+  this.x = x;
+  this.y = y;
+  this.height = height;
+  this.width = width;
+  this.image = new Image();
+  this.image.src = src;
+
+  this.update = function(){
+  var threshold = 30;
+    if(canvas.width-this.width-this.x > canvas.width - this.width + threshold);
+    else if(this.x > canvas.width-this.width) this.x -= threshold;
+  };
+
+  this.draw = function(){
+    context.drawImage(this.image,this.x,this.y,this.width,this.height);
+  };
 }
 
 //Win, loss, end game states
