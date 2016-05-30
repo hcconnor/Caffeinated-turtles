@@ -2,6 +2,10 @@
     font-family: curved-pixel;
     src:url(fonts/rounded_pixel-7.ttf);
 }
+@font-face {
+    font-family: clock;
+    src:url(fonts/digital-7.ttf);
+}
 body {
     font-family: curved-pixel;
     color: white;
