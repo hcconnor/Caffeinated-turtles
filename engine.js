@@ -5,10 +5,27 @@ var whatDragged = null;
 
 
 //Timer ------------------------------------------------------------------------------------//
-function Timer() {
-    this.counter = 0;
+function Timer(length) {
+    this.length = length;
+    this.counter = length;
+    this.done = false;
     this.update = function() {
-        this.counter++;
+        this.counter --;
+        if(this.counter == 0)
+        {
+            this.done = true;
+            this.counter = this.length;
+        }
+    }
+    this.draw = function()
+    {
+        context.fillStyle = "white";
+        if(this.counter < 10 * 30)
+        {
+            context.fillStyle = "red";
+        }
+        context.font = "100px clock";
+        context.fillText(Math.floor((this.counter) / 30), 10,100);
     }
 }
 
@@ -258,7 +275,7 @@ function particle_system(num_particles) {
     this.init = function() {
         for (i = 0; i < num_particles; i++) {
             var randomPart = randomElement(parts); //referencing parts array in items.js
-            var dragElement = new Element(randomPart, randomPart.src, 50, 50, canvas.width, 600 * Math.random());
+            var dragElement = new Element(randomPart, randomPart.src, 50, 50, canvas.width + (Math.random()*1000), 600 * Math.random());
             items.push(dragElement);
         }
     };
@@ -267,12 +284,24 @@ function particle_system(num_particles) {
         for (var j = 0; j < items.length; j++) {
             if (!items[j].inUse && !items[j].selected) {
                 items[j].x -= Math.random() * speed;
-                if (items[j].x <= 0) {
+                if (items[j].x <= -50) {
                     var splicedPart = items.splice(j, 1)[0]; //extract from the array
                     //console.log(splicedPart);
-                    var randomPart = randomElement(parts);
-                    items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width, 600 * Math.random()));
-                    //console.log("NEW!");
+                    var generateNewItem = true;
+                    if(distance > 200)
+                    {
+                        var rand = Math.random() * distance;
+                        if (rand > 150)
+                        {
+                            generateNewItem = false;
+                        }
+                    }
+                    if(generateNewItem)
+                    {
+                        var randomPart = randomElement(parts);
+                        items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width +(Math.random()*1000), 600 * Math.random()));
+                        //console.log("NEW!");
+                    }
                 }
             }
         }
