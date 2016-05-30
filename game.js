@@ -16,7 +16,7 @@ var playerNum = 0;
 var changeBanner = null;
 var decceleration = 0.1;
 
-var sadRate = 1;
+var sadRate = 0.5;
 
 var energyCons = 0;
 
