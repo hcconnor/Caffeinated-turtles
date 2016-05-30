@@ -268,7 +268,7 @@ function change_turn() {
         canvas.removeEventListener("mousemove", moveElement);
         canvas.removeEventListener("mousedown", selectElement);
         canvas.removeEventListener("mouseup", deselectElement);
-        canvas.addEventListener("mousedown", callTransion_to_main_build());
+        canvas.addEventListener("mousedown", callTransion_to_main_build);
     };
     this.draw = function() {
         context.drawImage(this.banner, 600, 250, 700, 200);
