@@ -196,16 +196,16 @@ function player_select() {
 //Player 1 starts building for a set amount of time <---------------------------------START THIS SOMETIME SOON
 function tutorial() {
     this.begin = function() {
-        //buttons =
         canvas.addEventListener("mousemove", moveElement);
         canvas.addEventListener("mousedown", selectElement);
         canvas.addEventListener("mouseup", deselectElement);
-        this.timer = new Timer(30 * 60);
-        console.log("start_build");
-        items.push(new Element(parts[0][0], parts[0][0].src, 50, 50, 0, 0));
+        console.log("tutorial");
+        if(tut) this.tutorial = new beginTutorial();
+        else if(!tut) this.tutorial = new noTutorial();
     };
     this.update = function() {
         theShip.update();
+        if(tut) beginTutorial.update();
         for (let item of items) {
             item.update();
         }
@@ -219,6 +219,7 @@ function tutorial() {
         context.fillRect(0, 0, canvas.width, canvas.height);
         GUI.draw();
         theShip.draw();
+        if(tut) beginTutorial.draw();
         currentPlayer.escPod.draw();
         for (let member of theCrew) {
             member.draw();
