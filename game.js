@@ -193,6 +193,7 @@ function tutorial() {
         if (this.timer.done) {
             transition_states("main_build");
         }
+        currentPlayer.escPod.update();
     };
     this.draw = function() {
         canvas.width = canvas.width;
@@ -224,6 +225,7 @@ function main_build() {
         theStarSystem.update();
         debris.update(10 + currentSpeed);
         theShip.update();
+        currentPlayer.escPod.update();
 
         if (happiness < 300 && !mute) audioManager.play(audioManager.panic);
         else if (happiness >= 300 || mute) audioManager.stop(audioManager.panic);
