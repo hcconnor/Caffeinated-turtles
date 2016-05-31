@@ -114,7 +114,7 @@ function slot(x, y, isThruster = false, element = null) {
 
 
 function mainShip(x, y, src) {
-    ship.call(this, x, y, src)
+    ship.call(this, x, y, src);
     this.picture.height = 450;
     this.picture.width = 750;
     this.slots.push(new slot(150, 350));

@@ -87,12 +87,6 @@ function Element(item, url, width, height, x, y) {
 }
 
 function selectElement(e) {
-    // for(let ef of unlocked){
-    // 	if (checkBounds(ef.picture, e.clientX, e.clientY)) {
-    // 		whatDragged = new Element(ef.name, ef.picture.src, ef.picture.X, ef.picture.Y);
-    // 		items.push(whatDragged);
-    // 	}
-    // });
 
     //select element from array of elements on screen
     for (var i = 0; i < items.length; i++) {
