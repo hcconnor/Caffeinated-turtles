@@ -96,23 +96,32 @@ function selectElement(e) {
             whatDragged.unSetInUse();
             for (let slot of theShip.slots) //use let of to itteretate objects.
             {
-                if (slot.element == whatDragged) {
-                    slot.removeElement();
-                    break;
-                }
+                removeFromSlot(slot);
             }
             for (let thrust of theShip.thruster) //use let of to itteretate objects.
             {
-                if (thrust.element == whatDragged) {
-                    thrust.removeElement();
-                    break;
-                }
+                removeFromSlot(thrust);
+            }
+            for (let escslot of currentPlayer.escPod.slots) //use let of to itteretate objects.
+            {
+                removeFromSlot(escslot);
+            }
+            for (let escthrust of currentPlayer.escPod.thruster) //use let of to itteretate objects.
+            {
+                removeFromSlot(escthrust);
             }
             break;
         }
     }
     if(!mute) audioManager.play(audioManager.select_item);
     whatDragged.unSetInUse();
+}
+
+function removeFromSlot(slot)
+{
+    if (slot.element == whatDragged) {
+        slot.removeElement();
+    }
 }
 
 function moveElement(e) {
@@ -129,35 +138,37 @@ function deselectElement(e) {
     if (whatDragged != null) {
         var slot = collisionList(whatDragged, theShip.slots);
         var thrust = collisionList(whatDragged, theShip.thruster);
+        var escslot = collisionList(whatDragged, currentPlayer.escPod.slots);
+        var escthrust = collisionList(whatDragged, currentPlayer.escPod.thruster);
         whatDragged.selected = false;
-        if ((slot || thrust)) {
-            if (slot && slot.element == null && slot.occupied == false && whatDragged.item.type != "propulsion") {
-                whatDragged.x = slot.x - (slot.width - whatDragged.width);
-                whatDragged.y = slot.y - (slot.height - whatDragged.height);
-                whatDragged.slot = slot;
-                slot.addElement(whatDragged);
-                whatDragged.setInUse();
-            } else if (thrust && thrust.element == null && thrust.occupied == false && whatDragged.item.type == "propulsion") {
-                whatDragged.x = thrust.x - (thrust.width - whatDragged.width);
-                whatDragged.y = thrust.y - (thrust.height - whatDragged.height);
-                whatDragged.slot = thrust;
-                thrust.addElement(whatDragged);
-                whatDragged.setInUse();
-            } else if (slot && slot.element.item.type == whatDragged.item.type){
-                var index = items.indexOf(whatDragged);
-                slot.element.durab += whatDragged.durab;
-                console.log(slot.element.durability);
-                var splicedPart = items.splice(index, 1)[0];
-                var randomPart = randomElement(parts);
-                items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width, 600 * Math.random()));
-            } else if (thrust && thrust.element.item.type == whatDragged.item.type){
-                var index = items.indexOf(whatDragged);
-                thrust.element.durab += whatDragged.durab;
-                var splicedPart = items.splice(index, 1)[0];
-                var randomPart = randomElement(parts);
-                items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width, 600 * Math.random()));
-              }
-        } else {
+        if (slot && slot.element == null && slot.occupied == false && whatDragged.item.type != "propulsion") {
+            placeElement(slot, whatDragged);
+        }
+
+        else if (thrust && thrust.element == null && thrust.occupied == false && whatDragged.item.type == "propulsion") {
+            placeElement(thrust, whatDragged);
+        }
+        else if (escslot && escslot.element == null && escslot.occupied == false && whatDragged.item.type != "propulsion") {
+            placeElement(escslot, whatDragged);
+        }
+        else if (escthrust && escthrust.element == null && escthrust.occupied == false && whatDragged.item.type == "propulsion") {
+            placeElement(escthrust, whatDragged);
+        }
+
+        else if (slot && slot.element.item.type == whatDragged.item.type){
+            repair(slot, whatDragged);
+        }
+        else if (thrust && thrust.element.item.type == whatDragged.item.type){
+            repair(thrust, whatDragged);
+        }
+        else if (escslot && escslot.element.item.type == whatDragged.item.type){
+            repair(escslot, whatDragged);
+        }
+        else if (escthrust && escthrust.element.item.type == whatDragged.item.type){
+            repair(escthrust, whatDragged);
+        }
+        else
+        {
             whatDragged.unSetInUse();
             if (whatDragged.slot != null) {
                 whatDragged.slot.element = null;
@@ -168,6 +179,25 @@ function deselectElement(e) {
         LifeTime(theShip);
     }
 }
+
+function placeElement(slot, element)
+{
+    element.x = slot.x - (slot.width - element.width);
+    element.y = slot.y - (slot.height - element.height);
+    element.slot = slot;
+    slot.addElement(element);
+    element.setInUse();
+}
+
+function repair(slot, element)
+{
+    var index = items.indexOf(element);
+    slot.element.durab += element.durab;
+    console.log(slot.element.durability);
+    var splicedPart = items.splice(index, 1)[0];
+    var randomPart = randomElement(parts);
+}
+
 
 function checkBounds(object, mouseX, mouseY) {
     if ((mouseX < (object.x + object.width)) && (mouseY < (object.y + object.height)) && (mouseX > (object.x)) && (mouseY > (object.y))) {

@@ -11,7 +11,7 @@ function beginTutorial(){
   this.update = function(){
     for(let stage of phases){
       if(!stage.done){
-        var execute = stage.call();
+        stage.call();
         this.phase = stage.phase;
         return;
       }
@@ -30,10 +30,10 @@ function beginTutorial(){
 
 var tutLine = {
   "example line": ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"],
-        "begin" : ["Greetings Captain, and welcome aboard! No time", "for pleasantries, we must hurry before things get worse.", "Click on a bit of floating debris to begin."], //Mouse over
+        "begin" : ["Greetings Captain, and welcome aboard! No time", "for pleasantries, we must hurry before things get worse.", "Click on a bit of floating debris to begin."], //Start, click on a part
   "mouse_parts" : ["Excellent! What you see here are parts that you," "can use to repair our ship on our long journey.", "Drag them each into an available slot."], //All parts slot in
          "drop" : ["Marvelous! Your ship will require some form of propulsion", "to move, fuel to fuel that propulsion,", "and some sort of life support to sustain your crew."], //Wait 5 seconds
-      "consume" : ["right clicking on a resource pod in a slot will", "benefit the ship in some way, but will destroy the", "resource pod immidiately afterwards."], //Wait 4 seconds
+      "consume" : ["right clicking on a resource pod in a slot will", "benefit the ship in some way, but will destroy the", "resource pod immidiately afterwards."], //Consume resource pod
      "resource" : ["These parts all contribute towards the ships durability," "fuel, and happiness.  Be careful to not let", "them fall to zero."], //Wait 4 seconds
          "turns": ["Inevitably, you will tire during your long journey.", "Every thirty years or so, the " + playerNum + " other Captains", "in cryosleep will take over for you."], //Wait 4 seconds
    "escape_pod" : ["If you are feeling, ah... unsafe... make sure to", "construct a personal escape pod down below.", "It requires the same parts that your ship does in order to function."] //Wait 3 seconds
@@ -62,6 +62,11 @@ function drop(){
   this.phase = "drop";
   this.done = false;
   for(let item in items){
-    if(!item.inUse) this.done = false;
+    if(!item.inUse) return;
   }
+  this.done = true;
+}
+
+function click_to_continue(){
+  
 }
