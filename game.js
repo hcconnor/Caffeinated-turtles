@@ -13,6 +13,8 @@ var FRAME = 30;
 var turnLength = FRAME * 30;
 var playerNum = 0;
 
+var timer;
+
 var changeBanner = null;
 var decceleration = 0.1;
 
@@ -153,7 +155,6 @@ function player_select() {
                         players.push(new Player(i));
                         players[i].escPod = new escPod(50, 650, "sprites/escape_pod.png");
                         players[i].nextPlayer = i + 1;
-                        console.log(players);
                     }
                     canvas.removeEventListener("mousedown", button_select);
                     button.click(init_game);
@@ -180,7 +181,7 @@ function tutorial() {
         canvas.addEventListener("mousemove", moveElement);
         canvas.addEventListener("mousedown", selectElement);
         canvas.addEventListener("mouseup", deselectElement);
-        this.timer = new Timer(30 * 10);
+        timer = new Timer(30 * 10);
         console.log("start_build");
         items.push(new Element(parts[0][0], parts[0][0].src, 50, 50,0, 0));
         //transition_states("main_build");
@@ -190,10 +191,12 @@ function tutorial() {
         for (let item of items) {
             item.update();
         }
-        this.timer.update();
-        if (this.timer.done) {
+        timer.update();
+        if (timer.done) {
+            timer = new Timer(turnLength);
             transition_states("main_build");
         }
+        currentPlayer.escPod.update();
     };
     this.draw = function() {
         canvas.width = canvas.width;
@@ -207,14 +210,14 @@ function tutorial() {
         for (let item of items) {
             item.draw();
         }
-        this.timer.draw();
+        timer.draw();
     };
 }
 
 //Rounds for each player
 function main_build() {
     this.begin = function() {
-        this.timer = new Timer(turnLength);
+
         canvas.removeEventListener("mousedown", callTransion_to_main_build);
         canvas.addEventListener("mousemove", moveElement);
         canvas.addEventListener("mousedown", selectElement);
@@ -225,6 +228,7 @@ function main_build() {
         theStarSystem.update();
         debris.update(10 + currentSpeed);
         theShip.update();
+        currentPlayer.escPod.update();
 
         if (happiness < 300 && !mute) audioManager.play(audioManager.panic);
         else if (happiness >= 300 || mute) audioManager.stop(audioManager.panic);
@@ -257,9 +261,9 @@ function main_build() {
             durability = 1000;
         }
 
-        this.timer.update();
+        timer.update();
 
-        if (this.timer.done) {
+        if (timer.done) {
             transition_states("change_turn");
         }
         distance += .01 * currentSpeed;
@@ -280,7 +284,7 @@ function main_build() {
         for (let item of items) {
             item.draw();
         }
-        this.timer.draw();
+        timer.draw();
         //context.fillRect(0,0 canvas.width, canvas.height);
     };
 }
@@ -288,7 +292,7 @@ function main_build() {
 //Players turn transition
 function change_turn() {
     this.begin = function() {
-
+        timer = new Timer(turnLength);
         changeBanner = new banner(canvas.width, 250, 700, 200,"GUI/NewPlayer.png");
 
         console.log("turn changed");
