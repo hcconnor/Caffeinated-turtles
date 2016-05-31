@@ -17,7 +17,7 @@ function ship(x, y, src) {
     };
 
     this.addThrusters = function(thuster) {
-        this.thrusters.push(thruster);
+        this.thruster.push(thruster);
     };
 
     this.addPart = function(part) {
@@ -26,6 +26,9 @@ function ship(x, y, src) {
     this.update = function() {
         for (let slot of this.slots) {
             slot.update();
+        };
+        for (let thrust of this.thruster) {
+            thrust.update();
         };
     }
 
