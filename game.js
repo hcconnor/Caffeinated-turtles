@@ -13,6 +13,9 @@ var FRAME = 30;
 var turnLength = FRAME * 30;
 var playerNum = 0;
 
+var systemDegrade = 0;
+
+var tut = false;
 var timer;
 
 var changeBanner = null;
@@ -238,6 +241,7 @@ function tutorial() {
 function main_build() {
     this.begin = function() {
         canvas.removeEventListener("mousedown", callTransition_to_main_build);
+        tut = false;
         canvas.addEventListener("mousemove", moveElement);
         canvas.addEventListener("mousedown", selectElement);
         canvas.addEventListener("mouseup", deselectElement);

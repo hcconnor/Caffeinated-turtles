@@ -142,18 +142,22 @@ function mainShip(x, y, src) {
         for (let thrust of this.thruster){
             thrust.update();
         }
-        sadRate = 0.5 - 0.3*statManager.calcSad();
-        energyCons = statManager.calcConsumption();
         fuel = statManager.calcFuel();
-        if(fuel < 0) fuel = 0;
-        happiness -= sadRate;
-        statManager.calcSpeed();
-        if(statManager.fuelTanks.length > 0 && statManager.rocketThrusters.length > 0){
-          if(statManager.fuelTanks[statManager.fuelTanks.length-1].durab < 0) {
-            statManager.fuelTanks.pop();
-          }else {
-            statManager.fuelTanks[statManager.fuelTanks.length-1].durab -= energyCons;
-          }fuel = statManager.calcFuel();
+        if (tut == false){
+          systemDegrade = statManager.calcDegrade(this);
+          durability -= systemDegrade;
+          sadRate = 0.5 - 0.3*statManager.calcSad();
+          energyCons = statManager.calcConsumption();
+          if(fuel < 0) fuel = 0;
+          happiness -= sadRate;
+          statManager.calcSpeed();
+          if(statManager.fuelTanks.length > 0 && statManager.rocketThrusters.length > 0){
+            if(statManager.fuelTanks[statManager.fuelTanks.length-1].durab < 0) {
+              statManager.fuelTanks.pop();
+            }else {
+              statManager.fuelTanks[statManager.fuelTanks.length-1].durab -= energyCons;
+            }
+          }
         }
     };
 }
