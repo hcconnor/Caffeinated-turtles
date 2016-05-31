@@ -66,20 +66,16 @@ function status(){
     this.shipSystems = [];
   }
 
-  this.shipDurability = function(theShip){
+  this.calcDegrade = function(theShip){
     var temp = 0;
-    for(let tanks of this.fuelTanks){
-      if(tanks.durab == 0) temp += 0.5;
+    var degrade = true;
+    for(let slot of theShip.slots){
+      if (slot.element != null && slot.element.item.type == "life_support"){
+         degrade = false;
+       }
     }
-    for(let happy of this.happyThings){
-      if(happy.durab == 0) temp += 0.5;
-    }
-    for(let rocket of this.rocketThrusters){
-      if(rocket.durab == 0) temp += 0.5;
-    }
-    for(let system of this.shipSystems){
-      if(system.durab == 0) temp += 0.5;
-    }
+    if(degrade == true) temp += 0.2;
+    if(happiness <= 0) temp += 0.2;
     return temp;
   }
 }
