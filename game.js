@@ -6,7 +6,7 @@ var parts_buffer = [];
 var distance = 0;
 var currentSpeed = 0;
 var fuel = 0;
-var happiness = 300;
+var happiness = 1000;
 var durability = 1000;
 var lose = false;
 var FRAME = 30;
@@ -89,7 +89,7 @@ function state_manager() {
 //Use this function to set up a new game
 function init_game() {
     document.addEventListener("keydown", pauseKey);
-    debris = new particle_system(40);
+    debris = new particle_system(0);
     debris.init();
     theShip = new mainShip(0, 0, "sprites/BigShip.png");
     currentPlayer = players[0];
@@ -201,13 +201,12 @@ function tutorial() {
         canvas.addEventListener("mousedown", selectElement);
         canvas.addEventListener("mouseup", deselectElement);
 
-        console.log("tutorial");
         if(tut) this.tutorial = new beginTutorial();
         else if(!tut) this.tutorial = new noTutorial();
     };
     this.update = function() {
         theShip.update();
-        if(tut) beginTutorial.update();
+        if(tut) this.tutorial.update();
         for (let item of items) {
             item.update();
         }
@@ -223,7 +222,7 @@ function tutorial() {
         context.fillRect(0, 0, canvas.width, canvas.height);
         GUI.draw();
         theShip.draw();
-        if(tut) beginTutorial.draw();
+        if(tut)this.tutorial.draw();
         currentPlayer.escPod.draw();
         for (let member of theCrew) {
             member.draw();
@@ -238,7 +237,7 @@ function tutorial() {
 //Rounds for each player
 function main_build() {
     this.begin = function() {
-        canvas.removeEventListener("mousedown", callTransion_to_main_build);
+        canvas.removeEventListener("mousedown", callTransition_to_main_build);
         canvas.addEventListener("mousemove", moveElement);
         canvas.addEventListener("mousedown", selectElement);
         canvas.addEventListener("mouseup", deselectElement);

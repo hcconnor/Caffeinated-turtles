@@ -126,7 +126,6 @@ function removeFromSlot(slot)
 
 function moveElement(e) {
     if (whatDragged) {
-        //nameText = whatDragged.name;
         whatDragged.x = e.clientX - whatDragged.width / 2;
         whatDragged.y = e.clientY - whatDragged.height / 2;
 
@@ -310,7 +309,6 @@ function particle_system(num_particles) {
                 items[j].x -= Math.random() * speed;
                 if (items[j].x <= -50) {
                     var splicedPart = items.splice(j, 1)[0]; //extract from the array
-                    //console.log(splicedPart);
                     var generateNewItem = true;
                     if(distance > 200)
                     {
@@ -324,7 +322,6 @@ function particle_system(num_particles) {
                     {
                         var randomPart = randomElement(parts);
                         items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width +(Math.random()*1000), 600 * Math.random()));
-                        //console.log("NEW!");
                     }
                 }
             }
