@@ -87,17 +87,13 @@ function Element(item, url, width, height, x, y) {
 }
 
 function selectElement(e) {
-    // for(let ef of unlocked){
-    // 	if (checkBounds(ef.picture, e.clientX, e.clientY)) {
-    // 		whatDragged = new Element(ef.name, ef.picture.src, ef.picture.X, ef.picture.Y);
-    // 		items.push(whatDragged);
-    // 	}
-    // });
 
     //select element from array of elements on screen
-    for (var i = 0; i < items.length; i++) {
-        if (checkBounds(items[i], e.clientX, e.clientY)) {
-            whatDragged = items[i];
+    var allItems = items.concat(theShip.getAllItems(), currentPlayer.escPod.getAllItems());
+
+    for (let item of allItems) {
+        if (checkBounds(item, e.clientX, e.clientY)) {
+            whatDragged = item;
             whatDragged.selected = true;
             whatDragged.unSetInUse();
             for (let slot of theShip.slots) //use let of to itteretate objects.
@@ -127,12 +123,12 @@ function removeFromSlot(slot)
 {
     if (slot.element == whatDragged) {
         slot.removeElement();
+        items.push(whatDragged);
     }
 }
 
 function moveElement(e) {
     if (whatDragged) {
-        //nameText = whatDragged.name;
         whatDragged.x = e.clientX - whatDragged.width / 2;
         whatDragged.y = e.clientY - whatDragged.height / 2;
 
@@ -192,6 +188,7 @@ function placeElement(slot, element)
     element.y = slot.y - (slot.height - element.height);
     element.slot = slot;
     slot.addElement(element);
+    items.splice(items.indexOf(element),1);
     element.setInUse();
 }
 
@@ -199,7 +196,7 @@ function repair(slot, element)
 {
     var index = items.indexOf(element);
     slot.element.durab += element.durab;
-    console.log(slot.element.durability);
+    //console.log(slot.element.durability);
     var splicedPart = items.splice(index, 1)[0];
     var randomPart = randomElement(parts);
 }
@@ -316,7 +313,6 @@ function particle_system(num_particles) {
                 items[j].x -= Math.random() * speed;
                 if (items[j].x <= -50) {
                     var splicedPart = items.splice(j, 1)[0]; //extract from the array
-                    //console.log(splicedPart);
                     var generateNewItem = true;
                     if(distance > 200)
                     {
@@ -330,7 +326,6 @@ function particle_system(num_particles) {
                     {
                         var randomPart = randomElement(parts);
                         items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width +(Math.random()*1000), 600 * Math.random()));
-                        //console.log("NEW!");
                     }
                 }
             }
@@ -356,6 +351,8 @@ function gui(x, y, src) {
     this.panelScreen1.src = "GUI/Screen.png";
     this.panelScreen2 = new Image();
     this.panelScreen2.src = "GUI/Screen.png";
+    this.progressBar = new Image();
+    this.progressBar.src = "GUI/DistanceMeter.png";
 
     this.init = function() {
         for (i = 0; i < 4; i++) {
@@ -381,6 +378,7 @@ function gui(x, y, src) {
         context.drawImage(this.sprites[1], this.X + 150, this.Y - 75);
         context.drawImage(this.sprites[2], this.X + 150, this.Y - 25);
         context.drawImage(this.sprites[3], this.X + 150, this.Y + 25);
+        context.drawImage(this.progressBar, 400, 570, 900, 100);
         if (whatDragged != null)
         {
             context.font = "bold 40px curved-pixel";
