@@ -89,9 +89,11 @@ function Element(item, url, width, height, x, y) {
 function selectElement(e) {
 
     //select element from array of elements on screen
-    for (var i = 0; i < items.length; i++) {
-        if (checkBounds(items[i], e.clientX, e.clientY)) {
-            whatDragged = items[i];
+    var allItems = items.concat(theShip.getAllItems(), currentPlayer.escPod.getAllItems());
+
+    for (let item of allItems) {
+        if (checkBounds(item, e.clientX, e.clientY)) {
+            whatDragged = item;
             whatDragged.selected = true;
             whatDragged.unSetInUse();
             for (let slot of theShip.slots) //use let of to itteretate objects.
@@ -121,6 +123,7 @@ function removeFromSlot(slot)
 {
     if (slot.element == whatDragged) {
         slot.removeElement();
+        items.push(whatDragged);
     }
 }
 
@@ -185,6 +188,7 @@ function placeElement(slot, element)
     element.y = slot.y - (slot.height - element.height);
     element.slot = slot;
     slot.addElement(element);
+    items.splice(items.indexOf(element),1);
     element.setInUse();
 }
 
@@ -192,7 +196,7 @@ function repair(slot, element)
 {
     var index = items.indexOf(element);
     slot.element.durab += element.durab;
-    console.log(slot.element.durability);
+    //console.log(slot.element.durability);
     var splicedPart = items.splice(index, 1)[0];
     var randomPart = randomElement(parts);
 }
@@ -347,6 +351,8 @@ function gui(x, y, src) {
     this.panelScreen1.src = "GUI/Screen.png";
     this.panelScreen2 = new Image();
     this.panelScreen2.src = "GUI/Screen.png";
+    this.progressBar = new Image();
+    this.progressBar.src = "GUI/DistanceMeter.png";
 
     this.init = function() {
         for (i = 0; i < 4; i++) {
@@ -372,6 +378,7 @@ function gui(x, y, src) {
         context.drawImage(this.sprites[1], this.X + 150, this.Y - 75);
         context.drawImage(this.sprites[2], this.X + 150, this.Y - 25);
         context.drawImage(this.sprites[3], this.X + 150, this.Y + 25);
+        context.drawImage(this.progressBar, 400, 570, 900, 100);
         if (whatDragged != null)
         {
             context.font = "bold 40px curved-pixel";

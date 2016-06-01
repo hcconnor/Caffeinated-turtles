@@ -18,6 +18,8 @@ var systemDegrade = 0;
 var tut = false;
 var timer;
 
+
+var distanceVisual = null;
 var changeBanner = null;
 var decceleration = 0.1;
 
@@ -132,7 +134,7 @@ function main_menu() {
         function button_select(e) {
             for (let Button of buttons) {
                 if (checkBounds(Button, e.clientX, e.clientY)) {
-                    console.log("beep")
+                    //console.log("beep")
                     if (Button.text == "Begin") {
                         canvas.removeEventListener("mousedown", button_select);
                         Button.click(transition_states, "player_select");
@@ -200,12 +202,21 @@ function player_select() {
 //Player 1 starts building for a set amount of time <---------------------------------START THIS SOMETIME SOON
 function tutorial() {
     this.begin = function() {
+        //buttons =
+        tut = true;
+        distanceVisual = new littleShip("sprites/littleship.png", 570, 100, 100);
         canvas.addEventListener("mousemove", moveElement);
         canvas.addEventListener("mousedown", selectElement);
         canvas.addEventListener("mouseup", deselectElement);
 
-        if(tut) this.tutorial = new beginTutorial();
-        else if(!tut) this.tutorial = new noTutorial();
+        if(tut)
+        {
+            this.tutorial = new beginTutorial();
+        }
+        else
+        {
+            this.tutorial = new noTutorial();
+        }
     };
     this.update = function() {
         theShip.update();
@@ -213,6 +224,7 @@ function tutorial() {
         for (let item of items) {
             item.update();
         }
+        distanceVisual.update();
         timer.update();
         if (timer.done) {
             timer = new Timer(turnLength);
@@ -225,7 +237,11 @@ function tutorial() {
         context.fillRect(0, 0, canvas.width, canvas.height);
         GUI.draw();
         theShip.draw();
-        if(tut)this.tutorial.draw();
+        if(tut)
+        {
+            this.tutorial.draw();
+        }
+        distanceVisual.draw();
         currentPlayer.escPod.draw();
         for (let member of theCrew) {
             member.draw();
@@ -253,6 +269,7 @@ function main_build() {
         debris.update(10 + currentSpeed);
         theShip.update();
         currentPlayer.escPod.update();
+        distanceVisual.update()
 
         if (happiness < 300 && !mute) audioManager.play(audioManager.panic);
         else if (happiness >= 300 || mute) audioManager.stop(audioManager.panic);
@@ -291,8 +308,9 @@ function main_build() {
             transition_states("change_turn");
         }
         distance += .01 * currentSpeed;
-        console.log(distance);
+        //console.log(distance);
         checkWin();
+        console.log(currentPlayer.escPod.calcScore());
 
     };
     this.draw = function() {
@@ -302,6 +320,7 @@ function main_build() {
         GUI.draw();
         theShip.draw();
         currentPlayer.escPod.draw();
+        distanceVisual.draw();
         for (let member of theCrew) {
             member.draw();
         }

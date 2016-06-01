@@ -64,8 +64,8 @@ function drop(){
   this.phase = "mouse_parts";
   this.done = false;
   this.check = function(){
-    for(let item in items){
-      console.log(item);
+    for(let item of items){
+      console.log(item.inUse);
       if(!item.inUse) return;
     }
     this.done = true;
@@ -85,6 +85,7 @@ function wait(phase, time){
   this.phase = phase;
   this.done = false;
   this.check = function(){
-    if(states["tutorial"].timer.counter <= time * 30) this.done = true;
+    //if(states["tutorial"].timer.counter <= time * 30)
+    this.done = true;
   };
 }
