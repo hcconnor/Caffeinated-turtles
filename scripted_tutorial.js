@@ -85,6 +85,7 @@ function wait(phase, time){
   this.phase = phase;
   this.done = false;
   this.check = function(){
-    if(states["tutorial"].timer.counter <= time * 30) this.done = true;
+    //if(states["tutorial"].timer.counter <= time * 30)
+    this.done = true;
   };
 }

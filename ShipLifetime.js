@@ -199,12 +199,11 @@ function escPod(x, y, src) {
     this.thruster.push(new slot(25, 800, true));
 
     this.calcScore = function() {
-        for (let item of this.slots){
+        this.value = 0;
+        for (let item of this.getAllItems()){
             this.value += item.value;
         }
-        for (let thruster of this.thruster) {
-            this.value += thruster.value;
-        }
+        return this.value;
     };
 }
 

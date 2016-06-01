@@ -309,6 +309,7 @@ function main_build() {
         distance += .01 * currentSpeed;
         //console.log(distance);
         checkWin();
+        console.log(currentPlayer.escPod.calcScore());
 
     };
     this.draw = function() {
