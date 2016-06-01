@@ -134,12 +134,14 @@ function main_menu() {
         function button_select(e) {
             for (let Button of buttons) {
                 if (checkBounds(Button, e.clientX, e.clientY)) {
-                    //console.log("beep")
                     if (Button.text == "Begin") {
                         canvas.removeEventListener("mousedown", button_select);
                         Button.click(transition_states, "player_select");
                     }
-                    if(Button.text == "Toggle Tutorial") tut = !tut;
+                    if(Button.text == "Toggle Tutorial"){
+                       tut = !tut;
+                       console.log(tut);
+                    }
                 }
             }
         }
@@ -202,8 +204,6 @@ function player_select() {
 //Player 1 starts building for a set amount of time <---------------------------------START THIS SOMETIME SOON
 function tutorial() {
     this.begin = function() {
-        //buttons =
-        tut = true;
         distanceVisual = new littleShip("sprites/littleship.png", 570, 100, 100);
         canvas.addEventListener("mousemove", moveElement);
         canvas.addEventListener("mousedown", selectElement);
@@ -220,14 +220,19 @@ function tutorial() {
     };
     this.update = function() {
         theShip.update();
-        if(tut) this.tutorial.update();
+        console.log(this.tutorial);
+        this.tutorial.update();
         for (let item of items) {
             item.update();
         }
         distanceVisual.update();
         timer.update();
         if (timer.done) {
-            timer = new Timer(turnLength);
+            //timer = new Timer(turnLength);
+            while(items.length < 10){
+              randomPart = randomElement(parts);
+              items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width +(Math.random()*1000), 600 * Math.random()));
+            }
             transition_states("main_build");
         }
         currentPlayer.escPod.update();
@@ -237,10 +242,7 @@ function tutorial() {
         context.fillRect(0, 0, canvas.width, canvas.height);
         GUI.draw();
         theShip.draw();
-        if(tut)
-        {
-            this.tutorial.draw();
-        }
+        this.tutorial.draw();
         distanceVisual.draw();
         currentPlayer.escPod.draw();
         for (let member of theCrew) {
@@ -256,6 +258,7 @@ function tutorial() {
 //Rounds for each player
 function main_build() {
     this.begin = function() {
+        timer = new Timer(turnLength);
         canvas.removeEventListener("mousedown", callTransition_to_main_build);
         tut = false;
         canvas.addEventListener("mousemove", moveElement);
@@ -307,7 +310,6 @@ function main_build() {
             transition_states("change_turn");
         }
         distance += .01 * currentSpeed;
-        //console.log(distance);
         checkWin();
         console.log(currentPlayer.escPod.calcScore());
 
@@ -334,13 +336,11 @@ function main_build() {
 //Players turn transition
 function change_turn() {
     this.begin = function() {
-        timer = new Timer(turnLength);
         changeBanner = new banner(canvas.width, 250, 700, 200,"GUI/NewPlayer.png");
         console.log("turn changed");
         if (currentPlayer.nextPlayer >= playerNum) {
             currentPlayer = players[0];
         } else currentPlayer = players[currentPlayer.nextPlayer];
-        console.log(currentPlayer);
         canvas.removeEventListener("mousemove", moveElement);
         canvas.removeEventListener("mousedown", selectElement);
         canvas.removeEventListener("mouseup", deselectElement);
@@ -367,7 +367,6 @@ function pause() {
         function button_select(e) {
             for (let Button of buttons) {
                 if (checkBounds(Button, e.clientX, e.clientY)) {
-                    console.log("beep")
                     if (Button.text == "Resume") {
                         canvas.removeEventListener("mousedown", button_select);
                         Button.click(transition_states, lastState);
@@ -431,7 +430,6 @@ function end_game() {
             for (let Button of buttons) {
                 if (checkBounds(Button, e.clientX, e.clientY)) {
                     if (Button.text == "Main Menu") {
-                        console.log("MAIN MENU");
                         canvas.removeEventListener("mousedown", button_select);
                         retry();
                         playerNum = 0;
@@ -440,7 +438,6 @@ function end_game() {
                     }
                     if (Button.text == "Retry?") {
                         canvas.removeEventListener("mousedown", button_select);
-                        console.log("RETRY");
                         for (i = 0; i < playerNum; i++) {
                             players[i].escPod = null;
                             players[i].escPod = new escPod(50, 650, "sprites/escape_pod.png");
