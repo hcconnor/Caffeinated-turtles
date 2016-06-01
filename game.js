@@ -248,6 +248,7 @@ function main_build() {
     };
 
     this.update = function() {
+        console.log(items);
         theStarSystem.update();
         debris.update(10 + currentSpeed);
         theShip.update();

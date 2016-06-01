@@ -65,7 +65,7 @@ function drop(){
   this.done = false;
   this.check = function(){
     for(let item in items){
-      console.log(item.inUse);
+      console.log(item);
       if(!item.inUse) return;
     }
     this.done = true;

@@ -128,6 +128,7 @@ function mainShip(x, y, src) {
 
     this.thruster.push(new slot(100, 250, true));
     this.thruster.push(new slot(100, 150, true));
+    
     this.update = function() {
         if (durability >= 1000) { //Ship is deteriorating
             //this.spritesheet.setFrameRange(1, 1); //change this
