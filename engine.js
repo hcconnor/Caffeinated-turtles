@@ -87,12 +87,6 @@ function Element(item, url, width, height, x, y) {
 }
 
 function selectElement(e) {
-    // for(let ef of unlocked){
-    // 	if (checkBounds(ef.picture, e.clientX, e.clientY)) {
-    // 		whatDragged = new Element(ef.name, ef.picture.src, ef.picture.X, ef.picture.Y);
-    // 		items.push(whatDragged);
-    // 	}
-    // });
 
     //select element from array of elements on screen
     var allItems = items.concat(theShip.getAllItems(), currentPlayer.escPod.getAllItems());
@@ -135,7 +129,6 @@ function removeFromSlot(slot)
 
 function moveElement(e) {
     if (whatDragged) {
-        //nameText = whatDragged.name;
         whatDragged.x = e.clientX - whatDragged.width / 2;
         whatDragged.y = e.clientY - whatDragged.height / 2;
 
@@ -203,7 +196,7 @@ function repair(slot, element)
 {
     var index = items.indexOf(element);
     slot.element.durab += element.durab;
-    console.log(slot.element.durability);
+    //console.log(slot.element.durability);
     var splicedPart = items.splice(index, 1)[0];
     var randomPart = randomElement(parts);
 }
@@ -320,7 +313,6 @@ function particle_system(num_particles) {
                 items[j].x -= Math.random() * speed;
                 if (items[j].x <= -50) {
                     var splicedPart = items.splice(j, 1)[0]; //extract from the array
-                    //console.log(splicedPart);
                     var generateNewItem = true;
                     if(distance > 200)
                     {
@@ -334,7 +326,6 @@ function particle_system(num_particles) {
                     {
                         var randomPart = randomElement(parts);
                         items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width +(Math.random()*1000), 600 * Math.random()));
-                        //console.log("NEW!");
                     }
                 }
             }

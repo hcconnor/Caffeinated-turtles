@@ -39,6 +39,7 @@ var theStarSystem = null;
 
 var audioManager = new soundFX();
 var mute = false;
+var tut = true;
 var statManager = new status();
 
 var states = {}; //implement cleanup of each state at beginning of new state
@@ -69,8 +70,7 @@ function Player(Name) {
 //Game States -------------------------------------------------------------------------------------------------------//
 
 //call this to change to next state
-function callTransion_to_main_build()
-{
+function callTransition_to_main_build() {
     transition_states("main_build");
 }
 
@@ -94,32 +94,52 @@ function state_manager() {
 //Use this function to set up a new game
 function init_game() {
     document.addEventListener("keydown", pauseKey);
-    debris = new particle_system(40);
+    debris = new particle_system(0);
     debris.init();
     theShip = new mainShip(0, 0, "sprites/BigShip.png");
     currentPlayer = players[0];
+    theStarSystem = new starSystem(100);
     nodeTree();
     theCrew = new initCrew(10);
-    theStarSystem = new starSystem(100);
     transition_states("tutorial");
+}
+
+function retry() {
+    debris = null;
+    theStarSystem = null;
+    roomPath = [];
+    crew = [];
+    items = [];
+    audioManager.stop(audioManager.panic);
+    audioManager.stop(audioManager.klaxon);
+    audioManager.stop(audioManager.explode);
+    audioManager.stop(audioManager.engine);
+    distance = 0;
+    lose = false;
+    currentSpeed = 0;
+    happiness = 1000;
+    durability = 1000;
 }
 
 //On load, starts with main menu
 function main_menu() {
-    this.begin = function(){
-    canvas.removeEventListener("mousemove", moveElement);
-    canvas.removeEventListener("mousedown", selectElement);
-    canvas.removeEventListener("mouseup", deselectElement);
-    canvas.addEventListener("mousedown", button_select);
-    buttons = [new button("Begin", canvas.width/2, canvas.height /2 + 200, 200, 100)];
-    function button_select(e) {
-        for (let Button of buttons) {
-            if (checkBounds(Button, e.clientX, e.clientY)) {
-                 console.log("beep")
-                 if(Button.text == "Begin"){
-                     canvas.removeEventListener("mousedown", button_select);
-                     Button.click(transition_states, "player_select");
+    this.begin = function() {
+        canvas.removeEventListener("mousemove", moveElement);
+        canvas.removeEventListener("mousedown", selectElement);
+        canvas.removeEventListener("mouseup", deselectElement);
+        canvas.addEventListener("mousedown", button_select);
+        buttons = [];
+        buttons = [new button("Begin", canvas.width / 4, canvas.height / 2 + 200, 200, 100), new button("Toggle Tutorial", 3 * canvas.width / 4, canvas.height / 2 + 200, 200, 100)];
+
+        function button_select(e) {
+            for (let Button of buttons) {
+                if (checkBounds(Button, e.clientX, e.clientY)) {
+                    //console.log("beep")
+                    if (Button.text == "Begin") {
+                        canvas.removeEventListener("mousedown", button_select);
+                        Button.click(transition_states, "player_select");
                     }
+                    if(Button.text == "Toggle Tutorial") tut = !tut;
                 }
             }
         }
@@ -133,10 +153,10 @@ function main_menu() {
         context.fillRect(0, 0, canvas.width, canvas.height);
         context.fillStyle = "white";
         context.font = "100px curved-pixel";
-        context.fillText("S.O.S.", canvas.width/2 - 100,canvas.height/2);
-        for(let Button of buttons){
-          Button.draw();
-      }
+        context.fillText("S.O.S.", canvas.width / 2 - 100, canvas.height / 2);
+        for (let Button of buttons) {
+            Button.draw();
+        }
     };
 }
 
@@ -146,7 +166,7 @@ function player_select() {
         canvas.removeEventListener("mousemove", moveElement);
         canvas.removeEventListener("mousedown", selectElement);
         canvas.removeEventListener("mouseup", deselectElement);
-
+        buttons = [];
         buttons = [new button("2", canvas.width / 2, canvas.height / 3, 100, 100), new button("3", canvas.width / 3, 2 * canvas.height / 3, 100, 100),
             new button("4", 2 * canvas.width / 3, 2 * canvas.height / 3, 100, 100)
         ];
@@ -188,13 +208,19 @@ function tutorial() {
         canvas.addEventListener("mousemove", moveElement);
         canvas.addEventListener("mousedown", selectElement);
         canvas.addEventListener("mouseup", deselectElement);
-        timer = new Timer(30 * 10);
-        console.log("start_build");
-        items.push(new Element(parts[0][0], parts[0][0].src, 50, 50,0, 0));
-        //transition_states("main_build");
+
+        if(tut)
+        {
+            this.tutorial = new beginTutorial();
+        }
+        else
+        {
+            this.tutorial = new noTutorial();
+        }
     };
     this.update = function() {
         theShip.update();
+        if(tut) this.tutorial.update();
         for (let item of items) {
             item.update();
         }
@@ -211,6 +237,10 @@ function tutorial() {
         context.fillRect(0, 0, canvas.width, canvas.height);
         GUI.draw();
         theShip.draw();
+        if(tut)
+        {
+            this.tutorial.draw();
+        }
         distanceVisual.draw();
         currentPlayer.escPod.draw();
         for (let member of theCrew) {
@@ -226,8 +256,8 @@ function tutorial() {
 //Rounds for each player
 function main_build() {
     this.begin = function() {
+        canvas.removeEventListener("mousedown", callTransition_to_main_build);
         tut = false;
-        canvas.removeEventListener("mousedown", callTransion_to_main_build);
         canvas.addEventListener("mousemove", moveElement);
         canvas.addEventListener("mousedown", selectElement);
         canvas.addEventListener("mouseup", deselectElement);
@@ -277,8 +307,9 @@ function main_build() {
             transition_states("change_turn");
         }
         distance += .01 * currentSpeed;
-        console.log(distance);
+        //console.log(distance);
         checkWin();
+        console.log(currentPlayer.escPod.calcScore());
 
     };
     this.draw = function() {
@@ -305,7 +336,6 @@ function change_turn() {
     this.begin = function() {
         timer = new Timer(turnLength);
         changeBanner = new banner(canvas.width, 250, 700, 200,"GUI/NewPlayer.png");
-
         console.log("turn changed");
         if (currentPlayer.nextPlayer >= playerNum) {
             currentPlayer = players[0];
@@ -314,13 +344,13 @@ function change_turn() {
         canvas.removeEventListener("mousemove", moveElement);
         canvas.removeEventListener("mousedown", selectElement);
         canvas.removeEventListener("mouseup", deselectElement);
-        canvas.addEventListener("mousedown", callTransion_to_main_build);
+        canvas.addEventListener("mousedown", callTransition_to_main_build);
     };
     this.draw = function() {
-      changeBanner.draw();
+        changeBanner.draw();
     }
     this.update = function() {
-      changeBanner.update();
+        changeBanner.update();
     }
 }
 
@@ -331,6 +361,7 @@ function pause() {
         canvas.removeEventListener("mousedown", selectElement);
         canvas.removeEventListener("mouseup", deselectElement);
         canvas.addEventListener("mousedown", button_select);
+        buttons = [];
         buttons = [new button("Resume", canvas.width / 3, canvas.height / 2, 200, 100), new button("Main Menu", 2 * canvas.width / 3, canvas.height / 2, 200, 100), new button("Mute", canvas.width / 2, 2 * canvas.height / 3, 100, 100)];
 
         function button_select(e) {
@@ -339,11 +370,13 @@ function pause() {
                     console.log("beep")
                     if (Button.text == "Resume") {
                         canvas.removeEventListener("mousedown", button_select);
-                        console.log(lastState);
                         Button.click(transition_states, lastState);
                     }
-                    if (Button.text == "Main Menu") {} //Button.click(transition_states, "main_menu");
-                    if (Button.text == "Mute") mute = !mute;
+                    if (Button.text == "Main Menu"){
+                      canvas.removeEventListener("mousedown", button_select);
+                      Button.click(transition_states, "main_menu");
+                    }
+                    if (Button.text == "Mute = true") mute = !mute;
                 }
             }
         }
@@ -361,23 +394,23 @@ function pause() {
     };
 }
 
-function banner(x,y,width,height,src){
-  this.x = x;
-  this.y = y;
-  this.height = height;
-  this.width = width;
-  this.image = new Image();
-  this.image.src = src;
+function banner(x, y, width, height, src) {
+    this.x = x;
+    this.y = y;
+    this.height = height;
+    this.width = width;
+    this.image = new Image();
+    this.image.src = src;
 
-  this.update = function(){
-  var threshold = 30;
-    if(canvas.width-this.width-this.x > canvas.width - this.width + threshold);
-    else if(this.x > canvas.width-this.width) this.x -= threshold;
-  };
+    this.update = function() {
+        var threshold = 30;
+        if (canvas.width - this.width - this.x > canvas.width - this.width + threshold);
+        else if (this.x > canvas.width - this.width) this.x -= threshold;
+    };
 
-  this.draw = function(){
-    context.drawImage(this.image,this.x,this.y,this.width,this.height);
-  };
+    this.draw = function() {
+        context.drawImage(this.image, this.x, this.y, this.width, this.height);
+    };
 }
 
 //Win, loss, end game states
@@ -387,25 +420,34 @@ function end_game() {
         canvas.removeEventListener("mousedown", selectElement);
         canvas.removeEventListener("mouseup", deselectElement);
         canvas.addEventListener("mousedown", button_select);
-        /*for(let sound in audioManager){
-          console.log(sound);
-          if(audioManager.hasOwnProperty(sound)){
-            audioManager.stop(sound);
-          }
-        }*/
 
-        buttons = [new button("Main Menu", canvas.width / 2, canvas.height - 100, 200, 100)];
+        buttons = [new button("Main Menu", canvas.width / 3, canvas.height - 100, 200, 100), new button("Retry?", 2 * canvas.width / 3, canvas.height - 100, 100, 100)];
         this.winType = null;
-        if(checkWin()) this.winType = new group_victory();
-        else if(checkLoss()) this.winType = new single_victory();
+        if (checkWin()) this.winType = new group_victory();
+        else if (checkLoss()) this.winType = new single_victory();
         else this.winType = new defeat();
 
         function button_select(e) {
             for (let Button of buttons) {
                 if (checkBounds(Button, e.clientX, e.clientY)) {
-                    console.log("beep");
-                    canvas.removeEventListener("mousedown", button_select);
-                    //Button.click(transition_states, "main_menu");
+                    if (Button.text == "Main Menu") {
+                        console.log("MAIN MENU");
+                        canvas.removeEventListener("mousedown", button_select);
+                        retry();
+                        playerNum = 0;
+                        players = [];
+                        Button.click(transition_states, "main_menu");
+                    }
+                    if (Button.text == "Retry?") {
+                        canvas.removeEventListener("mousedown", button_select);
+                        console.log("RETRY");
+                        for (i = 0; i < playerNum; i++) {
+                            players[i].escPod = null;
+                            players[i].escPod = new escPod(50, 650, "sprites/escape_pod.png");
+                        }
+                        retry();
+                        Button.click(init_game);
+                    }
                 }
             }
         }
@@ -418,14 +460,11 @@ function end_game() {
     this.draw = function() {
         canvas.width = canvas.width;
         this.winType.draw();
-        for(let Button of buttons){
-          Button.draw();
+        for (let Button of buttons) {
+            Button.draw();
         }
     };
 }
 
-function game_over(){
-
-}
 
 setInterval(state_manager, FRAME);

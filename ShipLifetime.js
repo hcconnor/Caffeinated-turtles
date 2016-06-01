@@ -138,7 +138,7 @@ function slot(x, y, isThruster = false, element = null) {
 
 
 function mainShip(x, y, src) {
-    ship.call(this, x, y, src)
+    ship.call(this, x, y, src);
     this.picture.height = 450;
     this.picture.width = 750;
     this.slots.push(new slot(150, 350));
@@ -199,12 +199,11 @@ function escPod(x, y, src) {
     this.thruster.push(new slot(25, 800, true));
 
     this.calcScore = function() {
-        for (let item of this.slots){
+        this.value = 0;
+        for (let item of this.getAllItems()){
             this.value += item.value;
         }
-        for (let thruster of this.thruster) {
-            this.value += thruster.value;
-        }
+        return this.value;
     };
 }
 
