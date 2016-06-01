@@ -5,9 +5,11 @@ function status(){
   this.shipSystems = [];
 
   this.calcFuel= function(){
+    console.log(this.fuelTanks);
     var temp = 0;
     for(let tanks of this.fuelTanks){
       temp += tanks.durab;
+      console.log(tanks.durab);
     }
     //console.log(this.fuelTanks);
     return temp;

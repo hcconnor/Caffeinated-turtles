@@ -227,5 +227,5 @@ function LifeTime(ship) {
       } else if (slot.element != null && slot.element.item.type == "lifeSupport") {
           statManager.shipSystem.push(slot.element);
       }
-  }
+  }alert(ship.slots);
 }
