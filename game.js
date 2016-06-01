@@ -18,6 +18,8 @@ var systemDegrade = 0;
 var tut = false;
 var timer;
 
+
+var distanceVisual = null;
 var changeBanner = null;
 var decceleration = 0.1;
 
@@ -200,6 +202,9 @@ function player_select() {
 //Player 1 starts building for a set amount of time <---------------------------------START THIS SOMETIME SOON
 function tutorial() {
     this.begin = function() {
+        //buttons =
+        tut = true;
+        distanceVisual = new littleShip("sprites/littleship.png", 570, 100, 100);
         canvas.addEventListener("mousemove", moveElement);
         canvas.addEventListener("mousedown", selectElement);
         canvas.addEventListener("mouseup", deselectElement);
@@ -213,6 +218,7 @@ function tutorial() {
         for (let item of items) {
             item.update();
         }
+        distanceVisual.update();
         timer.update();
         if (timer.done) {
             timer = new Timer(turnLength);
@@ -225,7 +231,11 @@ function tutorial() {
         context.fillRect(0, 0, canvas.width, canvas.height);
         GUI.draw();
         theShip.draw();
-        if(tut)this.tutorial.draw();
+        if(tut)
+        {
+            this.tutorial.draw();
+        }
+        distanceVisual.draw();
         currentPlayer.escPod.draw();
         for (let member of theCrew) {
             member.draw();
@@ -252,6 +262,7 @@ function main_build() {
         debris.update(10 + currentSpeed);
         theShip.update();
         currentPlayer.escPod.update();
+        distanceVisual.update()
 
         if (happiness < 300 && !mute) audioManager.play(audioManager.panic);
         else if (happiness >= 300 || mute) audioManager.stop(audioManager.panic);
@@ -301,6 +312,7 @@ function main_build() {
         GUI.draw();
         theShip.draw();
         currentPlayer.escPod.draw();
+        distanceVisual.draw();
         for (let member of theCrew) {
             member.draw();
         }

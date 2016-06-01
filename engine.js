@@ -347,6 +347,8 @@ function gui(x, y, src) {
     this.panelScreen1.src = "GUI/Screen.png";
     this.panelScreen2 = new Image();
     this.panelScreen2.src = "GUI/Screen.png";
+    this.progressBar = new Image();
+    this.progressBar.src = "GUI/DistanceMeter.png";
 
     this.init = function() {
         for (i = 0; i < 4; i++) {
@@ -372,6 +374,7 @@ function gui(x, y, src) {
         context.drawImage(this.sprites[1], this.X + 150, this.Y - 75);
         context.drawImage(this.sprites[2], this.X + 150, this.Y - 25);
         context.drawImage(this.sprites[3], this.X + 150, this.Y + 25);
+        context.drawImage(this.progressBar, 400, 570, 900, 100);
         if (whatDragged != null)
         {
             context.font = "bold 40px curved-pixel";
