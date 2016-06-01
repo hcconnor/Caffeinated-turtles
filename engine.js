@@ -95,9 +95,11 @@ function selectElement(e) {
     // });
 
     //select element from array of elements on screen
-    for (var i = 0; i < items.length; i++) {
-        if (checkBounds(items[i], e.clientX, e.clientY)) {
-            whatDragged = items[i];
+    var allItems = items.concat(theShip.getAllItems(), currentPlayer.escPod.getAllItems());
+
+    for (let item of allItems) {
+        if (checkBounds(item, e.clientX, e.clientY)) {
+            whatDragged = item;
             whatDragged.selected = true;
             whatDragged.unSetInUse();
             for (let slot of theShip.slots) //use let of to itteretate objects.
@@ -127,6 +129,7 @@ function removeFromSlot(slot)
 {
     if (slot.element == whatDragged) {
         slot.removeElement();
+        items.push(whatDragged);
     }
 }
 
@@ -192,6 +195,7 @@ function placeElement(slot, element)
     element.y = slot.y - (slot.height - element.height);
     element.slot = slot;
     slot.addElement(element);
+    items.splice(items.indexOf(element),1);
     element.setInUse();
 }
 
