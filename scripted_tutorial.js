@@ -64,7 +64,7 @@ function drop(){
   this.phase = "mouse_parts";
   this.done = false;
   this.check = function(){
-    for(let item in items){
+    for(let item of items){
       console.log(item.inUse);
       if(!item.inUse) return;
     }

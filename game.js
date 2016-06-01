@@ -134,7 +134,7 @@ function main_menu() {
         function button_select(e) {
             for (let Button of buttons) {
                 if (checkBounds(Button, e.clientX, e.clientY)) {
-                    console.log("beep")
+                    //console.log("beep")
                     if (Button.text == "Begin") {
                         canvas.removeEventListener("mousedown", button_select);
                         Button.click(transition_states, "player_select");
@@ -209,8 +209,14 @@ function tutorial() {
         canvas.addEventListener("mousedown", selectElement);
         canvas.addEventListener("mouseup", deselectElement);
 
-        if(tut) this.tutorial = new beginTutorial();
-        else if(!tut) this.tutorial = new noTutorial();
+        if(tut)
+        {
+            this.tutorial = new beginTutorial();
+        }
+        else
+        {
+            this.tutorial = new noTutorial();
+        }
     };
     this.update = function() {
         theShip.update();
@@ -301,7 +307,7 @@ function main_build() {
             transition_states("change_turn");
         }
         distance += .01 * currentSpeed;
-        console.log(distance);
+        //console.log(distance);
         checkWin();
 
     };

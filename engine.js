@@ -192,7 +192,7 @@ function repair(slot, element)
 {
     var index = items.indexOf(element);
     slot.element.durab += element.durab;
-    console.log(slot.element.durability);
+    //console.log(slot.element.durability);
     var splicedPart = items.splice(index, 1)[0];
     var randomPart = randomElement(parts);
 }
