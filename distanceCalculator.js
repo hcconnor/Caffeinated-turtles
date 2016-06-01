@@ -3,7 +3,7 @@ function calcLittleShipPos(currentDist,totalDist, lineWidth){
   var dist = currentDist;
   var rposition = (dist*lineWidth)/totalDist;
   position += rposition;
-  console.log(position);
+  //console.log(position);
   //Calculated little ship position here
   return position;
 }

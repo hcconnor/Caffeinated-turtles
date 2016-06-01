@@ -20,6 +20,23 @@ function ship(x, y, src) {
         this.thruster.push(thruster);
     };
 
+    this.getAllItems = function(){
+        var allItems = [];
+        for (let slot of this.slots) {
+            if(slot.element)
+            {
+                allItems.push(slot.element)
+            }
+        };
+        for (let thrust of this.thruster) {
+            if(thrust.element)
+            {
+                allItems.push(thrust.element)
+            }
+        };
+        return allItems;
+    };
+
     this.addPart = function(part) {
         this.slots.push(part);
     };
@@ -62,12 +79,10 @@ function slot(x, y, isThruster = false, element = null) {
     this.update = function() {
         if (whatDragged != null) {
             if (doesCollide(this, whatDragged) && whatDragged.item.type == "propulsion" && this.isThruster && !this.occupied) {
-                console.log("light up Thruster slot!");
                 this.sprite.setFrameRange(3, 3);
             }
             else if (doesCollide(this, whatDragged) && whatDragged.item.type != "propulsion"&& !this.isThruster && !this.occupied)
             {
-                console.log("light up normal slot!");
                 this.sprite.setFrameRange(3, 3);
             } else {
                 if (this.occupied == false)
@@ -100,6 +115,10 @@ function slot(x, y, isThruster = false, element = null) {
 
     this.draw = function() {
         this.sprite.draw(this.x, this.y);
+        if(this.occupied)
+        {
+            this.element.draw();
+        }
     }
 
     this.addElement = function(item) {
@@ -117,7 +136,7 @@ function slot(x, y, isThruster = false, element = null) {
 
 
 function mainShip(x, y, src) {
-    ship.call(this, x, y, src)
+    ship.call(this, x, y, src);
     this.picture.height = 450;
     this.picture.width = 750;
     this.slots.push(new slot(150, 350));
@@ -128,6 +147,7 @@ function mainShip(x, y, src) {
 
     this.thruster.push(new slot(100, 250, true));
     this.thruster.push(new slot(100, 150, true));
+
     this.update = function() {
         if (durability >= 1000) { //Ship is deteriorating
             //this.spritesheet.setFrameRange(1, 1); //change this
@@ -178,12 +198,11 @@ function escPod(x, y, src) {
     this.thruster.push(new slot(25, 800, true));
 
     this.calcScore = function() {
-        for (let item of this.slots){
+        this.value = 0;
+        for (let item of this.getAllItems()){
             this.value += item.value;
         }
-        for (let thruster of this.thruster) {
-            this.value += thruster.value;
-        }
+        return this.value;
     };
 }
 

@@ -78,7 +78,6 @@ function Element(item, url, width, height, x, y) {
     }
     this.update = function() {
         this.sprite.update();
-        //console.log("X:" + this.picture.X +"Y:"+ this.picture.Y + this.picture.width + this.picture.height);
     };
 
     this.draw = function() {
@@ -87,17 +86,13 @@ function Element(item, url, width, height, x, y) {
 }
 
 function selectElement(e) {
-    // for(let ef of unlocked){
-    // 	if (checkBounds(ef.picture, e.clientX, e.clientY)) {
-    // 		whatDragged = new Element(ef.name, ef.picture.src, ef.picture.X, ef.picture.Y);
-    // 		items.push(whatDragged);
-    // 	}
-    // });
 
     //select element from array of elements on screen
-    for (var i = 0; i < items.length; i++) {
-        if (checkBounds(items[i], e.clientX, e.clientY)) {
-            whatDragged = items[i];
+    var allItems = items.concat(theShip.getAllItems(), currentPlayer.escPod.getAllItems());
+
+    for (let item of allItems) {
+        if (checkBounds(item, e.clientX, e.clientY)) {
+            whatDragged = item;
             whatDragged.selected = true;
             whatDragged.unSetInUse();
             for (let slot of theShip.slots) //use let of to itteretate objects.
@@ -127,12 +122,12 @@ function removeFromSlot(slot)
 {
     if (slot.element == whatDragged) {
         slot.removeElement();
+        items.push(whatDragged);
     }
 }
 
 function moveElement(e) {
     if (whatDragged) {
-        //nameText = whatDragged.name;
         whatDragged.x = e.clientX - whatDragged.width / 2;
         whatDragged.y = e.clientY - whatDragged.height / 2;
 
@@ -192,6 +187,7 @@ function placeElement(slot, element)
     element.y = slot.y - (slot.height - element.height);
     element.slot = slot;
     slot.addElement(element);
+    items.splice(items.indexOf(element),1);
     element.setInUse();
 }
 
@@ -199,7 +195,6 @@ function repair(slot, element)
 {
     var index = items.indexOf(element);
     slot.element.durab += element.durab;
-    console.log(slot.element.durability);
     var splicedPart = items.splice(index, 1)[0];
     var randomPart = randomElement(parts);
 }
@@ -316,7 +311,6 @@ function particle_system(num_particles) {
                 items[j].x -= Math.random() * speed;
                 if (items[j].x <= -50) {
                     var splicedPart = items.splice(j, 1)[0]; //extract from the array
-                    //console.log(splicedPart);
                     var generateNewItem = true;
                     if(distance > 200)
                     {
@@ -330,7 +324,6 @@ function particle_system(num_particles) {
                     {
                         var randomPart = randomElement(parts);
                         items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width +(Math.random()*1000), 600 * Math.random()));
-                        //console.log("NEW!");
                     }
                 }
             }
