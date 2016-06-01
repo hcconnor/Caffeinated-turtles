@@ -25,7 +25,7 @@ function beginTutorial(){
     for(var i = 0; i < tutLine[this.phase].length; i++)
     {
         line = tutLine[this.phase][i];
-        context.fillText(line, 650 , 200 + i*30);
+        context.fillText(line, 660 , 200 + i*30);
     }
   };
 }
