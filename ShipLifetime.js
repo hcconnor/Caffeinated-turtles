@@ -79,12 +79,10 @@ function slot(x, y, isThruster = false, element = null) {
     this.update = function() {
         if (whatDragged != null) {
             if (doesCollide(this, whatDragged) && whatDragged.item.type == "propulsion" && this.isThruster && !this.occupied) {
-                console.log("light up Thruster slot!");
                 this.sprite.setFrameRange(3, 3);
             }
             else if (doesCollide(this, whatDragged) && whatDragged.item.type != "propulsion"&& !this.isThruster && !this.occupied)
             {
-                console.log("light up normal slot!");
                 this.sprite.setFrameRange(3, 3);
             } else {
                 if (this.occupied == false)
@@ -149,7 +147,7 @@ function mainShip(x, y, src) {
 
     this.thruster.push(new slot(100, 250, true));
     this.thruster.push(new slot(100, 150, true));
-    
+
     this.update = function() {
         if (durability >= 1000) { //Ship is deteriorating
             //this.spritesheet.setFrameRange(1, 1); //change this
