@@ -4,8 +4,6 @@
 function ship(x, y, src) {
     this.numSlots = 4;
     this.picture = new Image();
-    this.picture.height = 450;
-    this.picture.width = 750;
     this.picture.src = src;
     this.picture.X = x;
     this.picture.Y = y;
@@ -19,7 +17,24 @@ function ship(x, y, src) {
     };
 
     this.addThrusters = function(thuster) {
-        this.thrusters.push(thruster);
+        this.thruster.push(thruster);
+    };
+
+    this.getAllItems = function(){
+        var allItems = [];
+        for (let slot of this.slots) {
+            if(slot.element)
+            {
+                allItems.push(slot.element)
+            }
+        };
+        for (let thrust of this.thruster) {
+            if(thrust.element)
+            {
+                allItems.push(thrust.element)
+            }
+        };
+        return allItems;
     };
 
     this.addPart = function(part) {
@@ -28,6 +43,9 @@ function ship(x, y, src) {
     this.update = function() {
         for (let slot of this.slots) {
             slot.update();
+        };
+        for (let thrust of this.thruster) {
+            thrust.update();
         };
     }
 
@@ -46,10 +64,11 @@ function ship(x, y, src) {
     };
 }
 
-function slot(x, y, element = null) {
+function slot(x, y, isThruster = false, element = null) {
     this.picture = new Image();
     this.x = x;
     this.y = y;
+    this.isThruster = isThruster;
     this.width = 50;
     this.height = 50;
     this.element = element;
@@ -59,13 +78,29 @@ function slot(x, y, element = null) {
     this.sprite.setFrameRange(1, 1);
     this.update = function() {
         if (whatDragged != null) {
-            if (doesCollide(this, whatDragged)) {
-                console.log("light up slot!");
+            if (doesCollide(this, whatDragged) && whatDragged.item.type == "propulsion" && this.isThruster && !this.occupied) {
+                this.sprite.setFrameRange(3, 3);
+            }
+            else if (doesCollide(this, whatDragged) && whatDragged.item.type != "propulsion"&& !this.isThruster && !this.occupied)
+            {
                 this.sprite.setFrameRange(3, 3);
             } else {
                 if (this.occupied == false)
                 {
-                    this.sprite.setFrameRange(2, 2);
+                    if (whatDragged.item.type == "propulsion")
+                    {
+                        if(this.isThruster)
+                        {
+                            this.sprite.setFrameRange(2, 2);
+                        }
+                    }
+                    else
+                    {
+                        if(!this.isThruster)
+                        {
+                            this.sprite.setFrameRange(2, 2);
+                        }
+                    }
                 }
                 else
                 {
@@ -80,9 +115,14 @@ function slot(x, y, element = null) {
 
     this.draw = function() {
         this.sprite.draw(this.x, this.y);
+        if(this.occupied)
+        {
+            this.element.draw();
+        }
     }
 
     this.addElement = function(item) {
+        if(!mute) audioManager.play(audioManager.slot_in);
         this.element = item;
         this.occupied = true;
     }
@@ -90,27 +130,31 @@ function slot(x, y, element = null) {
     this.removeElement = function() {
         this.element = null;
         this.occupied = false;
+        console.log("REMOVED!")
     }
 }
 
 
 function mainShip(x, y, src) {
-    ship.call(this, x, y, src)
+    ship.call(this, x, y, src);
+    this.picture.height = 450;
+    this.picture.width = 750;
     this.slots.push(new slot(150, 350));
     this.slots.push(new slot(300, 350));
     this.slots.push(new slot(150, 50));
     this.slots.push(new slot(300, 100));
+    var active = 0;
 
-    this.thruster.push(new slot(100, 250));
-    this.thruster.push(new slot(100, 150));
+    this.thruster.push(new slot(100, 250, true));
+    this.thruster.push(new slot(100, 150, true));
+
     this.update = function() {
-        //durability--;
-        if (durability >= 20000) { //Ship is deteriorating
-            this.spritesheet.setFrameRange(1, 1); //change this
-        } else if (durability >= 10000) {
-            this.spritesheet.setFrameRange(1, 1); //change this
-        } else if (durability >= 5000) {
-            this.spritesheet.setFrameRange(1, 1); //change this
+        if (durability >= 1000) { //Ship is deteriorating
+            //this.spritesheet.setFrameRange(1, 1); //change this
+        } else if (durability >= 500) {
+            //this.spritesheet.setFrameRange(1, 1); //change this
+        } else if (durability >= 200) {
+            //this.spritesheet.setFrameRange(1, 1); //change this
         }
         for (let slot of this.slots) {
             slot.update();
@@ -118,51 +162,69 @@ function mainShip(x, y, src) {
         for (let thrust of this.thruster){
             thrust.update();
         }
-        LifeTime(this);
-        happiness--;
+        fuel = statManager.calcFuel();
+        if (tut == false){
+          systemDegrade = statManager.calcDegrade(this);
+          durability -= systemDegrade;
+          sadRate = 0.5 - 0.3*statManager.calcSad();
+          energyCons = statManager.calcConsumption();
+          if(fuel < 0) fuel = 0;
+          happiness -= sadRate;
+          statManager.calcSpeed();
+          if(statManager.fuelTanks.length > 0 && statManager.rocketThrusters.length > 0){
+            if(statManager.fuelTanks[statManager.fuelTanks.length-1].durab < 0) {
+              statManager.fuelTanks.pop();
+            }else {
+              statManager.fuelTanks[statManager.fuelTanks.length-1].durab -= energyCons;
+            }
+          }
+        }
     };
 }
 
 
 function escPod(x, y, src) {
-    ship.call(this, x, y, src);
+    ship.call(this, x, y, src); // x = 50, y = 650
     this.value = 0;
+    this.picture.height = 250;
+    this.picture.width = 350;
+
+    this.slots.push(new slot(100, 700));
+    this.slots.push(new slot(100, 800));
+    this.slots.push(new slot(200, 700));
+    this.slots.push(new slot(200, 800));
+
+    this.thruster.push(new slot(25, 700, true));
+    this.thruster.push(new slot(25, 800, true));
 
     this.calcScore = function() {
-        for (let item of this.slots){
-            this.value += element.value;
+        this.value = 0;
+        for (let item of this.getAllItems()){
+            this.value += item.value;
         }
-        for (let thruster of this.thrusters) {
-            this.value += thruster.value;
-        }
+        return this.value;
     };
 }
 
 //requires global variables happiness and Fuel. Subject to change though based on ship element.
 function LifeTime(ship) {
-    var i;
-    var essential = [false, false, false, false];
+  statManager.clean();
     for (let thruster of ship.thruster) {
-        if (thruster.element != null && thruster.element.item.type != "thruster") {
+        if (thruster.element != null && thruster.element.item.type != "propulsion") {
             lose = true;
-        } else if (thruster.element != null && thruster.element.item.type == "thruster") {
-            essential[0] = true;
+        } else if (thruster.element != null && thruster.element.item.type == "propulsion") {
+            statManager.rocketThrusters.push(thruster.element);
         }
     }
-for (let slot of ship.slots) {
-    if (slot.element != null && slot.element.item.type == "thruster") {
-        lose = true;
-    } else if (slot.element != null && slot.element.item.type == "fuel") {
-        essential[1] = true;
-        fuel += slot.element.item.durability;
-    } else if (slot.element != null && slot.element.item.type == "vanity" && slot.element.consumed == false) {
-        happiness += slot.element.item.durability;
-        slot.element.consumed = true;
-    } else if (slot.element != null && slot.element.item.type == "lifeSupport") {
-        essential[2] = true;
-    }
-    for(let item of essential){
-        if (essential[i] == false) lose = true;
-    }
-}
+  for (let slot of ship.slots) {
+      if (slot.element != null && slot.element.item.type == "propulsion") {
+          lose = true;
+      } else if (slot.element != null && slot.element.item.type == "fuel") {
+          statManager.fuelTanks.push(slot.element);
+      } else if (slot.element != null && slot.element.item.type == "vanity") {
+          statManager.happyThings.push(slot.element);
+      } else if (slot.element != null && slot.element.item.type == "lifeSupport") {
+          statManager.shipSystem.push(slot.element);
+      }
+  }
 }

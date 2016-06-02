@@ -1,7 +1,7 @@
 //contains astronaut object and pathfinding AI
 function initCrew(numCrew){
   for(i = 0; i < numCrew; i++){
-    crew.push(new astronaut(1,roomPath[Math.floor(Math.random()*roomPath.length)],"Sprites/player1_strip11.png"))
+    crew.push(new astronaut(1,roomPath[Math.floor(Math.random()*roomPath.length)],"sprites/player1.png"));
   }
   return crew;
 }
@@ -21,17 +21,15 @@ function astronaut(state, roomStart, url){
     if(this.moving == false){
       this.state  = Math.floor(Math.random()*10);
 
-      if(this.state == 0){
+      if(this.state > 8){
         if(happiness < 300){
-          this.speed = 5;
+          this.speed  = 5;
           this.panic();
-          //panic
-          //console.log("AAHHH");
-        }else
-          this.state = 1;
-      }else if(this.state > 8){
-        if(happiness >= 300) this.speed = 1;
-        this.newRoom();
+        }
+        else if(happiness >= 300){
+          this.speed = 1;
+          this.newRoom();
+        }
       }else {
         //do nothing
         //console.log(this.room.name);
@@ -56,7 +54,7 @@ function astronaut(state, roomStart, url){
   this.panicCheck = function(){
     if(happiness < 300){
       if(Math.abs(this.x - this.room.x) < 5 && Math.abs(this.y - this.room.y) < 5) this.moving = false;
-    }
+    } else if(happiness >= 300) this.speed = 1;
   }
 
   this.move = function(){

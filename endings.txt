@@ -1,0 +1,12 @@
+Defeat:
+  The (Insert Ship name here) exploded due to (Insert death type here).  No-one survived.
+
+Single Victory:
+  [Insert player here] survived the destruction of the (Insert Ship name here) by jettisoning off in an escape pod.
+They landed on a remote planet, living the rest of their life out with their (insert vanity item here).
+
+Group Victory:
+  Humanity has accomplished what it has by working together, and this voyage was no different.  Together,
+[P1], [P2], [P3] and [P4] survived the dark void of deep space.  The crew rejoiced, for when all seemed lost, 
+Alpha Centauri loomed in the distance.  They settled on a green and blue world, not at all unlike the home they fled.
+From there they lived long and prosperous lives, starting anew...
