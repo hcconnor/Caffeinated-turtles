@@ -42,6 +42,9 @@ var mute = false;
 var tut = true;
 var statManager = new status();
 
+var obstacles = [new ship_graveyard(), new asteroid_field(), new crew_craving(), new nebula()];
+var currentObstacle = obstacles[2];
+
 var states = {}; //implement cleanup of each state at beginning of new state
 // map   ["key"]  =  the thing;
 states["main_menu"] = new main_menu();
@@ -140,7 +143,6 @@ function main_menu() {
                     }
                     if(Button.text == "Toggle Tutorial"){
                        tut = !tut;
-                       console.log(tut);
                     }
                 }
             }
@@ -169,8 +171,8 @@ function player_select() {
         canvas.removeEventListener("mousedown", selectElement);
         canvas.removeEventListener("mouseup", deselectElement);
         buttons = [];
-        buttons = [new button("2", canvas.width / 2, canvas.height / 3, 100, 100), new button("3", canvas.width / 3, 2 * canvas.height / 3, 100, 100),
-            new button("4", 2 * canvas.width / 3, 2 * canvas.height / 3, 100, 100)
+        buttons = [new button("2", canvas.width / 2, canvas.height / 3, 200, 100), new button("3", canvas.width / 3, 2 * canvas.height / 3, 200, 100),
+            new button("4", 2 * canvas.width / 3, 2 * canvas.height / 3, 200, 100)
         ];
         canvas.addEventListener("mousedown", button_select);
 
@@ -220,7 +222,6 @@ function tutorial() {
     };
     this.update = function() {
         theShip.update();
-        console.log(this.tutorial);
         this.tutorial.update();
         for (let item of items) {
             item.update();
@@ -270,6 +271,7 @@ function main_build() {
         theStarSystem.update();
         debris.update(10 + currentSpeed);
         theShip.update();
+        if(currentObstacle != null) currentObstacle.update();
         currentPlayer.escPod.update();
         distanceVisual.update()
 
@@ -311,7 +313,7 @@ function main_build() {
         }
         distance += .01 * currentSpeed;
         checkWin();
-        console.log(currentPlayer.escPod.calcScore());
+        //console.log(currentPlayer.escPod.calcScore());
 
     };
     this.draw = function() {
@@ -320,6 +322,7 @@ function main_build() {
         theStarSystem.draw();
         GUI.draw();
         theShip.draw();
+        if(currentObstacle != null) currentObstacle.draw();
         currentPlayer.escPod.draw();
         distanceVisual.draw();
         for (let member of theCrew) {
@@ -337,7 +340,8 @@ function main_build() {
 function change_turn() {
     this.begin = function() {
         changeBanner = new banner(canvas.width, 250, 700, 200,"GUI/NewPlayer.png");
-        console.log("turn changed");
+        setObstacle();
+        console.log(currentObstacle);
         if (currentPlayer.nextPlayer >= playerNum) {
             currentPlayer = players[0];
         } else currentPlayer = players[currentPlayer.nextPlayer];
