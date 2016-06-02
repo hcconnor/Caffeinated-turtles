@@ -42,6 +42,9 @@ var mute = false;
 var tut = true;
 var statManager = new status();
 
+var obstacles = [new ship_graveyard(), new asteroid_field(), new crew_craving(), new nebula()];
+var currentObstacle = null;
+
 var states = {}; //implement cleanup of each state at beginning of new state
 // map   ["key"]  =  the thing;
 states["main_menu"] = new main_menu();
@@ -128,6 +131,8 @@ function main_menu() {
         canvas.removeEventListener("mousedown", selectElement);
         canvas.removeEventListener("mouseup", deselectElement);
         canvas.addEventListener("mousedown", button_select);
+        this.screen = new Image();
+        this.screen.src = "sprites/title.png";
         buttons = [];
         buttons = [new button("Begin", canvas.width / 4, canvas.height / 2 + 200, 200, 100), new button("Toggle Tutorial", 3 * canvas.width / 4, canvas.height / 2 + 200, 200, 100)];
 
@@ -140,7 +145,6 @@ function main_menu() {
                     }
                     if(Button.text == "Toggle Tutorial"){
                        tut = !tut;
-                       console.log(tut);
                     }
                 }
             }
@@ -151,8 +155,7 @@ function main_menu() {
     };
     this.draw = function() {
         canvas.width = canvas.width;
-        context.fillStyle = "black";
-        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(this.screen, 0, 0);
         context.fillStyle = "white";
         context.font = "100px curved-pixel";
         context.fillText("S.O.S.", canvas.width / 2 - 100, canvas.height / 2);
@@ -168,9 +171,11 @@ function player_select() {
         canvas.removeEventListener("mousemove", moveElement);
         canvas.removeEventListener("mousedown", selectElement);
         canvas.removeEventListener("mouseup", deselectElement);
+        this.screen = new Image();
+        this.screen.src = "sprites/title.png";
         buttons = [];
-        buttons = [new button("2", canvas.width / 2, canvas.height / 3, 100, 100), new button("3", canvas.width / 3, 2 * canvas.height / 3, 100, 100),
-            new button("4", 2 * canvas.width / 3, 2 * canvas.height / 3, 100, 100)
+        buttons = [new button("2", canvas.width / 2, canvas.height / 3, 200, 100), new button("3", canvas.width / 3, 2 * canvas.height / 3, 200, 100),
+            new button("4", 2 * canvas.width / 3, 2 * canvas.height / 3, 200, 100)
         ];
         canvas.addEventListener("mousedown", button_select);
 
@@ -195,6 +200,7 @@ function player_select() {
     };
     this.draw = function() {
         canvas.width = canvas.width;
+        context.drawImage(this.screen, 0, 0);
         for (let Button of buttons) {
             Button.draw();
         }
@@ -220,7 +226,6 @@ function tutorial() {
     };
     this.update = function() {
         theShip.update();
-        console.log(this.tutorial);
         this.tutorial.update();
         for (let item of items) {
             item.update();
@@ -270,6 +275,7 @@ function main_build() {
         theStarSystem.update();
         debris.update(10 + currentSpeed);
         theShip.update();
+        if(currentObstacle != null) currentObstacle.update();
         currentPlayer.escPod.update();
         distanceVisual.update()
 
@@ -311,7 +317,7 @@ function main_build() {
         }
         distance += .01 * currentSpeed;
         checkWin();
-        console.log(currentPlayer.escPod.calcScore());
+        //console.log(currentPlayer.escPod.calcScore());
 
     };
     this.draw = function() {
@@ -320,6 +326,7 @@ function main_build() {
         theStarSystem.draw();
         GUI.draw();
         theShip.draw();
+        if(currentObstacle != null) currentObstacle.draw();
         currentPlayer.escPod.draw();
         distanceVisual.draw();
         for (let member of theCrew) {
@@ -337,7 +344,8 @@ function main_build() {
 function change_turn() {
     this.begin = function() {
         changeBanner = new banner(canvas.width, 250, 700, 200,"GUI/NewPlayer.png");
-        console.log("turn changed");
+        setObstacle();
+        console.log(currentObstacle);
         if (currentPlayer.nextPlayer >= playerNum) {
             currentPlayer = players[0];
         } else currentPlayer = players[currentPlayer.nextPlayer];
@@ -424,7 +432,7 @@ function end_game() {
         this.winType = null;
         if (checkWin()) this.winType = new group_victory();
         else if (checkLoss()) this.winType = new single_victory();
-        else this.winType = new defeat();
+        else this.winType = new group_defeat();
 
         function button_select(e) {
             for (let Button of buttons) {

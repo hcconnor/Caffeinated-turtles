@@ -29,7 +29,6 @@ function status(){
     if(fuel <= 0) {
       if(currentSpeed > 0) {
         currentSpeed -= decceleration;
-        //console.log(currentSpeed);
       }
       if(currentSpeed <= 0) currentSpeed = 0;;
     } else currentSpeed = temp;

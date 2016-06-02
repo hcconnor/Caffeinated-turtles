@@ -10,16 +10,20 @@ var tier2 = [];
 tier2.push(new Item("life_support","Supply Crate",100, "sprites/Storage.png"));
 tier2.push(new Item("fuel","Rocket Fuel Tank", 300, "sprites/rocket_fuel.png"));
 tier2.push(new thruster("propulsion","Standard Thruster",10, "sprites/Thruster.png", 0.2));
-tier2.push(new Item("vanity", "Box of Kittens", 100, "sprites/cat_box_strip.png"));
+tier2.push(new Item("vanity", "Gold Bullion", 20, "sprites/gold_bullions.png"));
+tier2.push(new Item("vanity", "TV", 100, "sprites/tv.png"));
 
 var tier3 = [];
-tier3.push(new Item("life_support","Supply Crate",100, "sprites/Storage.png"));
-tier3.push(new Item("fuel","Rocket Fuel Tank",400, "sprites/rocket_fuel.png"));
-tier3.push(new thruster("propulsion","Standard Thruster",20, "sprites/Thruster.png", 0.5));
+tier3.push(new Item("life_support","Fabricator",100, "sprites/fabricator.png"));
+tier3.push(new Item("fuel","Nuclear Generator",400, "sprites/nuclear_generator.png"));
+tier3.push(new thruster("propulsion","Hyper Drive",20, "sprites/hyper_drive.png", 0.5));
+tier3.push(new Item("vanity", "Wi-Fi", 30, "sprites/wifi_strip15.png"));
+tier3.push(new Item("vanity", "Video Game Console", 30, "sprites/mii_u.png"));
 
 var tier4 = [];
-tier4.push(new thruster("propulsion","alien_drive",25, "sprites/alien_drive.png", 1));
-tier4.push(new Item("vanity", "alien_artifact", 100, "sprites/tessaract.png"))
+tier4.push(new thruster("propulsion","Alien Engine",25, "sprites/alien_drive.png", 1));
+tier4.push(new Item("fuel", "Alien Artifact", 600, "sprites/tessaract.png"));
+tier4.push(new Item("vanity", "Box of Kittens", 200, "sprites/cat_box_strip.png"));
 
 var parts = []
 parts.push(tier1);
@@ -39,9 +43,10 @@ var itemDesc = {
      "Rocket Fuel Tank": ["Rocket Fuel", "(Fuel)",      "Fly me to the", "Moon..."],
     "Standard Thruster": ["Rocket ",     "Thruster",    "(Propulsion)","The Classic."],
        "Box of Kittens": ["Box of ",     "Kittens",     "(Vanity)",    "Never ending", "fluffiness!"],
-          "alien_drive": ["Alien Engine","(Propulsion)","Stolen from", "some poor",   "guy."],
-       "alien_artifact": ["Alien",       "Artifact",    "(Fuel)",       "Its faintly", "glowing."],
+         "Alien Engine": ["Alien Engine","(Propulsion)","Stolen from", "some poor",   "guy."],
+       "Alien Artifact": ["Alien",       "Artifact",    "(Fuel)",       "Its faintly", "glowing."],
       "Nitro Thrusters": ["Nitro ",      "Thrusters",   "(Propulsion)","Gotta go ",   "fast!"],
+          "Hyper Drive": ["Hyper Drive", "(Propulsion)","From a Galaxy","Far, Far,", "Away..."],
            "Fabricator": ["Fabricator",  "(Life Support)","Home Baked","Cookies for", "days!"],
                 "Wi-Fi": ["Wi-Fi",       "(Vanity)",    "Netflix and", "Chill."],
     "Nuclear Generator": ["Nuclear",     "Reactor",     "(Fuel)"     ,"Smells like", "Chernobyl."],
