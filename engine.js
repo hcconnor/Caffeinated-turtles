@@ -35,10 +35,10 @@ function button(text, X, Y, width, height) {
     this.text = text;
     this.width = width;
     this.height = height;
-    this.SpriteSheet = new SpriteSheet("sprites/button.png", this.height, this.width, 1);
-    this.SpriteSheet.setFrameRange(1,1);
     this.x = X - this.width / 2;
     this.y = Y - this.height / 2;
+    this.SpriteSheet = new SpriteSheet("sprites/button.png", this.height, this.width, 1);
+    this.SpriteSheet.setFrameRange(1,1);
 
     //Pass in a function then its parameter
     this.click = function(method, param) {
@@ -50,7 +50,7 @@ function button(text, X, Y, width, height) {
         this.SpriteSheet.draw(this.x, this.y)
         context.font = "30px curved-pixel";
         context.fillStyle = "#FFFFFF";
-        context.fillText(this.text, this.x - this.width / 2, this.y - this.height / 2);
+        context.fillText(this.text, this.x + this.width / 2, this.y + this.height / 2);
     };
 }
 
