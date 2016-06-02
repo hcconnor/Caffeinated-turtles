@@ -43,7 +43,7 @@ var tut = true;
 var statManager = new status();
 
 var obstacles = [new ship_graveyard(), new asteroid_field(), new crew_craving(), new nebula()];
-var currentObstacle = obstacles[2];
+var currentObstacle = null;
 
 var states = {}; //implement cleanup of each state at beginning of new state
 // map   ["key"]  =  the thing;
@@ -131,6 +131,8 @@ function main_menu() {
         canvas.removeEventListener("mousedown", selectElement);
         canvas.removeEventListener("mouseup", deselectElement);
         canvas.addEventListener("mousedown", button_select);
+        this.screen = new Image();
+        this.screen.src = "sprites/title.png";
         buttons = [];
         buttons = [new button("Begin", canvas.width / 4, canvas.height / 2 + 200, 200, 100), new button("Toggle Tutorial", 3 * canvas.width / 4, canvas.height / 2 + 200, 200, 100)];
 
@@ -153,8 +155,7 @@ function main_menu() {
     };
     this.draw = function() {
         canvas.width = canvas.width;
-        context.fillStyle = "black";
-        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(this.screen, 0, 0);
         context.fillStyle = "white";
         context.font = "100px curved-pixel";
         context.fillText("S.O.S.", canvas.width / 2 - 100, canvas.height / 2);
@@ -170,6 +171,8 @@ function player_select() {
         canvas.removeEventListener("mousemove", moveElement);
         canvas.removeEventListener("mousedown", selectElement);
         canvas.removeEventListener("mouseup", deselectElement);
+        this.screen = new Image();
+        this.screen.src = "sprites/title.png";
         buttons = [];
         buttons = [new button("2", canvas.width / 2, canvas.height / 3, 200, 100), new button("3", canvas.width / 3, 2 * canvas.height / 3, 200, 100),
             new button("4", 2 * canvas.width / 3, 2 * canvas.height / 3, 200, 100)
@@ -197,6 +200,7 @@ function player_select() {
     };
     this.draw = function() {
         canvas.width = canvas.width;
+        context.drawImage(this.screen, 0, 0);
         for (let Button of buttons) {
             Button.draw();
         }
@@ -428,7 +432,7 @@ function end_game() {
         this.winType = null;
         if (checkWin()) this.winType = new group_victory();
         else if (checkLoss()) this.winType = new single_victory();
-        else this.winType = new defeat();
+        else this.winType = new group_defeat();
 
         function button_select(e) {
             for (let Button of buttons) {

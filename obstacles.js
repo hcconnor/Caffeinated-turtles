@@ -22,8 +22,11 @@ function asteroid_field() {
     };
 
     this.draw = function() {
+
         for (let rock of this.field) {
             context.drawImage(rock.picture, rock.x, rock.y);
+            context.font = "30px curved-pixel";
+            if (timer.counter >= (7 * timer.length / 10)) context.fillText("Captain! Incoming asteroid field!", canvas.width / 2, 200);
         }
     };
 }
@@ -58,7 +61,6 @@ function crew_craving() {
                     if (part.element.item.name = this.craving.name) happiness += happiness * 0.05;
                     else {
                         happiness -= happiness * 0.05;
-                        console.log("blink");
                     }
                 }
             }
@@ -68,7 +70,6 @@ function crew_craving() {
                     if (part.element.item.name = this.craving.name) happiness += happiness * 0.05;
                     else {
                         happiness -= happiness * 0.05;
-                        console.log("blink");
                     }
                 }
             }
@@ -113,6 +114,8 @@ function ship_graveyard() {
     this.draw = function() {
         for (let drifter of this.drifters) {
             context.drawImage(drifter.picture, drifter.x, drifter.y);
+            context.font = "30px curved-pixel";
+            if (timer.counter >= (7 * timer.length / 10)) context.fillText("Derelict ships ahead!  Click to break them apart for parts!", canvas.width / 2, 200);
         }
     };
 }

@@ -37,7 +37,7 @@ function button(text, X, Y, width, height) {
     this.height = height;
     this.x = X - this.width / 2;
     this.y = Y - this.height / 2;
-    this.SpriteSheet = new SpriteSheet("sprites/button.png", this.height, this.width, 1);
+    this.SpriteSheet = new SpriteSheet("sprites/button.png", this.width, this.height, 1);
     this.SpriteSheet.setFrameRange(1,1);
 
     //Pass in a function then its parameter

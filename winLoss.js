@@ -36,30 +36,30 @@ function checkLoss(){
 
 function group_victory(){
   this.image = new Image();
-  this.image.src = "";
+  this.image.src = "sprites/group_victory.png";
 
   this.draw = function(){
-    //context.drawImage(this.image, 0, 0);
+    context.drawImage(this.image, 0, 0);
     context.fillText("WIN", canvas.width/2, canvas.height/2);
   }
 }
 
 function single_victory(){
   this.image = new Image();
-  this.image.src = "";
+  this.image.src = "sprites/single_victory.png";
 
   this.draw = function(){
-    //context.drawImage(this.image, 0, 0);
+    context.drawImage(this.image, 0, 0);
     context.fillText("1 WIN", canvas.width/2, canvas.height/2);
   }
 }
 
-function defeat(){
+function group_defeat(){
   this.image = new Image();
-  this.image.src = "";
+  this.image.src = "sprites/group_defeat.png";
 
   this.draw = function(){
-    //context.drawImage(this.image, 0, 0);
+    context.drawImage(this.image, 0, 0);
     context.fillText("LOSE", canvas.width/2, canvas.height/2);
   }
 }
