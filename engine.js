@@ -43,7 +43,6 @@ function button(text, X, Y, width, height) {
     //Pass in a function then its parameter
     this.click = function(method, param) {
         if(!mute) audioManager.play(audioManager.menu_select);
-        this.SpriteSheet.setFrameRange(2,2);
         method(param);
     }
     this.draw = function() {

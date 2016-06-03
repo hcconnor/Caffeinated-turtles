@@ -13,7 +13,7 @@ function asteroid_field() {
         }
         var rand = Math.random();
         if (rand >= 0.95 && this.field.length <= 40) {
-            this.field.push(new asteroid("sprites/test_object.png"));;
+            this.field.push(new asteroid("sprites/asteroid.png"));;
         }
         for (let rock of this.field) {
             rock.x -= (currentSpeed + 1);
@@ -34,8 +34,8 @@ function asteroid_field() {
 function asteroid(src) {
     this.x = canvas.width;
     this.y = 600 * Math.random();
-    this.picture = new Image();
-    this.picture.src = src;
+    this.picture = new SpriteSheet(src, 50, 50, 4);
+    this.picture.setFrameRange(1, 10);
 }
 
 //random slots disabled (BACKUP) max stats halved
