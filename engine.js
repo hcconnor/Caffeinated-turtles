@@ -70,7 +70,7 @@ function Element(item, url, width, height, x, y) {
     this.selected;
     this.setInUse = function() {
         this.inUse = true;
-        this.sprite.setFrameRange(1, 1);
+        this.sprite.setFrameRange(11, 14);
     }
     this.unSetInUse = function() {
         this.inUse = false;
