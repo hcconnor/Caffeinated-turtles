@@ -195,7 +195,6 @@ function player_select() {
         }
     };
     this.update = function() {
-        //create 4 buttons for each player number choice
 
     };
     this.draw = function() {
@@ -230,6 +229,7 @@ function tutorial() {
         for (let item of items) {
             item.update();
         }
+        if(tut && this.tutorial.phase == "end_tut") audioManager.play(audioManager.explosion);
         distanceVisual.update();
         timer.update();
         if (timer.done) {
@@ -305,6 +305,7 @@ function main_build() {
 
         if (durability < 0) {
             checkLoss();
+            audioManager.play(audioManager.explode);
             durability = 0;
         } else if (durability > 1000) {
             durability = 1000;
@@ -317,8 +318,6 @@ function main_build() {
         }
         distance += .01 * currentSpeed;
         checkWin();
-        //console.log(currentPlayer.escPod.calcScore());
-
     };
     this.draw = function() {
         canvas.width = canvas.width;
@@ -428,10 +427,11 @@ function end_game() {
         canvas.removeEventListener("mouseup", deselectElement);
         canvas.addEventListener("mousedown", button_select);
 
-        buttons = [new button("Main Menu", canvas.width / 3, canvas.height - 100, 200, 100), new button("Retry?", 2 * canvas.width / 3, canvas.height - 100, 100, 100)];
+        buttons = [new button("Main Menu", canvas.width / 3, canvas.height - 50, 200, 100), new button("Retry?", 2 * canvas.width / 3, canvas.height - 50, 200, 100)];
         this.winType = null;
         if (checkWin()) this.winType = new group_victory();
-        else if (checkLoss()) this.winType = new single_victory();
+        else if (checkLoss()) this.winType = new single_victory(players);
+        else if (checkLoss() == "Mutiny") this.winType = new mutiny(playerNum);
         else this.winType = new group_defeat();
 
         function button_select(e) {

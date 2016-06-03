@@ -14,7 +14,6 @@ function beginTutorial(){
       if(!stage.done){
         stage.check();
         this.phase = stage.phase;
-        //if(this.phase == "end_tut") audioManager.play(audioManager.explosion);
         return;
       }
     }
@@ -44,6 +43,7 @@ var tutLine = {
 
 function noTutorial(){
   timer = new Timer(30 * 40);
+  this.phase = null;
 
   this.update = function(){
     while(items.length < 11){
