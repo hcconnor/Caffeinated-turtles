@@ -24,7 +24,7 @@ function status(){
   this.calcSpeed = function(){
     var temp = 0;
     for(let spd of this.rocketThrusters){
-      temp += spd.durab;
+      temp += spd.item.push;
     }
     if(fuel <= 0) {
       if(currentSpeed > 0) {
