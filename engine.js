@@ -72,7 +72,7 @@ function Element(item, url, width, height, x, y) {
     this.origLevel = 0;
     this.selected;
 
-    this.damageSprite = new SpriteSheet("sprites/deterioration.png", this.width, this.height, 4);
+    this.damageSprite = new SpriteSheet("sprites/deterioration.png", this.width, this.height, 6);
     this.damageSprite.setFrameRange(0,0);
 
     this.updateDurab = function(){
