@@ -192,8 +192,8 @@ function player_select() {
         this.screen.src = "sprites/title.png";
         tut = true;
         buttons = [];
-        buttons = [new button("2", 1 * canvas.width / 4, 3 * canvas.height / 4, 200, 100), new button("3", 2 * canvas.width / 4, 3 * canvas.height / 4, 200, 100),
-            new button("4", 3 * canvas.width / 4, 3 * canvas.height / 4, 200, 100)
+        buttons = [new button("2 Player", 1 * canvas.width / 4, 3 * canvas.height / 4, 200, 100), new button("3 Player", 2 * canvas.width / 4, 3 * canvas.height / 4, 200, 100),
+            new button("4 Player", 3 * canvas.width / 4, 3 * canvas.height / 4, 200, 100)
         ];
         canvas.addEventListener("mousedown", button_select);
         canvas.addEventListener("mouseup", button_click);
@@ -250,6 +250,7 @@ function tutorial() {
     };
     this.update = function() {
         theShip.update();
+        theStarSystem.update();
         this.tutorial.update();
         for (let item of items) {
             item.update();
@@ -269,6 +270,7 @@ function tutorial() {
     this.draw = function() {
         canvas.width = canvas.width;
         context.fillRect(0, 0, canvas.width, canvas.height);
+        theStarSystem.draw();
         GUI.draw();
         theShip.draw();
         this.tutorial.draw();

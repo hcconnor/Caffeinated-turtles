@@ -49,7 +49,7 @@ function button(text, X, Y, width, height) {
         this.SpriteSheet.draw(this.x, this.y)
         context.font = "30px curved-pixel";
         context.fillStyle = "#FFFFFF";
-        context.fillText(this.text, this.x + this.width / 2, this.y + this.height / 2);
+        context.fillText(this.text, this.x + this.width / 2 - 50, this.y + this.height / 2);
     };
 }
 
