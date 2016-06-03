@@ -16,6 +16,7 @@ function tutPlanet(x, y, height, width){
   this.image.src = "sprites/earth.png";
   this.height = height;
   this.width = width;
+
   this.update = function(){
     if (tut == false) this.x -= currentSpeed/2;
   }
