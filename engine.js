@@ -37,17 +37,19 @@ function button(text, X, Y, width, height) {
     this.height = height;
     this.x = X - this.width / 2;
     this.y = Y - this.height / 2;
+    this.SpriteSheet = new SpriteSheet("sprites/button.png", this.width, this.height, 1);
+    this.SpriteSheet.setFrameRange(1,1);
 
     //Pass in a function then its parameter
     this.click = function(method, param) {
         if(!mute) audioManager.play(audioManager.menu_select);
+        this.SpriteSheet.setFrameRange(2,2);
         method(param);
     }
     this.draw = function() {
-        context.fillStyle = "	#D3D3D3";
-        context.fillRect(this.x, this.y, this.width, this.height);
+        this.SpriteSheet.draw(this.x, this.y)
         context.font = "30px curved-pixel";
-        context.fillStyle = "#000000";
+        context.fillStyle = "#FFFFFF";
         context.fillText(this.text, this.x + this.width / 2, this.y + this.height / 2);
     };
 }
@@ -78,7 +80,6 @@ function Element(item, url, width, height, x, y) {
     }
     this.update = function() {
         this.sprite.update();
-        //console.log("X:" + this.picture.X +"Y:"+ this.picture.Y + this.picture.width + this.picture.height);
     };
 
     this.draw = function() {
@@ -196,7 +197,6 @@ function repair(slot, element)
 {
     var index = items.indexOf(element);
     slot.element.durab += element.durab;
-    //console.log(slot.element.durability);
     var splicedPart = items.splice(index, 1)[0];
     var randomPart = randomElement(parts);
 }
@@ -322,7 +322,7 @@ function particle_system(num_particles) {
                             generateNewItem = false;
                         }
                     }
-                    if(generateNewItem)
+                    if(generateNewItem && currentObstacle != obstacles[0])
                     {
                         var randomPart = randomElement(parts);
                         items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width +(Math.random()*1000), 600 * Math.random()));
