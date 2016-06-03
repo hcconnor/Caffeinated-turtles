@@ -111,6 +111,10 @@ function slot(x, y, isThruster = false, element = null) {
             this.sprite.setFrameRange(1, 1);
         }
         this.sprite.update();
+        if(this.occupied)
+        {
+            this.element.update();
+        }
     }
 
     this.draw = function() {

@@ -49,7 +49,7 @@ function button(text, X, Y, width, height) {
         this.SpriteSheet.draw(this.x, this.y)
         context.font = "30px curved-pixel";
         context.fillStyle = "#FFFFFF";
-        context.fillText(this.text, this.x + this.width / 2, this.y + this.height / 2);
+        context.fillText(this.text, this.x + this.width / 2 - 50, this.y + this.height / 2);
     };
 }
 
@@ -67,10 +67,39 @@ function Element(item, url, width, height, x, y) {
     this.sprite.setFrameRange(1, 10);
     this.slot = null;
     this.durab = this.item.durability;
+    this.maxDurability = this.item.durability;
+    this.damageLevel = 0;
+    this.origLevel = 0;
     this.selected;
+
+    this.damageSprite = new SpriteSheet("sprites/deterioration.png", this.width, this.height, 6);
+    this.damageSprite.setFrameRange(0,0);
+
+    this.updateDurab = function(){
+  		if(this.durab > 0){
+  			this.durab -= 0.1;
+  		}
+      if(this.durab <= this.maxDurability || this.durab > this.maxDurability){
+        this.damageLevel = 0;
+      }
+  		if(this.durab <= (this.maxDurability - this.maxDurability/4)){
+  			this.damageLevel = 1;
+  		} if(this.durab <= this.maxDurability/2){
+  			this.damageLevel = 2;
+  		}if(this.durab <= this.maxDurability/4){
+  			this.damageLevel = 3;
+  		} if(this.durab <= 0){
+  			this.damageLevel = 4;
+        this.unSetInUse();
+        this.slot.removeElement();
+        this.slot = null;
+  		}
+      console.log(this.damageLevel);
+  	};
+
     this.setInUse = function() {
         this.inUse = true;
-        this.sprite.setFrameRange(1, 1);
+        this.sprite.setFrameRange(11, 14);
     }
     this.unSetInUse = function() {
         this.inUse = false;
@@ -79,10 +108,35 @@ function Element(item, url, width, height, x, y) {
     }
     this.update = function() {
         this.sprite.update();
+        this.damageSprite.update();
+        if(this.inUse == true && tut == false){
+          this.updateDurab();
+          this.checkDamage();
+        }
     };
+
+    this.checkDamage = function(){
+      if(this.damageLevel == 0 && this.origLevel != this.damageLevel){
+        this.damageSprite.setFrameRange(0,0);
+        this.origLevel = this.damageLevel;
+      }
+      if(this.damageLevel == 1 && this.origLevel != this.damageLevel){
+        this.damageSprite.setFrameRange(1,4);
+        this.origLevel = this.damageLevel;
+      }
+      if(this.damageLevel == 2 && this.origLevel != this.damageLevel){
+        this.damageSprite.setFrameRange(5,8);
+        this.origLevel = this.damageLevel;
+      }
+      if(this.damageLevel == 3 && this.origLevel != this.damageLevel){
+        this.damageSprite.setFrameRange(9,12);
+        this.origLevel = this.damageLevel;
+      }
+    }
 
     this.draw = function() {
         this.sprite.draw(this.x, this.y);
+        this.damageSprite.draw(this.x,this.y);
     };
 }
 
