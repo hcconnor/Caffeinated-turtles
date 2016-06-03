@@ -67,7 +67,35 @@ function Element(item, url, width, height, x, y) {
     this.sprite.setFrameRange(1, 10);
     this.slot = null;
     this.durab = this.item.durability;
+    this.maxDurability = this.item.durability;
+    this.damageLevel = 0;
     this.selected;
+
+    this.damageSprite = new SpriteSheet("sprites/deterioration.png", this.width, this.height, 4);
+    this.damageSprite.setFrameRange(0,0);
+
+    this.updateDurab = function(){
+  		if(this.durab > 0){
+  			this.durab -= 0.01;
+  		}
+  		if(this.durab <= (this.maxDurability - this.maxDurability/4)){
+  			this.damageLevel = 1;
+        this.damageSprite.setFrameRange(1,4);
+  		} if(this.durab <= this.maxDurability/2){
+  			this.damageLevel = 2;
+        this.damageSprite.setFrameRange(5,8);
+  		}if(this.durab <= this.maxDurability/4){
+  			this.damageLevel = 3;
+        this.damageSprite.setFrameRange(9,12);
+  		} if(this.durab <= 0){
+  			this.damageLevel = 4;
+        this.unSetInUse();
+        this.slot.removeElement();
+        this.slot = null;
+  		}
+      console.log(this.damageLevel);
+  	};
+
     this.setInUse = function() {
         this.inUse = true;
         this.sprite.setFrameRange(11, 14);
@@ -79,10 +107,14 @@ function Element(item, url, width, height, x, y) {
     }
     this.update = function() {
         this.sprite.update();
+        if(this.inUse == true && tut == false){
+          this.updateDurab();
+        }
     };
 
     this.draw = function() {
         this.sprite.draw(this.x, this.y);
+        this.damageSprite.draw(this.x,this.y);
     };
 }
 

@@ -1,7 +1,7 @@
 //DONT BEAUTIFY
 var tier1 = [];
 tier1.push(new Item("vanity","Ice Cream Machine",100, "sprites/ice_cream_machine.png"));
-tier1.push(new thruster("propulsion","Fire Extinguisher",5, "sprites/fire_extinguisher.png", 0.1));
+tier1.push(new thruster("propulsion","Fire Extinguisher", 100, 5, "sprites/fire_extinguisher.png", 0.1));
 tier1.push(new Item("life_support", "Oxygen Tank", 100, "sprites/oxygen.png"));
 tier1.push(new Item("life_support", "Refridgerator", 100, "sprites/fridge.png"));
 tier1.push(new Item("fuel", "Car Battery", 200, "sprites/car_battery.png"));
@@ -9,19 +9,19 @@ tier1.push(new Item("fuel", "Car Battery", 200, "sprites/car_battery.png"));
 var tier2 = [];
 tier2.push(new Item("life_support","Supply Crate",100, "sprites/Storage.png"));
 tier2.push(new Item("fuel","Rocket Fuel Tank", 300, "sprites/rocket_fuel_tank.png"));
-tier2.push(new thruster("propulsion","Standard Thruster",10, "sprites/Thruster.png", 0.2));
+tier2.push(new thruster("propulsion","Standard Thruster", 200, 10, "sprites/Thruster.png", 0.2));
 tier2.push(new Item("vanity", "Gold Bullion", 20, "sprites/gold_bullion.png"));
 tier2.push(new Item("vanity", "TV", 100, "sprites/tv.png"));
 
 var tier3 = [];
 tier3.push(new Item("life_support","Fabricator",100, "sprites/fabricator.png"));
 tier3.push(new Item("fuel","Nuclear Generator",400, "sprites/nuclear_generator.png"));
-tier3.push(new thruster("propulsion","Hyper Drive",20, "sprites/hyper_drive.png", 0.5));
+tier3.push(new thruster("propulsion","Hyper Drive", 250,20, "sprites/hyper_drive.png", 0.5));
 tier3.push(new Item("vanity", "Wi-Fi", 30, "sprites/wifi_strip15.png"));
 tier3.push(new Item("vanity", "Video Game Console", 30, "sprites/mii_u.png"));
 
 var tier4 = [];
-tier4.push(new thruster("propulsion","Alien Engine",25, "sprites/alien_drive.png", 1));
+tier4.push(new thruster("propulsion","Alien Engine", 300, 25, "sprites/alien_drive.png", 1));
 tier4.push(new Item("fuel", "Alien Artifact", 600, "sprites/tessaract.png"));
 tier4.push(new Item("vanity", "Box of Kittens", 200, "sprites/cat_box.png"));
 
