@@ -76,7 +76,7 @@ function Element(item, url, width, height, x, y) {
 
     this.updateDurab = function(){
   		if(this.durab > 0){
-  			this.durab -= 0.01;
+  			this.durab -= 0.1;
   		}
   		if(this.durab <= (this.maxDurability - this.maxDurability/4)){
   			this.damageLevel = 1;
