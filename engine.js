@@ -79,6 +79,9 @@ function Element(item, url, width, height, x, y) {
   		if(this.durab > 0){
   			this.durab -= 0.1;
   		}
+      if(this.durab <= this.maxDurability || this.durab > this.maxDurability){
+        this.damageLevel = 0;
+      }
   		if(this.durab <= (this.maxDurability - this.maxDurability/4)){
   			this.damageLevel = 1;
   		} if(this.durab <= this.maxDurability/2){
@@ -113,17 +116,21 @@ function Element(item, url, width, height, x, y) {
     };
 
     this.checkDamage = function(){
-      if(this.damageLevel == 1 && this.origLevel == 0){
+      if(this.damageLevel == 0 && this.origLevel != this.damageLevel){
+        this.damageSprite.setFrameRange(0,0);
+        this.origLevel = this.damageLevel;
+      }
+      if(this.damageLevel == 1 && this.origLevel != this.damageLevel){
         this.damageSprite.setFrameRange(1,4);
-        this.origLevel++;
+        this.origLevel = this.damageLevel;
       }
-      if(this.damageLevel == 2 && this.origLevel == 1){
+      if(this.damageLevel == 2 && this.origLevel != this.damageLevel){
         this.damageSprite.setFrameRange(5,8);
-        this.origLevel++;
+        this.origLevel = this.damageLevel;
       }
-      if(this.damageLevel == 3 && this.origLevel == 2){
+      if(this.damageLevel == 3 && this.origLevel != this.damageLevel){
         this.damageSprite.setFrameRange(9,12);
-        this.origLevel++;
+        this.origLevel = this.damageLevel;
       }
     }
 
