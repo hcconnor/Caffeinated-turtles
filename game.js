@@ -139,14 +139,15 @@ function main_menu() {
         buttons = [new button("Begin", canvas.width / 4, canvas.height / 2 + 200, 200, 100), new button("Toggle Tutorial", 3 * canvas.width / 4, canvas.height / 2 + 200, 200, 100)];
 
         function button_click(e) {
-            for (let Button of buttons) {
-                if (checkBounds(Button, e.clientX, e.clientY)) {
-                    if (Button.text == "Begin") {
+            for (let button of buttons) {
+                button.SpriteSheet.setFrameRange(1, 1);
+                if (checkBounds(button, e.clientX, e.clientY)) {
+                    if (button.text == "Begin") {
                         canvas.removeEventListener("mousedown", button_select);
                         canvas.removeEventListener("mouseup", button_click);
-                        Button.click(transition_states, "player_select");
+                        button.click(transition_states, "player_select");
                     }
-                    if (Button.text == "Toggle Tutorial") {
+                    if (button.text == "Toggle Tutorial") {
                         tut = !tut;
                     }
                 }
@@ -154,14 +155,14 @@ function main_menu() {
         }
 
         function button_select(e) {
-            for (let Button of buttons) {
-                if (checkBounds(Button, e.clientX, e.clientY)) {
-                    if (Button.text == "Begin") {
-                        Button.SpriteSheet.setFrameRange(2, 2);
+            for (let button of buttons) {
+                if (checkBounds(button, e.clientX, e.clientY)) {
+                    if (button.text == "Begin") {
+                        button.SpriteSheet.setFrameRange(2, 2);
                     }
-                    if (Button.text == "Toggle Tutorial") {
-                        if (tut) Button.SpriteSheet.setFrameRange(2, 2);
-                        else Button.SpriteSheet.setFrameRange(1, 1);
+                    if (button.text == "Toggle Tutorial") {
+                        if (tut) button.SpriteSheet.setFrameRange(2, 2);
+                        else button.SpriteSheet.setFrameRange(1, 1);
                     }
                 }
             }
@@ -176,8 +177,8 @@ function main_menu() {
         context.fillStyle = "white";
         context.font = "100px curved-pixel";
         context.fillText("S.O.S.", canvas.width / 2 - 100, canvas.height / 2);
-        for (let Button of buttons) {
-            Button.draw();
+        for (let button of buttons) {
+            button.draw();
         }
     };
 }
@@ -200,6 +201,7 @@ function player_select() {
 
         function button_click(e) {
             for (let button of buttons) {
+                button.SpriteSheet.setFrameRange(1, 1);
                 if (checkBounds(button, e.clientX, e.clientY)) {
                     canvas.removeEventListener("mouseup", button_click);
                     canvas.removeEventListener("mousedown", button_select);
