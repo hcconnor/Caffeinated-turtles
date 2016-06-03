@@ -250,6 +250,7 @@ function tutorial() {
     };
     this.update = function() {
         theShip.update();
+        theStarSystem.update();
         this.tutorial.update();
         for (let item of items) {
             item.update();
@@ -269,6 +270,7 @@ function tutorial() {
     this.draw = function() {
         canvas.width = canvas.width;
         context.fillRect(0, 0, canvas.width, canvas.height);
+        theStarSystem.draw();
         GUI.draw();
         theShip.draw();
         this.tutorial.draw();
