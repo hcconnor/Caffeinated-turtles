@@ -8,9 +8,9 @@ tier1.push(new Item("fuel", "Car Battery", 200, "sprites/car_battery.png"));
 
 var tier2 = [];
 tier2.push(new Item("life_support","Supply Crate",100, "sprites/Storage.png"));
-tier2.push(new Item("fuel","Rocket Fuel Tank", 300, "sprites/rocket_fuel.png"));
+tier2.push(new Item("fuel","Rocket Fuel Tank", 300, "sprites/rocket_fuel_tank.png"));
 tier2.push(new thruster("propulsion","Standard Thruster",10, "sprites/Thruster.png", 0.2));
-tier2.push(new Item("vanity", "Gold Bullion", 20, "sprites/gold_bullions.png"));
+tier2.push(new Item("vanity", "Gold Bullion", 20, "sprites/gold_bullion.png"));
 tier2.push(new Item("vanity", "TV", 100, "sprites/tv.png"));
 
 var tier3 = [];
@@ -23,7 +23,7 @@ tier3.push(new Item("vanity", "Video Game Console", 30, "sprites/mii_u.png"));
 var tier4 = [];
 tier4.push(new thruster("propulsion","Alien Engine",25, "sprites/alien_drive.png", 1));
 tier4.push(new Item("fuel", "Alien Artifact", 600, "sprites/tessaract.png"));
-tier4.push(new Item("vanity", "Box of Kittens", 200, "sprites/cat_box_strip.png"));
+tier4.push(new Item("vanity", "Box of Kittens", 200, "sprites/cat_box.png"));
 
 var parts = []
 parts.push(tier1);
