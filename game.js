@@ -6,7 +6,7 @@ var parts_buffer = [];
 var distance = 0;
 var currentSpeed = 0;
 var fuel = 0;
-var happiness = 1000;
+var happiness = 10;
 var durability = 1000;
 var lose = false;
 var FRAME = 30;
@@ -173,9 +173,10 @@ function player_select() {
         canvas.removeEventListener("mouseup", deselectElement);
         this.screen = new Image();
         this.screen.src = "sprites/title.png";
+        tut = true;
         buttons = [];
-        buttons = [new button("2", canvas.width / 2, canvas.height / 3, 200, 100), new button("3", canvas.width / 3, 2 * canvas.height / 3, 200, 100),
-            new button("4", 2 * canvas.width / 3, 2 * canvas.height / 3, 200, 100)
+        buttons = [new button("2", 1 * canvas.width / 4, 3 * canvas.height / 4, 200, 100), new button("3", 2 * canvas.width / 4, 3 * canvas.height / 4, 200, 100),
+            new button("4", 3 * canvas.width / 4, 3 * canvas.height / 4, 200, 100)
         ];
         canvas.addEventListener("mousedown", button_select);
 
@@ -430,7 +431,7 @@ function end_game() {
         buttons = [new button("Main Menu", canvas.width / 3, canvas.height - 50, 200, 100), new button("Retry?", 2 * canvas.width / 3, canvas.height - 50, 200, 100)];
         this.winType = null;
         if (checkWin()) this.winType = new group_victory();
-        else if (checkLoss()) this.winType = new single_victory(players);
+        else if (checkLoss() == true) this.winType = new single_victory(players);
         else if (checkLoss() == "Mutiny") this.winType = new mutiny(playerNum);
         else this.winType = new group_defeat();
 
