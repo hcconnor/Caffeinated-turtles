@@ -1,13 +1,14 @@
 
 //Item([consumable/part/vanity, name, durability value, src)
 //returns an object item
-function Item(type, name, durability, src){
+function Item(type, value, name, durability, src){
 	this.type = type;
 	this.name = name;
 	this.durability = durability;
 	this.maxDurability = durability;
 	this.damageLevel = 0;
 	this.src = src;
+	this.value = value;
 
 	this.updateDurab = function(){
 		if(this.durability > 0){
