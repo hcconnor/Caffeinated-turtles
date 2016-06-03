@@ -425,8 +425,6 @@ function pause() {
                         Button.SpriteSheet.setFrameRange(2, 2);
                     }
                     if (Button.text == "Mute") {
-                        if (!mute) Button.SpriteSheet.setFrameRange(2, 2);
-                        else Button.SpriteSheet.setFrameRange(1, 1);
                         mute = !mute;
                     }
                 }
@@ -442,7 +440,8 @@ function pause() {
         }
     };
     this.update = function() {
-
+      if(!mute) buttons[2].SpriteSheet.setFrameRange(2,2);
+      else buttons[2].SpriteSheet.setFrameRange(1, 1);
     };
 }
 
