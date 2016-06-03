@@ -1,10 +1,12 @@
 function beginTutorial(){
   timer = new Timer(30 * 60);
-  items.push(new Element(parts[0][0], parts[0][0].src, 50, 50, canvas.width / 2, canvas.height / 2));
-  items.push(new Element(parts[0][1], parts[0][1].src, 50, 50, canvas.width / 2, canvas.height / 2 + 100));
-  items.push(new Element(parts[0][2], parts[0][2].src, 50, 50, canvas.width / 2 + 100, canvas.height / 2));
-  items.push(new Element(parts[0][3], parts[0][3].src, 50, 50, canvas.width / 2 + 100, canvas.height / 2 + 100));
-  items.push(new Element(parts[0][4], parts[0][4].src, 50, 50, canvas.width / 2 + 200, canvas.height / 2 + 100));
+  if(items.length == 0){
+    items.push(new Element(parts[0][0], parts[0][0].src, 50, 50, canvas.width / 2, canvas.height / 2));
+    items.push(new Element(parts[0][1], parts[0][1].src, 50, 50, canvas.width / 2, canvas.height / 2 + 100));
+    items.push(new Element(parts[0][2], parts[0][2].src, 50, 50, canvas.width / 2 + 100, canvas.height / 2));
+    items.push(new Element(parts[0][3], parts[0][3].src, 50, 50, canvas.width / 2 + 100, canvas.height / 2 + 100));
+    items.push(new Element(parts[0][4], parts[0][4].src, 50, 50, canvas.width / 2 + 200, canvas.height / 2 + 100));
+  }
   this.phase = "";
   this.phases = [new mouse_over_parts(), new drop(), new consume(), new wait("consume", 35), new wait("resource", 25), new wait("turns", 15),
    new wait("escape_pod", 10), new wait("end_tut", 5)];
