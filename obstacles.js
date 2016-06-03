@@ -18,24 +18,32 @@ function asteroid_field() {
         for (let rock of this.field) {
             rock.x -= (currentSpeed + 1);
             if (rock.x <= -50) this.field.splice(this.field.indexOf(rock), 1);
+            rock.update();
         }
     };
 
     this.draw = function() {
-
         for (let rock of this.field) {
-            context.drawImage(rock.picture, rock.x, rock.y);
+            rock.draw();
             context.font = "30px curved-pixel";
             if (timer.counter >= (7 * timer.length / 10)) context.fillText("Captain! Incoming asteroid field!", canvas.width / 2, 200);
         }
     };
 }
 
-function asteroid(src) {
+function asteroid(src, x = canvas.width, y = 0) {
     this.x = canvas.width;
     this.y = 600 * Math.random();
-    this.picture = new SpriteSheet(src, 50, 50, 4);
-    this.picture.setFrameRange(1, 10);
+    this.sprite = new SpriteSheet(src, 50, 50, 4);
+    this.sprite.setFrameRange(1, 10);
+    this.draw = function()
+    {
+        this.sprite.draw(this.x, this.y);
+    }
+    this.update = function()
+    {
+        this.sprite.update();
+    }
 }
 
 //random slots disabled (BACKUP) max stats halved
