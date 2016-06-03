@@ -147,7 +147,7 @@ function main_menu() {
                         Button.click(transition_states, "player_select");
                     }
                     if (Button.text == "Toggle Tutorial") {
-                        tut = !tut;
+                        //tut = !tut;
                     }
                 }
             }

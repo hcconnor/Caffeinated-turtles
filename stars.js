@@ -21,14 +21,14 @@ function tutPlanet(x, y, height, width){
     if (tut == false) this.x -= currentSpeed/2;
   }
   this.draw = function(){
-    context.drawImage(this.image, this.x, this.y, this.width, this.height);
+    context.drawImage(this.image, this.x, this.y);
   }
 }
 
 function starSystem(numparticleStar) {
   this.particleStar = [];
   var i = numparticleStar;
-  this.planet = new tutPlanet(0,0,1300,900);
+  this.planet = new tutPlanet(0,0,900,1300);
   while (i) {
     this.particleStar.push(new star());
     //console.log(this.particleStar[0]);
