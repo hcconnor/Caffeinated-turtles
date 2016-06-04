@@ -97,6 +97,7 @@ function state_manager() {
 
 //Use this function to set up a new game
 function init_game() {
+    console.log("reinit");
     document.addEventListener("keydown", pauseKey);
     debris = new particle_system(0);
     debris.init();
