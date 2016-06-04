@@ -107,6 +107,7 @@ function init_game() {
     nodeTree();
     theCrew = new initCrew(10);
     transition_states("tutorial");
+    console.log(items);
 }
 
 function retry() {
