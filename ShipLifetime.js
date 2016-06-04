@@ -143,14 +143,20 @@ function mainShip(x, y, src) {
     ship.call(this, x, y, src);
     this.picture.height = 450;
     this.picture.width = 750;
-    this.slots.push(new slot(150, 350));
-    this.slots.push(new slot(300, 350));
-    this.slots.push(new slot(150, 50));
-    this.slots.push(new slot(300, 100));
+    this.slots.push(new slot(250, 400));
+    this.slots.push(new slot(400, 400));
+    this.slots.push(new slot(250, 100));
+    this.slots.push(new slot(400, 100));
+	this.slots.push(new slot(400 ,250)); // mid main room
+	this.slots.push(new slot(525, 250)); // mid main room
+	this.slots.push(new slot(525, 100)); // dining room
+	this.slots.push(new slot(650, 100)); // kitchen
+	this.slots.push(new slot(525, 400)); 
+	this.slots.push(new slot(650, 400));
     var active = 0;
 
-    this.thruster.push(new slot(100, 250, true));
-    this.thruster.push(new slot(100, 150, true));
+    this.thruster.push(new slot(150, 300, true));
+    this.thruster.push(new slot(150, 200, true));
 
     this.update = function() {
         if (durability >= 1000) { //Ship is deteriorating
@@ -197,6 +203,8 @@ function escPod(x, y, src) {
     this.slots.push(new slot(100, 800));
     this.slots.push(new slot(200, 700));
     this.slots.push(new slot(200, 800));
+	this.slots.push(new slot(300, 700));
+	this.slots.push(new slot(300, 800));
 
     this.thruster.push(new slot(25, 700, true));
     this.thruster.push(new slot(25, 800, true));
