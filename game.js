@@ -101,7 +101,7 @@ function init_game() {
     document.addEventListener("keydown", pauseKey);
     debris = new particle_system(0);
     debris.init();
-    theShip = new mainShip(0, 0, "sprites/BigShip.png");
+    theShip = new mainShip(100, 50, "sprites/BigShip.png");
     currentPlayer = players[0];
     theStarSystem = new starSystem(100);
     nodeTree();
