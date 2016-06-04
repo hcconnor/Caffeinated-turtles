@@ -407,6 +407,11 @@ function gui(x, y, src) {
     this.progressBar = new Image();
     this.progressBar.src = "GUI/DistanceMeter.png";
 
+    this.timer = new Timer(10);
+
+    this.planetWarn = new Image();
+    this.planetWarn.src = "GUI/planetWarning.png";
+
     this.init = function() {
         for (i = 0; i < 4; i++) {
             this.sprites[i] = new Image();
@@ -431,7 +436,7 @@ function gui(x, y, src) {
         context.drawImage(this.sprites[1], this.X + 150, this.Y - 75);
         context.drawImage(this.sprites[2], this.X + 150, this.Y - 25);
         context.drawImage(this.sprites[3], this.X + 150, this.Y + 25);
-        context.drawImage(this.progressBar, 400, 570, 900, 100);
+        context.drawImage(this.progressBar, 0, 570, 1300, 100);
         if (whatDragged != null)
         {
             context.font = "bold 40px curved-pixel";
@@ -443,4 +448,7 @@ function gui(x, y, src) {
 
         }
     };
+    if(distance >= 2000 && this.timer.counter < 3300){
+      context.drawImage(this.planetWarn, 250, 350);
+    }
 }
