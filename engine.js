@@ -94,7 +94,6 @@ function Element(item, url, width, height, x, y) {
         this.slot.removeElement();
         this.slot = null;
   		}
-      console.log(this.damageLevel);
   	};
 
     this.setInUse = function() {
@@ -407,10 +406,10 @@ function gui(x, y, src) {
     this.progressBar = new Image();
     this.progressBar.src = "GUI/DistanceMeter.png";
 
-    this.timer = new Timer(10);
-
     this.planetWarn = new Image();
     this.planetWarn.src = "GUI/planetWarning.png";
+
+    this.timer = new Timer(300);
 
     this.init = function() {
         for (i = 0; i < 4; i++) {
@@ -447,8 +446,10 @@ function gui(x, y, src) {
             }
 
         }
+        console.log(distance);
+        if(distance >= 2000 && this.timer.counter > 1){
+          context.drawImage(this.planetWarn, 250, 400);
+          this.timer.update();
+        }
     };
-    if(distance >= 2000 && this.timer.counter < 3300){
-      context.drawImage(this.planetWarn, 250, 350);
-    }
 }
