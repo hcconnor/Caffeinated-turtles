@@ -47,7 +47,7 @@ function button(text, X, Y, width, height) {
     }
     this.draw = function() {
         this.SpriteSheet.draw(this.x, this.y)
-        context.font = "30px curved-pixel";
+		context.font = "30px upheaval_pro";
         context.fillStyle = "#FFFFFF";
         context.fillText(this.text, this.x + this.width / 2 - 50, this.y + this.height / 2);
     };
