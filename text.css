@@ -8,6 +8,11 @@
 }
 @font-face {
 	font-family: upheaval_pro;
-	src:url(fonts/upheaval_pro.ttf);
+	src:url(fonts/upheaval-pro.ttf);
 	
+}
+body {
+	font-family: curved-pixel;
+	color: white;
+	font-size: 50px;
 }
