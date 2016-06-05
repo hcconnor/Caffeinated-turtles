@@ -6,20 +6,31 @@ function setObstacle() {
 //Durability goes down drastically?
 function asteroid_field() {
     this.field = [];
+    addEventListener("mousedown", breakit);
 
     this.update = function() {
-        if (!false && timer.counter % 10 == 0) { //substitute for shielded boolean later
-            durability -= durability * 0.001 * currentSpeed;
+        if (!false) { //substitute for shielded boolean later
+          for(let rock of this.field){
+            if(collisionList(theShip, this.field) == true){
+               durability -= durability * 0.05 * currentSpeed;
+               this.field.splice(this.field.indexOf(rock), 1);
+               console.log("bang!");
+            }
+          }
         }
         var rand = Math.random();
         if (rand >= 0.95 && this.field.length <= 40) {
-            this.field.push(new asteroid("sprites/asteroid.png"));;
+            this.field.push(new clickable("sprites/asteroid.png", 50, 50, 2));;
         }
         for (let rock of this.field) {
-            rock.x -= (currentSpeed + 1);
+            rock.x -= (currentSpeed + 3);
             if (rock.x <= -50) this.field.splice(this.field.indexOf(rock), 1);
             rock.update();
+            if(rock.health <= 0) this.field.splice(this.field.indexOf(rock), 1);
         }
+        if (timer.counter <= 0) {
+            removeEventListener("mousedown", breakit);
+        };
     };
 
     this.draw = function() {
@@ -31,17 +42,18 @@ function asteroid_field() {
     };
 }
 
-function asteroid(src, x = canvas.width, y = 0) {
+function clickable(src, width, height, health) {
     this.x = canvas.width;
     this.y = 600 * Math.random();
-    this.sprite = new SpriteSheet(src, 50, 50, 4);
+    this.width = width;
+    this.height = height;
+    this.health = health;
+    this.sprite = new SpriteSheet(src, width, height, 50, 1);
     this.sprite.setFrameRange(1, 10);
-    this.draw = function()
-    {
+    this.draw = function() {
         this.sprite.draw(this.x, this.y);
     }
-    this.update = function()
-    {
+    this.update = function() {
         this.sprite.update();
     }
 }
@@ -50,7 +62,16 @@ function asteroid(src, x = canvas.width, y = 0) {
 function nebula() {
     this.update = function() {
         if (!false) { //substitute for backup systems
-
+          var num = Math.floor((Math.random() * 4) + 1);
+          for(k = 0; k < num; k++){
+            var random = Math.floor((Math.random() * theShip.slots.length));
+            if(!theShip.slots[k].element.item.disabled) theShip.slots[k].element.item.disabled = true;
+          }
+        }
+        if(timer <= 0){
+          for(let slot of theShip.slots){
+            slot.element.item.disabled = false;
+          }
         }
     };
     this.draw = function() {
@@ -92,12 +113,12 @@ function crew_craving() {
 
 //Derelict ships fly by, mash click on them to break.  (MAYBE) no other debris spawns
 function ship_graveyard() {
-    this.drifters = [new derelict("sprites/test_object.png", 7)];
+    this.drifters = [new clickable("sprites/test_object.png", 100, 100, 7)];
     addEventListener("mousedown", breakit);
 
     this.update = function() {
         if (this.drifters.length < 4) {
-            this.drifters.push(new derelict("sprites/test_object.png", 7));
+            this.drifters.push(new derelict("sprites/test_object.png", 100, 100, 7));
         }
         for (let drifter of this.drifters) {
             drifter.x -= (currentSpeed + 0.01);
@@ -107,21 +128,17 @@ function ship_graveyard() {
                     randomPart = randomElement(parts);
                     items.push(new Element(randomPart, randomPart.src, 50, 50, drifter.x + Math.random() * s * 50, drifter.y + Math.random() * s * 50));
                 }
-                this.drifters.splice(this.drifters.indexOf(drifter), 1);
             }
+            if(drifter.health <= 0) this.drifters.splice(this.drifters.indexOf(drifter), 1);
         }
         if (timer.counter <= 0) {
-            removeEventListener("mousedown", function() {
-                for (let drifter of this.drifters) {
-                    if (checkBounds(drifter, e.clientX, e.clientY)) drifter.health--;
-                }
-            });
+            removeEventListener("mousedown", breakit);
         };
     }
 
     this.draw = function() {
         for (let drifter of this.drifters) {
-            context.drawImage(drifter.picture, drifter.x, drifter.y);
+            drifter.draw();
             context.font = "30px curved-pixel";
             if (timer.counter >= (7 * timer.length / 10)) context.fillText("Derelict ships ahead!  Click to break them apart for parts!", canvas.width / 2, 200);
         }
@@ -129,17 +146,13 @@ function ship_graveyard() {
 }
 
 function breakit(e) {
+  if(currentObstacle == obstacles[0]){
     for (let drifter of obstacles[0].drifters) {
         if (checkBounds(drifter, e.clientX, e.clientY)) drifter.health--;
     }
-}
-
-function derelict(src, health) {
-    this.x = canvas.width;
-    this.y = 600 * Math.random();
-    this.picture = new Image();
-    this.picture.src = src;
-    this.width = this.picture.width;
-    this.height = this.picture.height;
-    this.health = health;
+  }else if(currentObstacle == obstacles[1]){
+    for (let drifter of obstacles[1].field) {
+      if(checkBounds(drifter, e.clientX, e.clientY)) drifter.health--;
+    }
+  }
 }

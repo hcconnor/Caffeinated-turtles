@@ -43,7 +43,7 @@ var tut = true;
 var statManager = new status();
 
 var obstacles = [new ship_graveyard(), new asteroid_field(), new crew_craving(), new nebula()];
-var currentObstacle = null;
+var currentObstacle = obstacles[1];
 
 var states = {}; //implement cleanup of each state at beginning of new state
 // map   ["key"]  =  the thing;
@@ -161,7 +161,7 @@ function main_menu() {
                         button.SpriteSheet.setFrameRange(2, 2);
                     }
                     if (button.text == "Toggle Tutorial") {
-                        if (tut) button.SpriteSheet.setFrameRange(2, 2);
+                        if (!tut) button.SpriteSheet.setFrameRange(2, 2);
                         else button.SpriteSheet.setFrameRange(1, 1);
                     }
                 }
