@@ -48,7 +48,7 @@ function clickable(src, width, height, health) {
     this.width = width;
     this.height = height;
     this.health = health;
-    this.sprite = new SpriteSheet(src, width, height, 50, 1);
+    this.sprite = new SpriteSheet(src, width, height, 50, 4);
     this.sprite.setFrameRange(1, 10);
     this.draw = function() {
         this.sprite.draw(this.x, this.y);
@@ -60,14 +60,17 @@ function clickable(src, width, height, health) {
 
 //random slots disabled (BACKUP) max stats halved
 function nebula() {
+  this.sprite = new SpriteSheet("sprites/nebula.png", 1300, 900, 5);
+  this.sprite.setFrameRange(1, 10);
+  if (!false) { //substitute for backup systems
+    var num = Math.floor((Math.random() * 4) + 1);
+    for(k = 0; k < num; k++){
+      var random = Math.floor((Math.random() * theShip.slots.length));
+      if(theShip.slots[k].element != null && !theShip.slots[k].element.item.disabled) theShip.slots[k].element.item.disabled = true;
+      console.log(theShip.slots[k].element);
+    }
+  }
     this.update = function() {
-        if (!false) { //substitute for backup systems
-          var num = Math.floor((Math.random() * 4) + 1);
-          for(k = 0; k < num; k++){
-            var random = Math.floor((Math.random() * theShip.slots.length));
-            if(!theShip.slots[k].element.item.disabled) theShip.slots[k].element.item.disabled = true;
-          }
-        }
         if(timer <= 0){
           for(let slot of theShip.slots){
             slot.element.item.disabled = false;
@@ -75,7 +78,7 @@ function nebula() {
         }
     };
     this.draw = function() {
-
+      this.sprite.draw(0, 0);
     };
 }
 

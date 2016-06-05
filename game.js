@@ -43,7 +43,7 @@ var tut = true;
 var statManager = new status();
 
 var obstacles = [new ship_graveyard(), new asteroid_field(), new crew_craving(), new nebula()];
-var currentObstacle = obstacles[1];
+var currentObstacle = obstacles[3];
 
 var states = {}; //implement cleanup of each state at beginning of new state
 // map   ["key"]  =  the thing;
@@ -351,17 +351,17 @@ function main_build() {
         canvas.width = canvas.width;
         context.fillRect(0, 0, canvas.width, canvas.height);
         theStarSystem.draw();
-        GUI.draw();
         theShip.draw();
-        if (currentObstacle != null) currentObstacle.draw();
-        currentPlayer.escPod.draw();
-        distanceVisual.draw();
         for (let member of theCrew) {
             member.draw();
         }
+        if (currentObstacle != null) currentObstacle.draw();
         for (let item of items) {
             item.draw();
         }
+        GUI.draw();
+        currentPlayer.escPod.draw();
+        distanceVisual.draw();
         timer.draw();
         //context.fillRect(0,0 canvas.width, canvas.height);
     };
