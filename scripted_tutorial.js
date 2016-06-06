@@ -52,9 +52,7 @@ function noTutorial(){
     var count = 0;
     while(items.length < 11){
       var part = Math.floor(Math.random() * (tier1.length-1));
-      console.log(part);
       items.push(new Element(parts[0][part], parts[0][part].src, 50, 50, canvas.width * Math.random(), 600 * Math.random()));
-      console.log(items[count]);
       count++;
     }
   };

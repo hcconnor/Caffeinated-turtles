@@ -97,19 +97,17 @@ function state_manager() {
 
 //Use this function to set up a new game
 function init_game() {
-    console.log("reinit");
     document.addEventListener("keydown", pauseKey);
     debris = new particle_system(0);
     debris.init();
     theShip = new mainShip(100, 50, "sprites/BigShip.png");
     obstacles = [new ship_graveyard(), new asteroid_field(), new crew_craving(), new nebula(theShip)];
-    currentObstacle = obstacles[1];
+    currentObstacle = null;
     currentPlayer = players[0];
     theStarSystem = new starSystem(100);
     nodeTree();
     theCrew = new initCrew(10);
     transition_states("tutorial");
-    console.log(items);
 }
 
 function retry() {
