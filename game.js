@@ -42,7 +42,7 @@ var mute = false;
 var tut = true;
 var statManager = new status();
 
-var obstacles = [new ship_graveyard(), new asteroid_field(), new crew_craving(), new nebula()];
+var obstacles = [new ship_graveyard(), new asteroid_field(), new crew_craving(), new nebula(theShip)];
 var currentObstacle = null;
 
 var states = {}; //implement cleanup of each state at beginning of new state
@@ -101,6 +101,8 @@ function init_game() {
     debris = new particle_system(0);
     debris.init();
     theShip = new mainShip(100, 50, "sprites/BigShip.png");
+    obstacles = [new ship_graveyard(), new asteroid_field(), new crew_craving(), new nebula(theShip)];
+    currentObstacle = null;
     currentPlayer = players[0];
     theStarSystem = new starSystem(100);
     nodeTree();
@@ -161,7 +163,7 @@ function main_menu() {
                         button.SpriteSheet.setFrameRange(2, 2);
                     }
                     if (button.text == "Toggle Tutorial") {
-                        if (tut) button.SpriteSheet.setFrameRange(2, 2);
+                        if (!tut) button.SpriteSheet.setFrameRange(2, 2);
                         else button.SpriteSheet.setFrameRange(1, 1);
                     }
                 }
@@ -291,6 +293,7 @@ function tutorial() {
 //Rounds for each player
 function main_build() {
     this.begin = function() {
+        console.log(currentObstacle);
         timer = new Timer(turnLength);
         canvas.removeEventListener("mousedown", callTransition_to_main_build);
         tut = false;
@@ -351,17 +354,17 @@ function main_build() {
         canvas.width = canvas.width;
         context.fillRect(0, 0, canvas.width, canvas.height);
         theStarSystem.draw();
-        GUI.draw();
         theShip.draw();
-        if (currentObstacle != null) currentObstacle.draw();
-        currentPlayer.escPod.draw();
-        distanceVisual.draw();
         for (let member of theCrew) {
             member.draw();
         }
+        if (currentObstacle != null) currentObstacle.draw();
         for (let item of items) {
             item.draw();
         }
+        GUI.draw();
+        currentPlayer.escPod.draw();
+        distanceVisual.draw();
         timer.draw();
         //context.fillRect(0,0 canvas.width, canvas.height);
     };
@@ -372,7 +375,6 @@ function change_turn() {
     this.begin = function() {
         changeBanner = new banner(canvas.width, 250, 700, 200, "GUI/NewPlayer.png");
         setObstacle();
-        console.log(currentObstacle);
         if (currentPlayer.nextPlayer >= playerNum) {
             currentPlayer = players[0];
         } else currentPlayer = players[currentPlayer.nextPlayer];
