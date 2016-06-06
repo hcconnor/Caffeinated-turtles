@@ -7,7 +7,8 @@ function Item(type, name, durability, src){
 	this.durability = durability;
 	this.maxDurability = durability;
 	this.damageLevel = 0;
-	this.src = src;
+	this.src = src
+	this.disabled = false;
 }
 //Thruster Prototype
 function thruster(type, name, durability, push, src, efficiency){
