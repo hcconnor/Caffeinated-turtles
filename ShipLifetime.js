@@ -3,10 +3,12 @@
 
 function ship(x, y, src) {
     this.numSlots = 4;
+    this.x = x;
+    this.y = y;
     this.picture = new Image();
     this.picture.src = src;
-    this.picture.X = x;
-    this.picture.Y = y;
+    this.picture.X = this.x;
+    this.picture.Y = this.y;
 
     this.slots = [];
     this.thruster = [];
@@ -120,15 +122,16 @@ function slot(x, y, isThruster = false, element = null) {
     this.removeElement = function() {
         this.element = null;
         this.occupied = false;
-        console.log("REMOVED!")
     }
 }
 
 
 function mainShip(x, y, src) {
     ship.call(this, x, y, src);
-    this.picture.height = 450;
-    this.picture.width = 750;
+    this.width = 750;
+    this.height = 450;
+    this.picture.width = this.width;
+    this.picture.height = this.height;
     this.slots.push(new slot(250, 400));
     this.slots.push(new slot(400, 400));
     this.slots.push(new slot(250, 100));

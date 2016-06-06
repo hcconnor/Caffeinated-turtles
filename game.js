@@ -42,8 +42,8 @@ var mute = false;
 var tut = true;
 var statManager = new status();
 
-var obstacles = [new ship_graveyard(), new asteroid_field(), new crew_craving(), new nebula()];
-var currentObstacle = obstacles[3];
+var obstacles = [new ship_graveyard(), new asteroid_field(), new crew_craving(), new nebula(theShip)];
+var currentObstacle = null;
 
 var states = {}; //implement cleanup of each state at beginning of new state
 // map   ["key"]  =  the thing;
@@ -101,6 +101,8 @@ function init_game() {
     debris = new particle_system(0);
     debris.init();
     theShip = new mainShip(100, 50, "sprites/BigShip.png");
+    obstacles = [new ship_graveyard(), new asteroid_field(), new crew_craving(), new nebula(theShip)];
+    currentObstacle = obstacles[1];
     currentPlayer = players[0];
     theStarSystem = new starSystem(100);
     nodeTree();
@@ -291,6 +293,7 @@ function tutorial() {
 //Rounds for each player
 function main_build() {
     this.begin = function() {
+        console.log(currentObstacle);
         timer = new Timer(turnLength);
         canvas.removeEventListener("mousedown", callTransition_to_main_build);
         tut = false;
@@ -372,7 +375,6 @@ function change_turn() {
     this.begin = function() {
         changeBanner = new banner(canvas.width, 250, 700, 200, "GUI/NewPlayer.png");
         setObstacle();
-        console.log(currentObstacle);
         if (currentPlayer.nextPlayer >= playerNum) {
             currentPlayer = players[0];
         } else currentPlayer = players[currentPlayer.nextPlayer];
