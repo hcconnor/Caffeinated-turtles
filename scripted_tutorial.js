@@ -33,7 +33,7 @@ function beginTutorial(){
 
 var tutLine = {
   "example line": ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"],
-        "begin" : ["Greetings Captain, and welcome aboard! No time", "for pleasantries, we must hurry!", "Click on a bit of floating debris to begin."], //Start, click on a part
+        "begin" : ["Greetings Captain, and welcome aboard the Genesis!", "No time for pleasantries, we must hurry!", "Click on a bit of floating debris to begin."], //Start, click on a part
   "mouse_parts" : ["Excellent! What you see here are parts that you", "can use to repair our ship on our long journey.", "Drag them each into an available slot."], //All parts slot in
          "drop" : ["Marvelous! Your ship will require some form of propulsion", "to move, fuel to fuel that propulsion,", "and some sort of life support to sustain your crew."], //click_to_continue
       "consume" : ["Right clicking on a consumable in a slot will", "benefit the ship in some way, but will destroy the", "consumable immidiately afterwards."], //Consume resource pod
