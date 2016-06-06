@@ -1,7 +1,7 @@
 //contains astronaut object and pathfinding AI
 function initCrew(numCrew){
   for(i = 0; i < numCrew; i++){
-    crew.push(new astronaut(1,roomPath[Math.floor(Math.random()*roomPath.length)],"Sprites/player1.png"))
+    crew.push(new astronaut(1,roomPath[Math.floor(Math.random()*roomPath.length)],"sprites/player1.png"));
   }
   return crew;
 }

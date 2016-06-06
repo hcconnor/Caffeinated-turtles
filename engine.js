@@ -37,6 +37,8 @@ function button(text, X, Y, width, height) {
     this.height = height;
     this.x = X - this.width / 2;
     this.y = Y - this.height / 2;
+    this.SpriteSheet = new SpriteSheet("sprites/button.png", this.width, this.height, 1);
+    this.SpriteSheet.setFrameRange(1,1);
 
     //Pass in a function then its parameter
     this.click = function(method, param) {
@@ -44,11 +46,10 @@ function button(text, X, Y, width, height) {
         method(param);
     }
     this.draw = function() {
-        context.fillStyle = "	#D3D3D3";
-        context.fillRect(this.x, this.y, this.width, this.height);
-        context.font = "30px curved-pixel";
-        context.fillStyle = "#000000";
-        context.fillText(this.text, this.x + this.width / 2, this.y + this.height / 2);
+        this.SpriteSheet.draw(this.x, this.y)
+		context.font = "30px upheaval_pro";
+        context.fillStyle = "#FFFFFF";
+        context.fillText(this.text, this.x + this.width / 2 - 50, this.y + this.height / 2);
     };
 }
 
@@ -66,10 +67,38 @@ function Element(item, url, width, height, x, y) {
     this.sprite.setFrameRange(1, 10);
     this.slot = null;
     this.durab = this.item.durability;
+    this.maxDurability = this.item.durability;
+    this.damageLevel = 0;
+    this.origLevel = 0;
     this.selected;
+
+    this.damageSprite = new SpriteSheet("sprites/deterioration.png", this.width, this.height, 6);
+    this.damageSprite.setFrameRange(0,0);
+
+    this.updateDurab = function(){
+  		if(this.durab > 0 && this.item.type != "fuel"){
+  			this.durab -= 0.1;
+  		}
+      if(this.durab <= this.maxDurability || this.durab > this.maxDurability){
+        this.damageLevel = 0;
+      }
+  		if(this.durab <= (this.maxDurability - this.maxDurability/4)){
+  			this.damageLevel = 1;
+  		} if(this.durab <= this.maxDurability/2){
+  			this.damageLevel = 2;
+  		}if(this.durab <= this.maxDurability/4){
+  			this.damageLevel = 3;
+  		} if(this.durab <= 0){
+  			this.damageLevel = 4;
+        this.unSetInUse();
+        this.slot.removeElement();
+        this.slot = null;
+  		}
+  	};
+
     this.setInUse = function() {
         this.inUse = true;
-        this.sprite.setFrameRange(1, 1);
+        this.sprite.setFrameRange(11, 14);
     }
     this.unSetInUse = function() {
         this.inUse = false;
@@ -78,10 +107,35 @@ function Element(item, url, width, height, x, y) {
     }
     this.update = function() {
         this.sprite.update();
+        this.damageSprite.update();
+        if(this.inUse == true && tut == false){
+          this.updateDurab();
+          this.checkDamage();
+        }
     };
+
+    this.checkDamage = function(){
+      if(this.damageLevel == 0 && this.origLevel != this.damageLevel){
+        this.damageSprite.setFrameRange(0,0);
+        this.origLevel = this.damageLevel;
+      }
+      if(this.damageLevel == 1 && this.origLevel != this.damageLevel){
+        this.damageSprite.setFrameRange(1,4);
+        this.origLevel = this.damageLevel;
+      }
+      if(this.damageLevel == 2 && this.origLevel != this.damageLevel){
+        this.damageSprite.setFrameRange(5,8);
+        this.origLevel = this.damageLevel;
+      }
+      if(this.damageLevel == 3 && this.origLevel != this.damageLevel){
+        this.damageSprite.setFrameRange(9,12);
+        this.origLevel = this.damageLevel;
+      }
+    }
 
     this.draw = function() {
         this.sprite.draw(this.x, this.y);
+        this.damageSprite.draw(this.x,this.y);
     };
 }
 
@@ -320,7 +374,7 @@ function particle_system(num_particles) {
                             generateNewItem = false;
                         }
                     }
-                    if(generateNewItem)
+                    if(generateNewItem && currentObstacle != obstacles[0])
                     {
                         var randomPart = randomElement(parts);
                         items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width +(Math.random()*1000), 600 * Math.random()));
@@ -352,6 +406,11 @@ function gui(x, y, src) {
     this.progressBar = new Image();
     this.progressBar.src = "GUI/DistanceMeter.png";
 
+    this.planetWarn = new Image();
+    this.planetWarn.src = "GUI/planetWarning.png";
+
+    this.timer = new Timer(300);
+
     this.init = function() {
         for (i = 0; i < 4; i++) {
             this.sprites[i] = new Image();
@@ -376,7 +435,7 @@ function gui(x, y, src) {
         context.drawImage(this.sprites[1], this.X + 150, this.Y - 75);
         context.drawImage(this.sprites[2], this.X + 150, this.Y - 25);
         context.drawImage(this.sprites[3], this.X + 150, this.Y + 25);
-        context.drawImage(this.progressBar, 400, 570, 900, 100);
+        context.drawImage(this.progressBar, 0, 570, 1300, 100);
         if (whatDragged != null)
         {
             context.font = "bold 40px curved-pixel";
@@ -386,6 +445,10 @@ function gui(x, y, src) {
                 context.fillText(line, this.X - 300 , (this.Y - 50) + i*30)
             }
 
+        }
+        if(distance >= 2000 && this.timer.counter > 1){
+          context.drawImage(this.planetWarn, 250, 400);
+          this.timer.update();
         }
     };
 }

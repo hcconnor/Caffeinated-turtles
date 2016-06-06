@@ -1,10 +1,12 @@
 function beginTutorial(){
-  timer = new Timer(30 * 60);
-  items.push(new Element(parts[0][0], parts[0][0].src, 50, 50, canvas.width / 2, canvas.height / 2));
-  items.push(new Element(parts[0][1], parts[0][1].src, 50, 50, canvas.width / 2, canvas.height / 2 + 100));
-  items.push(new Element(parts[0][2], parts[0][2].src, 50, 50, canvas.width / 2 + 100, canvas.height / 2));
-  items.push(new Element(parts[0][3], parts[0][3].src, 50, 50, canvas.width / 2 + 100, canvas.height / 2 + 100));
-  items.push(new Element(parts[0][0], parts[0][4].src, 50, 50, canvas.width / 2 + 200, canvas.height / 2 + 100));
+  timer = new Timer(30*30);
+  if(items.length == 0){
+    items.push(new Element(parts[0][0], parts[0][0].src, 50, 50, canvas.width / 2, canvas.height / 2));
+    items.push(new Element(parts[0][1], parts[0][1].src, 50, 50, canvas.width / 2, canvas.height / 2 + 100));
+    items.push(new Element(parts[0][2], parts[0][2].src, 50, 50, canvas.width / 2 + 100, canvas.height / 2));
+    items.push(new Element(parts[0][3], parts[0][3].src, 50, 50, canvas.width / 2 + 100, canvas.height / 2 + 100));
+    items.push(new Element(parts[0][4], parts[0][4].src, 50, 50, canvas.width / 2 + 200, canvas.height / 2 + 100));
+  }
   this.phase = "";
   this.phases = [new mouse_over_parts(), new drop(), new consume(), new wait("consume", 35), new wait("resource", 25), new wait("turns", 15),
    new wait("escape_pod", 10), new wait("end_tut", 5)];
@@ -14,7 +16,6 @@ function beginTutorial(){
       if(!stage.done){
         stage.check();
         this.phase = stage.phase;
-        //if(this.phase == "end_tut") audioManager.play(audioManager.explosion);
         return;
       }
     }
@@ -35,23 +36,26 @@ var tutLine = {
         "begin" : ["Greetings Captain, and welcome aboard! No time", "for pleasantries, we must hurry!", "Click on a bit of floating debris to begin."], //Start, click on a part
   "mouse_parts" : ["Excellent! What you see here are parts that you", "can use to repair our ship on our long journey.", "Drag them each into an available slot."], //All parts slot in
          "drop" : ["Marvelous! Your ship will require some form of propulsion", "to move, fuel to fuel that propulsion,", "and some sort of life support to sustain your crew."], //click_to_continue
-      "consume" : ["Right clicking on a resource pod in a slot will", "benefit the ship in some way, but will destroy the", "resource pod immidiately afterwards."], //Consume resource pod
-     "resource" : ["These parts all contribute towards the ships", "durability, fuel, and happiness. Be careful", "to not let them fall to zero."], //click_to_continue
-         "turns": ["Inevitably, you will tire during your long journey.", "Every thirty years or so, the other Captains", "in cryosleep will take over for you."], //Find a way to get playerNum in here later
+      "consume" : ["Right clicking on a consumable in a slot will", "benefit the ship in some way, but will destroy the", "consumable immidiately afterwards."], //Consume resource pod
+     "resource" : ["These parts all contribute towards the ship's", "durability, fuel, and happiness. Be careful", "to not let them fall to zero."], //click_to_continue
+         "turns": ["Inevitably, you will tire during your long journey.", "Every thirty years or so, one of the other Captains", "in cryosleep will take over for you."], //Find a way to get playerNum in here later
    "escape_pod" : ["If you are feeling, ah... unsafe... make sure to", "construct a personal escape pod down below.", "It requires the same parts as your", "ship in order to function."], //click_to_continue
       "end_tut" : ["That should cover just about everything.", "Best of luck on your jour--"] //explosion sound happens after click
 };
 
 function noTutorial(){
   timer = new Timer(30 * 40);
+  this.phase = null;
 
+  var count = 0;
   this.update = function(){
+    var count = 0;
     while(items.length < 11){
       var part = Math.floor(Math.random() * (tier1.length-1));
-      items.push(new Element(parts[0][part]), parts[0][part].src, 50, 50, canvas.width * Math.random(), 600 * Math.random());
+      items.push(new Element(parts[0][part], parts[0][part].src, 50, 50, canvas.width * Math.random(), 600 * Math.random()));
+      count++;
     }
   };
-
   this.draw = function(){
 
   }
@@ -72,7 +76,6 @@ function drop(){
   this.done = false;
   this.check = function(){
     for(let item of items){
-      console.log(item.inUse);
       if(!item.inUse) return;
     }
     this.done = true;

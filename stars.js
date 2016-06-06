@@ -9,9 +9,26 @@ function star() {
     this.colour = colour[Math.floor(Math.random()*colour.length)];
 }
 
+function tutPlanet(x, y, height, width){
+  this.x = x;
+  this.y = y;
+  this.image = new Image();
+  this.image.src = "sprites/earth.png";
+  this.height = height;
+  this.width = width;
+
+  this.update = function(){
+    if (tut == false) this.x -= currentSpeed/2;
+  }
+  this.draw = function(){
+    context.drawImage(this.image, this.x, this.y);
+  }
+}
+
 function starSystem(numparticleStar) {
   this.particleStar = [];
   var i = numparticleStar;
+  this.planet = new tutPlanet(0,0,900,1300);
   while (i) {
     this.particleStar.push(new star());
     //console.log(this.particleStar[0]);
@@ -19,6 +36,7 @@ function starSystem(numparticleStar) {
   }
 
   this.update = function() {
+    this.planet.update()
     var i = this.particleStar.length;
     while (i) {
       i -= 1;
@@ -47,5 +65,6 @@ function starSystem(numparticleStar) {
       context.stroke();
       context.fill();
     }
+    this.planet.draw();
   }
 }

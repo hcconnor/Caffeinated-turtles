@@ -7,27 +7,14 @@ function Item(type, name, durability, src){
 	this.durability = durability;
 	this.maxDurability = durability;
 	this.damageLevel = 0;
-	this.src = src;
-
-	this.updateDurab = function(){
-		if(this.durability > 0){
-			this.durability --;
-		}
-		if(this.durability == (this.maxDurability - this.maxDurability/4)){
-			this.damageLevel = 1;
-		} else if(this.durability == this.maxDurability/2){
-			this.damageLevel = 2;
-		}else if(this.durability == this.maxDurability/4){
-			this.damageLevel = 3;
-		}else if(this.durability <= 0){
-			this.damageLevel = 4;
-		}
-	};
+	this.src = src
+	this.disabled = false;
 }
 //Thruster Prototype
-function thruster(type, name, durability, src, efficiency){
+function thruster(type, name, durability, push, src, efficiency){
 	Item.call(this, type, name, durability, src);
 	this.efficiency = efficiency;
+	this.push = push;
 }
 
 
