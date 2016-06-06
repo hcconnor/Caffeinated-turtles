@@ -6,6 +6,7 @@ function beginTutorial(){
     items.push(new Element(parts[0][2], parts[0][2].src, 50, 50, canvas.width / 2 + 100, canvas.height / 2));
     items.push(new Element(parts[0][3], parts[0][3].src, 50, 50, canvas.width / 2 + 100, canvas.height / 2 + 100));
     items.push(new Element(parts[0][4], parts[0][4].src, 50, 50, canvas.width / 2 + 200, canvas.height / 2 + 100));
+    items.push(new Element(parts[0][5], parts[0][5].src, 50, 50, 0,0));
   }
   this.phase = "";
   this.phases = [new mouse_over_parts(), new drop(), new consume(), new wait("consume", 35), new wait("resource", 25), new wait("turns", 15),

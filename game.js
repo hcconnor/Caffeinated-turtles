@@ -243,6 +243,7 @@ function tutorial() {
         canvas.addEventListener("mousemove", moveElement);
         canvas.addEventListener("mousedown", selectElement);
         canvas.addEventListener("mouseup", deselectElement);
+        canvas.addEventListener("contextmenu", activateElement);
 
         if (tut) {
             this.tutorial = new beginTutorial();

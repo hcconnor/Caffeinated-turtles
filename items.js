@@ -5,6 +5,7 @@ tier1.push(new thruster("propulsion","Fire Extinguisher", 100, 5, "sprites/fire_
 tier1.push(new Item("life_support", "Oxygen Tank", 100, "sprites/oxygen.png"));
 tier1.push(new Item("life_support", "Refridgerator", 100, "sprites/fridge.png"));
 tier1.push(new Item("fuel", "Car Battery", 200, "sprites/car_battery.png"));
+tier1.push(new Item("consumable", "Speed Boost", 0, "sprites/tessaract.png"));
 
 var tier2 = [];
 tier2.push(new Item("life_support","Supply Crate",100, "sprites/Storage.png"));
@@ -59,3 +60,15 @@ var itemDesc = {
            "Repair Kit": ["Repair Kit",  "(Consumable)","Repairs a",  "single part."],
           "Speed Boost": ["Speed Boost", "(Consumable)","Greatly",    "increases",  "speed."]
 };
+
+
+
+var consumableMap = {
+"Speed Boost": test
+
+}
+
+function test()
+{
+    console.log("wow");
+}

@@ -187,7 +187,21 @@ function moveElement(e) {
 
     }
 }
-
+function activateElement(e)
+{
+    e.preventDefault();
+    var shipsItems = theShip.getAllItems();
+    for(let item of shipsItems)
+    {
+        if(item.type = "consumable")
+        {
+            if (checkBounds(item, e.clientX, e.clientY));
+            {
+                consumableMap [item.name]();
+            }
+        }
+    }
+}
 function deselectElement(e) {
     //check collision
     if (whatDragged != null) {
