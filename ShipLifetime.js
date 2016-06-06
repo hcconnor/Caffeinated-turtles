@@ -2,7 +2,7 @@
 //returns 1 value representing that you're still alive
 
 function ship(x, y, src) {
-    this.numSlots = 4;
+    this.numSlots = 10;
     this.x = x;
     this.y = y;
     this.picture = new Image();
