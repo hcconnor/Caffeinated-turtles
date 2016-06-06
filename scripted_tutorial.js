@@ -1,5 +1,5 @@
 function beginTutorial(){
-  timer = new Timer(30 * 60);
+  timer = new Timer(30*30);
   if(items.length == 0){
     items.push(new Element(parts[0][0], parts[0][0].src, 50, 50, canvas.width / 2, canvas.height / 2));
     items.push(new Element(parts[0][1], parts[0][1].src, 50, 50, canvas.width / 2, canvas.height / 2 + 100));
@@ -47,13 +47,17 @@ function noTutorial(){
   timer = new Timer(30 * 40);
   this.phase = null;
 
+  var count = 0;
   this.update = function(){
+    var count = 0;
     while(items.length < 11){
       var part = Math.floor(Math.random() * (tier1.length-1));
-      items.push(new Element(parts[0][part]), parts[0][part].src, 50, 50, canvas.width * Math.random(), 600 * Math.random());
+      console.log(part);
+      items.push(new Element(parts[0][part], parts[0][part].src, 50, 50, canvas.width * Math.random(), 600 * Math.random()));
+      console.log(items[count]);
+      count++;
     }
   };
-
   this.draw = function(){
 
   }

@@ -76,7 +76,7 @@ function Element(item, url, width, height, x, y) {
     this.damageSprite.setFrameRange(0,0);
 
     this.updateDurab = function(){
-  		if(this.durab > 0){
+  		if(this.durab > 0 && this.item.type != "fuel"){
   			this.durab -= 0.1;
   		}
       if(this.durab <= this.maxDurability || this.durab > this.maxDurability){
@@ -190,6 +190,8 @@ function moveElement(e) {
 
 function deselectElement(e) {
     //check collision
+    console.log(e.x);
+    console.log(e.y);
     if (whatDragged != null) {
         var slot = collisionList(whatDragged, theShip.slots);
         var thrust = collisionList(whatDragged, theShip.thruster);
@@ -446,7 +448,6 @@ function gui(x, y, src) {
             }
 
         }
-        console.log(distance);
         if(distance >= 2000 && this.timer.counter > 1){
           context.drawImage(this.planetWarn, 250, 400);
           this.timer.update();
