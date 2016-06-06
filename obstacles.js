@@ -27,7 +27,7 @@ function asteroid_field() {
         }
         if (timer.counter <= 0) {
             removeEventListener("mousedown", breakit);
-        };
+        }
     };
 
     this.draw = function() {
@@ -135,6 +135,7 @@ function ship_graveyard() {
         }
         for (let drifter of this.drifters) {
             drifter.x -= (currentSpeed + 1);
+            drifter.update();
             if (drifter.x <= -50) this.drifters.splice(this.drifters.indexOf(drifter), 1);
             if (drifter.health <= 0) {
                 for (s = 0; s < 8; s++) {
