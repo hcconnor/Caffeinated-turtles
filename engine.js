@@ -190,6 +190,8 @@ function moveElement(e) {
 
 function deselectElement(e) {
     //check collision
+    console.log(e.x);
+    console.log(e.y);
     if (whatDragged != null) {
         var slot = collisionList(whatDragged, theShip.slots);
         var thrust = collisionList(whatDragged, theShip.thruster);

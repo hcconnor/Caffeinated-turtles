@@ -2,7 +2,7 @@
 //returns 1 value representing that you're still alive
 
 function ship(x, y, src) {
-    this.numSlots = 4;
+    this.numSlots = 10;
     this.picture = new Image();
     this.picture.src = src;
     this.picture.X = x;
@@ -151,7 +151,7 @@ function mainShip(x, y, src) {
 	this.slots.push(new slot(525, 250)); // mid main room
 	this.slots.push(new slot(525, 100)); // dining room
 	this.slots.push(new slot(650, 100)); // kitchen
-	this.slots.push(new slot(525, 400)); 
+	this.slots.push(new slot(525, 400));
 	this.slots.push(new slot(650, 400));
     var active = 0;
 

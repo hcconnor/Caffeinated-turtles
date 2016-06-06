@@ -6,18 +6,18 @@ function node(x,y,name){
 }
 
 function nodeTree(){
-  roomPath.push(new node(212,77,"Engine Room"));             //0
-  roomPath.push(new node(212,231,"Cargo"));                  //1
-  roomPath.push(new node(212,383,"Engine Room"));            //2
-  roomPath.push(new node(312,77,"Crew Quarters"));          //3
-  roomPath.push(new node(312,231,"Rear Command Deck"));     //4
-  roomPath.push(new node(312,383,"Science Lab"));           //5
-  roomPath.push(new node(465,77,"Infirmary"));              //6
-  roomPath.push(new node(465,231,"Forward Command Deck"));  //7
-  roomPath.push(new node(465,383,"Engineering Deck"));      //8
-  roomPath.push(new node(588,77,"Radar Deck"));             //9
-  roomPath.push(new node(588,231,"Bridge"));                //10
-  roomPath.push(new node(588,383,"Life Support"));          //11
+  roomPath.push(new node(340,160,"Engine Room"));             //0
+  roomPath.push(new node(340,322,"Cargo"));                  //1
+  roomPath.push(new node(340,470,"Engine Room"));            //2
+  roomPath.push(new node(464,160,"Crew Quarters"));          //3
+  roomPath.push(new node(464,322,"Rear Command Deck"));     //4
+  roomPath.push(new node(464,470,"Science Lab"));           //5
+  roomPath.push(new node(573,160,"Infirmary"));              //6
+  roomPath.push(new node(573,322,"Forward Command Deck"));  //7
+  roomPath.push(new node(573,470,"Engineering Deck"));      //8
+  roomPath.push(new node(720,160,"Radar Deck"));             //9
+  roomPath.push(new node(720,322,"Bridge"));                //10
+  roomPath.push(new node(720,470,"Life Support"));          //11
 
   roomPath[0].children = [roomPath[1],roomPath[3]];
   roomPath[1].children = [roomPath[0],roomPath[4],roomPath[2]];
