@@ -9,14 +9,13 @@ function status(){
     for(let tanks of this.fuelTanks){
       temp += tanks.durab;
     }
-    //console.log(this.fuelTanks);
     return temp;
   }
 
   this.calcHappiness = function(){
     var temp = 0;
     for(let happy of this.happyThings){
-      temp += happy.durab;
+      if(!happy.item.disabled) temp += happy.durab;
     }
     return temp;
   }
@@ -24,7 +23,7 @@ function status(){
   this.calcSpeed = function(){
     var temp = 0;
     for(let spd of this.rocketThrusters){
-      temp += spd.item.push;
+      if(!spd.item.disabled) temp += spd.item.push;
     }
     if(fuel <= 0) {
       if(currentSpeed > 0) {
@@ -37,7 +36,7 @@ function status(){
   this.calcSystem = function(){
     var temp = 0;
     for(let sys of this.shipSystem){
-      temp += sys.durab;
+      if(!sys.item.disabled) temp += sys.durab;
     }
     return temp;
   }
@@ -45,7 +44,7 @@ function status(){
   this.calcConsumption = function(){
     var temp = 0;
     for(let thrust of this.rocketThrusters){
-      temp += thrust.item.efficiency;
+      if(!thrust.item.disabled) temp += thrust.item.efficiency;
     }
     return temp;
   }
