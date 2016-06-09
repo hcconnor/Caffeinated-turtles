@@ -372,7 +372,10 @@ function main_build() {
 //Players turn transition
 function change_turn() {
     this.begin = function() {
-        changeBanner = new banner(canvas.width, 250, 700, 200, "GUI/NewPlayer.png");
+      if(currentPlayer.nextPlayer == 1)changeBanner = new banner(canvas.width, 250, 700, 200, "GUI/Player2.png");
+      if(currentPlayer.nextPlayer == 2)changeBanner = new banner(canvas.width, 250, 700, 200, "GUI/Player3.png");
+      if(currentPlayer.nextPlayer == 3)changeBanner = new banner(canvas.width, 250, 700, 200, "GUI/Player4.png");
+      if(currentPlayer.nextPlayer == 4)changeBanner = new banner(canvas.width, 250, 700, 200, "GUI/Player1.png");
         setObstacle();
         console.log(currentObstacle);
         if (currentPlayer.nextPlayer >= playerNum) {
