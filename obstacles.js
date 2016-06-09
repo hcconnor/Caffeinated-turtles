@@ -20,7 +20,7 @@ function asteroid_field() {
             this.field.push(new clickable("sprites/asteroid.png", 50, 50, 2));;
         }
         for (let rock of this.field) {
-            rock.x -= (currentSpeed + 3);
+            rock.x -= (0.3 * currentSpeed + 3);
             if (rock.x <= -50) this.field.splice(this.field.indexOf(rock), 1);
             rock.update();
             if (rock.health <= 0) this.field.splice(this.field.indexOf(rock), 1);
@@ -48,7 +48,7 @@ function clickable(src, width, height, health) {
     this.width = width;
     this.height = height;
     this.health = health;
-    this.sprite = new SpriteSheet(src, width, height, 50, 4);
+    this.sprite = new SpriteSheet(src, width, height, 4);
     this.sprite.setFrameRange(1, 10);
     this.draw = function() {
         this.sprite.draw(this.x, this.y);
@@ -62,11 +62,11 @@ function clickable(src, width, height, health) {
 function nebula() {
     this.sprite = new SpriteSheet("sprites/nebula.png", 1300, 900, 5);
     this.sprite.setFrameRange(1, 10);
-    this.count = 4;
+    this.count = 3;
 
     this.update = function() {
         while (this.count >= 0) {
-            if (!false && theShip != null) { //substitute for backup systems
+            if (theShip != null) {
                 for (let slot of theShip.slots) {
                     var random = Math.floor((Math.random() * theShip.slots.length));
                     if (slot.element != null && !slot.element.item.disabled) {
@@ -126,15 +126,15 @@ function crew_craving() {
 
 //Derelict ships fly by, mash click on them to break.  (MAYBE) no other debris spawns
 function ship_graveyard() {
-    this.drifters = [new clickable("sprites/derelict_ship.png", 100, 100, 7)];
+    this.drifters = [new clickable("sprites/derelict_ship.png", 100, 100, 4)];
     addEventListener("mousedown", breakit);
 
     this.update = function() {
         if (this.drifters.length < 4) {
-            this.drifters.push(new clickable("sprites/derelict_ship.png", 100, 100, 7));
+            this.drifters.push(new clickable("sprites/derelict_ship.png", 100, 100, 4));
         }
         for (let drifter of this.drifters) {
-            drifter.x -= (currentSpeed + 1);
+            drifter.x -= (0.1 * currentSpeed + 1);
             drifter.update();
             if (drifter.x <= -50) this.drifters.splice(this.drifters.indexOf(drifter), 1);
             if (drifter.health <= 0) {

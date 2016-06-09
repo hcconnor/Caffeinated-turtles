@@ -15,6 +15,7 @@ function highScore() {
     var highest = players[0];
     for (let player of players) {
         if (player.escPod.calcScore() > highest.escPod.calcScore()) highest = player;
+        player.escPod.getVanity();
     }
     if (highest.escPod.calcScore() >= 0) {
         highest.win = true;
@@ -49,20 +50,30 @@ function group_victory() {
 function single_victory(players) {
     this.image = new Image();
     this.player = players[0];
-    this.item = this.player.escPod.slots[Math.floor(Math.random() * players[0].escPod.slots.length)];
-    buttons.push(new Button("Next", canvas.width - 250, canvas.height / 5));
+    this.item = null;
+    this.item = this.player.vItem;
+    buttons.push(new button("Next", canvas.width - 250, canvas.height / 5, 200, 100));
     canvas.addEventListener("mousedown", next_end);
+    console.log(this.item);
     this.image.src = "sprites/single_victory.png";
-    this.text = ["Player " + this.player + " survived the destruction of the Genesis by jettisoning off", "in an escape pod. They landed on a remote planet,", "living the rest of their life out with their" + this.item.element.item.name +"."];
-    console.log("single_victory");
+    this.text = ["Player " + this.player.name + " survived the destruction of the Genesis by jettisoning off", "in an escape pod. They landed on a remote planet,", "living the rest of their life out with their " + this.item +"."];
 
     function next_end(e){
-      for(Button of buttons){
-        if(checkBounds(Button, e.clientX, e.clientY)){
-          if (this.player.nextPlayer >= playerNum) {
-              this.player = players[0];
-          } else this.player = players[this.player.nextPlayer];
-          this.item = this.player.escPod.slots[Math.floor(Math.random() * players[0].escPod.slots.length)];
+      var state = states["end_game"].winType;
+      for(let Button of buttons){
+        if(checkBounds(Button, e.clientX, e.clientY) && Button.text == "Next"){
+          if (state.player.nextPlayer >= playerNum) {
+              console.log(state)
+              state.player = players[0];
+              state.item = players[0].escPod.vItem;
+              state.text = ["Player " + state.player.name + " survived the destruction of the Genesis by jettisoning off", "in an escape pod. They landed on a remote planet,", "living the rest of their life out with their " + this.item +"."];
+          }else{
+            console.log(state.player);
+             state.player = players[state.player.nextPlayer];
+             state.item = state.player.escPod.vItem;
+             if(state.item == null) state.text = ["Player " + state.player.name + "'s escape pod was not strong enough", "to survive the dark reaches of space. They died horribly."];
+             else state.text = ["Player " + state.player.name + " survived the destruction of the Genesis by jettisoning off", "in an escape pod. They landed on a remote planet,", "living the rest of their life out with their " + this.item +"."];
+          }
         }
       }
     }
@@ -70,7 +81,6 @@ function single_victory(players) {
     this.draw = function() {
         context.drawImage(this.image, 0, 0);
         text_box(this.text);
-        if()
     }
 }
 
@@ -86,10 +96,10 @@ function mutiny(playerNum) {
     }
 }
 
-function group_defeat() {
+function group_defeat(currentPlayer) {
     this.image = new Image();
     this.image.src = "sprites/group_defeat.png";
-    this.text = ["The Genesis exploded due to (Insert death type here).  No one survived."];
+    this.text = ["The Genesis exploded due to Player" + currentPlayer.name + "'s' incompetence.  No one survived."];
     console.log("group_defeat");
 
     this.draw = function() {
