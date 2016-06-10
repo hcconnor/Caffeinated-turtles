@@ -15,7 +15,7 @@ var playerNum = 0;
 
 var systemDegrade = 0;
 
-var tut = false;
+var tut = true;
 var timer;
 
 
@@ -163,15 +163,14 @@ function main_menu() {
                         button.SpriteSheet.setFrameRange(2, 2);
                     }
                     if (button.text == "Toggle Tutorial") {
-                        if (!tut) button.SpriteSheet.setFrameRange(2, 2);
-                        else button.SpriteSheet.setFrameRange(1, 1);
                     }
                 }
             }
         }
     };
     this.update = function() {
-
+      if(tut == true) buttons[1].SpriteSheet.setFrameRange(2, 2);
+      else buttons[1].SpriteSheet.setFrameRange(1, 1);
     };
     this.draw = function() {
         canvas.width = canvas.width;
@@ -193,7 +192,6 @@ function player_select() {
         canvas.removeEventListener("mouseup", deselectElement);
         this.screen = new Image();
         this.screen.src = "sprites/title.png";
-        tut = true;
         buttons = [];
         buttons = [new button("2 Player", 1 * canvas.width / 4, 3 * canvas.height / 4, 200, 100), new button("3 Player", 2 * canvas.width / 4, 3 * canvas.height / 4, 200, 100),
             new button("4 Player", 3 * canvas.width / 4, 3 * canvas.height / 4, 200, 100)

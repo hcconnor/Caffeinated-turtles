@@ -67,14 +67,10 @@ var tutLine = {
 function noTutorial() {
     timer = new Timer(30 * 40);
     this.phase = null;
-
-    var count = 0;
     this.update = function() {
-        var count = 0;
         while (items.length < 11) {
             var part = Math.floor(Math.random() * (tier1.length - 1));
             items.push(new Element(parts[0][part], parts[0][part].src, 50, 50, canvas.width * Math.random(), 600 * Math.random()));
-            count++;
         }
     };
     this.draw = function() {}
