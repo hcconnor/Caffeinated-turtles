@@ -15,7 +15,7 @@ var playerNum = 0;
 
 var systemDegrade = 0;
 
-var tut = false;
+var tut = true;
 var timer;
 
 
@@ -163,15 +163,14 @@ function main_menu() {
                         button.SpriteSheet.setFrameRange(2, 2);
                     }
                     if (button.text == "Toggle Tutorial") {
-                        if (!tut) button.SpriteSheet.setFrameRange(2, 2);
-                        else button.SpriteSheet.setFrameRange(1, 1);
                     }
                 }
             }
         }
     };
     this.update = function() {
-
+      if(tut == true) buttons[1].SpriteSheet.setFrameRange(2, 2);
+      else buttons[1].SpriteSheet.setFrameRange(1, 1);
     };
     this.draw = function() {
         canvas.width = canvas.width;
@@ -193,7 +192,6 @@ function player_select() {
         canvas.removeEventListener("mouseup", deselectElement);
         this.screen = new Image();
         this.screen.src = "sprites/title.png";
-        tut = true;
         buttons = [];
         buttons = [new button("2 Player", 1 * canvas.width / 4, 3 * canvas.height / 4, 200, 100), new button("3 Player", 2 * canvas.width / 4, 3 * canvas.height / 4, 200, 100),
             new button("4 Player", 3 * canvas.width / 4, 3 * canvas.height / 4, 200, 100)
@@ -209,10 +207,11 @@ function player_select() {
                     canvas.removeEventListener("mousedown", button_select);
                     playerNum = parseInt(button.text);
                     for (i = 0; i < playerNum; i++) {
-                        players.push(new Player(i));
+                        players.push(new Player(i + 1));
                         players[i].escPod = new escPod(50, 650, "sprites/escape_pod.png");
                         players[i].nextPlayer = i + 1;
                     }
+                    console.log(players);
                     button.click(init_game);
                 }
             }
@@ -293,7 +292,6 @@ function tutorial() {
 //Rounds for each player
 function main_build() {
     this.begin = function() {
-        console.log(currentObstacle);
         timer = new Timer(turnLength);
         canvas.removeEventListener("mousedown", callTransition_to_main_build);
         tut = false;
@@ -347,7 +345,7 @@ function main_build() {
         if (timer.done) {
             transition_states("change_turn");
         }
-        distance += .01 * currentSpeed;
+        distance += .1 * currentSpeed;
         checkWin();
     };
     this.draw = function() {
@@ -355,6 +353,9 @@ function main_build() {
         context.fillRect(0, 0, canvas.width, canvas.height);
         theStarSystem.draw();
         theShip.draw();
+        GUI.draw();
+        currentPlayer.escPod.draw();
+        distanceVisual.draw();
         for (let member of theCrew) {
             member.draw();
         }
@@ -362,9 +363,6 @@ function main_build() {
         for (let item of items) {
             item.draw();
         }
-        GUI.draw();
-        currentPlayer.escPod.draw();
-        distanceVisual.draw();
         timer.draw();
         //context.fillRect(0,0 canvas.width, canvas.height);
     };
@@ -434,8 +432,6 @@ function pause() {
                         Button.SpriteSheet.setFrameRange(2, 2);
                     }
                     if (Button.text == "Mute") {
-                        if (!mute) Button.SpriteSheet.setFrameRange(2, 2);
-                        else Button.SpriteSheet.setFrameRange(1, 1);
                         mute = !mute;
                     }
                 }
@@ -451,7 +447,8 @@ function pause() {
         }
     };
     this.update = function() {
-
+      if(!mute) buttons[2].SpriteSheet.setFrameRange(2,2);
+      else buttons[2].SpriteSheet.setFrameRange(1, 1);
     };
 }
 
@@ -488,7 +485,7 @@ function end_game() {
         if (checkWin()) this.winType = new group_victory();
         else if (checkLoss() == true) this.winType = new single_victory(players);
         else if (checkLoss() == "Mutiny") this.winType = new mutiny(playerNum);
-        else this.winType = new group_defeat();
+        else this.winType = new group_defeat(currentPlayer);
 
         function button_click(e) {
             for (let Button of buttons) {
@@ -503,7 +500,6 @@ function end_game() {
                     }
                     if (Button.text == "Retry?") {
                         for (i = 0; i < playerNum; i++) {
-                            players[i].escPod = null;
                             players[i].escPod = new escPod(50, 650, "sprites/escape_pod.png");
                         }
                         retry();

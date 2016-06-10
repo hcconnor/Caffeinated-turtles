@@ -189,6 +189,7 @@ function escPod(x, y, src) {
     this.width = 350;
     this.picture.width = this.width;
     this.picture.height = this.height;
+    this.vItem = null;
 
     this.slots.push(new slot(100, 700));
     this.slots.push(new slot(100, 800));
@@ -207,6 +208,13 @@ function escPod(x, y, src) {
         }
         return this.value;
     };
+
+    this.getVanity = function(){
+      for(let slot of this.slots){
+        if(slot.element != null && slot.element.item.type == "vanity") this.vItem = slot.element.item.name;
+        else if(slot.element != null && this.vItem == null && slot.element.item.type == "life_support") this.vItem = slot.element.item.name;
+      }
+    }
 }
 
 //requires global variables happiness and Fuel. Subject to change though based on ship element.
