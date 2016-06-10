@@ -16,7 +16,6 @@ function beginTutorial() {
         new wait("turns", 5, 5, 120, 120), new wait("escape_pod", 25, 650, 400, 300), new end_tut()];
 
     function clickme(e) {
-      console.log(states["tutorial"].tutorial.phase);
         for (let phase of states["tutorial"].tutorial.phases){
           if (phase.clickbox != null) {
               if (checkBounds(phase.clickbox, e.clientX, e.clientY) && phase.clickbox.active) {
@@ -54,15 +53,15 @@ function beginTutorial() {
 }
 
 var tutLine = {
-    "example line": ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"],
-    "begin": ["Greetings Captain, and welcome aboard the Genesis!", "No time for pleasantries, we must hurry!", "Click on a bit of floating debris to begin."], //Start, click on a part
-    "mouse_parts": ["Excellent! What you see here are parts that you", "can use to repair the Genesis on our long journey.", "Drag them each into an available slot."], //All parts slot in
-    "drop": ["Marvelous! The Genesis will require some form of", "propulsion to move, fuel to fuel that propulsion,", "and some sort of life support to sustain your crew."], //click_to_continue
-    "consume": ["Right clicking on a consumable in a slot will", "benefit the ship in some way, but will destroy the", "consumable immidiately afterwards."], //Consume resource pod
-    "resource": ["These parts all contribute towards the Genesis'", "durability, fuel, and happiness. Be careful", "to not let them fall to zero."], //click_to_continue
-    "turns": ["Inevitably, you will tire during your long journey.", "Every thirty years or so, one of the other Captains", "in cryosleep will take over for you."], //Find a way to get playerNum in here later
-    "escape_pod": ["If you are feeling, ah... unsafe... make sure to", "construct a personal escape pod down below.", "It requires the same parts as the", "Genesis in order to function."], //click_to_continue
-    "end_tut": ["That should cover just about everything.", "Best of luck on your jour--"] //explosion sound happens after click
+  "example line": ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"],
+        "begin" : ["Greetings Captain, and welcome aboard the Genesis!", "No time for pleasantries, we must hurry!", "Click on a bit of floating debris to begin."], //Start, click on a part
+  "mouse_parts" : ["Excellent! What you see here are parts that you", "can use to repair our ship on our long journey.", "Drag them each into an available slot."], //All parts slot in
+         "drop" : ["Marvelous! Your ship will require some form of", "propulsion to move, fuel to fuel that propulsion,", "and some sort of life support to sustain your crew."], //click_to_continue
+      "consume" : ["Right clicking on a consumable in a slot will", "benefit the ship in some way, but will destroy the", "consumable immidiately afterwards."], //Consume resource pod
+     "resource" : ["These parts all contribute towards the ship's", "durability, fuel, and happiness. Be careful", "to not let them fall to zero."], //click_to_continue
+         "turns": ["Inevitably, you will tire during your long journey.", "Every thirty years or so, one of the other Captains", "in cryosleep will take over for you."], //Find a way to get playerNum in here later
+   "escape_pod" : ["If you are feeling, ah... unsafe... make sure to", "construct a personal escape pod down below.", "It requires the same parts as your", "ship in order to function."], //click_to_continue
+      "end_tut" : ["That should cover just about everything.", "Best of luck on your jour--"] //explosion sound happens after click
 };
 
 function noTutorial() {
