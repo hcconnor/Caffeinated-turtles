@@ -12,12 +12,12 @@ function littleShip(src,y,height,width){
   this.image = new Image();
   this.image.src = src;
   this.y = y;
-  this.x = calcLittleShipPos(distance, 10000, 1300);
+  this.x = calcLittleShipPos(distance, 100000, 1300);
   this.height = height;
   this.width = width;
 
   this.update = function(){
-    this.x = calcLittleShipPos(distance, 10000, 1300);
+    this.x = calcLittleShipPos(distance, 100000, 1300);
   }
 
   this.draw = function(){

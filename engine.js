@@ -77,7 +77,7 @@ function Element(item, url, width, height, x, y) {
 
     this.updateDurab = function(){
   		if(this.durab > 0 && this.item.type != "fuel"){
-  			this.durab -= 0.1;
+  			this.durab -= 0.05;
   		}
       if(this.durab <= this.maxDurability || this.durab > this.maxDurability){
         this.damageLevel = 0;

@@ -68,6 +68,7 @@ function Player(Name) {
     this.name = Name;
     this.escPod = null;
     this.nextPlayer = 0;
+    this.playNum = 0;
 }
 
 //Game States -------------------------------------------------------------------------------------------------------//
@@ -210,6 +211,7 @@ function player_select() {
                         players.push(new Player(i + 1));
                         players[i].escPod = new escPod(50, 650, "sprites/escape_pod.png");
                         players[i].nextPlayer = i + 1;
+                        players[i].playerNum = i;
                     }
                     console.log(players);
                     button.click(init_game);
@@ -371,14 +373,16 @@ function main_build() {
 //Players turn transition
 function change_turn() {
     this.begin = function() {
-      if(currentPlayer.nextPlayer == 1)changeBanner = new banner(canvas.width, 250, 700, 200, "GUI/Player2.png");
-      if(currentPlayer.nextPlayer == 2)changeBanner = new banner(canvas.width, 250, 700, 200, "GUI/Player3.png");
-      if(currentPlayer.nextPlayer == 3)changeBanner = new banner(canvas.width, 250, 700, 200, "GUI/Player4.png");
-      if(currentPlayer.nextPlayer == 4)changeBanner = new banner(canvas.width, 250, 700, 200, "GUI/Player1.png");
         setObstacle();
         if (currentPlayer.nextPlayer >= playerNum) {
             currentPlayer = players[0];
         } else currentPlayer = players[currentPlayer.nextPlayer];
+
+        if(currentPlayer.playerNum == 1)changeBanner = new banner(canvas.width, 250, 700, 200, "GUI/Player2.png");
+        if(currentPlayer.playerNum == 2)changeBanner = new banner(canvas.width, 250, 700, 200, "GUI/Player3.png");
+        if(currentPlayer.playerNum == 3)changeBanner = new banner(canvas.width, 250, 700, 200, "GUI/Player4.png");
+        if(currentPlayer.playerNum == 0)changeBanner = new banner(canvas.width, 250, 700, 200, "GUI/Player1.png");
+
         canvas.removeEventListener("mousemove", moveElement);
         canvas.removeEventListener("mousedown", selectElement);
         canvas.removeEventListener("mouseup", deselectElement);
@@ -461,7 +465,7 @@ function banner(x, y, width, height, src) {
     this.image.src = src;
 
     this.update = function() {
-        var threshold = 30;
+        var threshold = 35;
         if (canvas.width - this.width - this.x > canvas.width - this.width + threshold);
         else if (this.x > canvas.width - this.width) this.x -= threshold;
     };

@@ -162,7 +162,7 @@ function mainShip(x, y, src) {
             thrust.update();
         }
         fuel = statManager.calcFuel();
-        if (currentState == "tutorial") {
+        if (currentState != "tutorial") {
             systemDegrade = statManager.calcDegrade(this);
             durability -= systemDegrade;
             sadRate = 0.5 - 0.3 * statManager.calcSad();
