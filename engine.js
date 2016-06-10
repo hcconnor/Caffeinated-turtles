@@ -108,7 +108,7 @@ function Element(item, url, width, height, x, y) {
     this.update = function() {
         this.sprite.update();
         this.damageSprite.update();
-        if(this.inUse == true && tut == false){
+        if(this.inUse == true && currentState != "tutorial"){
           this.updateDurab();
           this.checkDamage();
         }
