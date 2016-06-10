@@ -446,7 +446,7 @@ function gui(x, y, src) {
             }
 
         }
-        if(distance >= 2000 && this.timer.counter > 1){
+        if(distance >= 20000 && this.timer.counter > 1){
           context.drawImage(this.planetWarn, 250, 400);
           this.timer.update();
         }
