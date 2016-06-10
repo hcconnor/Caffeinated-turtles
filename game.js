@@ -264,7 +264,7 @@ function tutorial() {
         distanceVisual.update();
         timer.update();
         if (timer.done) {
-            while (items.length < 10) {
+            while (items.length < 5) {
                 randomPart = randomElement(parts);
                 items.push(new Element(randomPart, randomPart.src, 50, 50, canvas.width + (Math.random() * 1000), 600 * Math.random()));
             }
